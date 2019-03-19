@@ -1,0 +1,20 @@
+package org.wlgzs.manipulation.service.impl;
+
+import org.wlgzs.manipulation.entity.Members;
+import org.wlgzs.manipulation.mapper.MembersMapper;
+import org.wlgzs.manipulation.service.IMembersService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
+
+/**
+ * <p>
+ *  服务实现类
+ * </p>
+ *
+ * @author 胡亚星
+ * @since 2019-03-19
+ */
+@Service
+public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> implements IMembersService {
+
+}
