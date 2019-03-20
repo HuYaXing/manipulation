@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.wlgzs.manipulation.base.BaseController;
 import org.wlgzs.manipulation.entity.Members;
+import org.wlgzs.manipulation.entity.Staff;
 import org.wlgzs.manipulation.entity.Storage;
 import org.wlgzs.manipulation.util.Result;
 
@@ -59,6 +60,9 @@ public class MembersController extends BaseController {
         Members members = iMembersService.details(membersId);
         model.addAttribute("members", members);
         if (members != null) {
+            //需要所有的医师信息
+            List<Staff> staffList = iStaffService.selectAllStaff();
+            model.addAttribute("staffList",staffList);
             //查询用户是不是有余额
             List<Storage> storageList = iStorageService.selectStorage(membersId);
             model.addAttribute("storageList", storageList);

@@ -2,6 +2,9 @@ package org.wlgzs.manipulation.service;
 
 import org.wlgzs.manipulation.entity.Staff;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.wlgzs.manipulation.util.Result;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IStaffService extends IService<Staff> {
 
+    //查询所有医师信息
+    List<Staff> selectAllStaff();
+
+    //新增医师
+    Result addStaff(Staff staff);
+
+    Result Modify(Staff staff);
+
+    Result delete(int staffId);
 }
