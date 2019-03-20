@@ -47,4 +47,9 @@ public class Staff implements Serializable {
     @TableField("staff_password")
     private String staffPassword;
 
+    /**
+     * 员工等级（0是老板，1是员工）
+     */
+    @TableField("staff_level")
+    private Integer staffLevel;
 }

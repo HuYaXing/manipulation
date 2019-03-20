@@ -1,7 +1,11 @@
 package org.wlgzs.manipulation.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.wlgzs.manipulation.entity.Members;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.wlgzs.manipulation.util.Result;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +16,21 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2019-03-19
  */
 public interface IMembersService extends IService<Members> {
+    //添加会员
+    Result addMembers(Members members);
 
+    Result checkName(String membersName);
+
+    Result checkPhone(String membersPhone);
+
+    //搜索会员
+    Result membersList(int page, String findName);
+
+    Result delete(int membersId);
+
+    //查询会员的信息
+    Members details(int membersId);
+
+    //修改会员信息
+    Result Modify(Members members);
 }
