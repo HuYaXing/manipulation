@@ -59,5 +59,13 @@ public class StorageServiceImpl extends ServiceImpl<StorageMapper, Storage> impl
         return new Result(ResultCode.FAIL,storage);
     }
 
+    @Override
+    public Storage selectStorage(int membersId, String tuinaType) {
+        QueryWrapper<Storage> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("members_id",membersId).eq("tuina_type",tuinaType);
+        Storage storage = baseMapper.selectOne(queryWrapper);
+        return storage;
+    }
+
 
 }

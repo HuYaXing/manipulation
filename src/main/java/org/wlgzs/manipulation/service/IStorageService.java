@@ -25,4 +25,6 @@ public interface IStorageService extends IService<Storage> {
     //刪除一条
     Result deleteStorage(int storageId);
 
+    //按类型和用户查询
+    Storage selectStorage(int membersId,String tuinaType);
 }
