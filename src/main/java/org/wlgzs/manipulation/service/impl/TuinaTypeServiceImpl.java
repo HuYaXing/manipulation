@@ -6,6 +6,8 @@ import org.wlgzs.manipulation.service.ITuinaTypeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class TuinaTypeServiceImpl extends ServiceImpl<TuinaTypeMapper, TuinaType> implements ITuinaTypeService {
 
+    @Override
+    public List<TuinaType> selectType() {
+        return null;
+    }
 }
