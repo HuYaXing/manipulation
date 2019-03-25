@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>中医推拿会员管理系统</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/iconfont.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/jedate.css}">
+    <script type="text/javascript" th:src="@{/js/jedate.js}"></script>
+    <style>
+        .table thead tr th {
+            width: 16.5%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top">
+        <div class="left">
+            <span class="type">管理系统</span>
+        </div>
+    </div>
+    <div class="MenuBox">
+        <ul class="menu">
+            <li class="active title"><a href="vip.html">中医推拿</a></li>
+            <li><a href="vip.html"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
+            <li class="active"><a href="membersDetails.html"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
+            <li><a href="doctor.html"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
+        </ul>
+    </div>
+    <div class="contain">
+
+        <div class="sosuo">
+            <div class="jeitem">
+                <div class="jeinpbox"><input type="text" class="jeinput" id="testred" placeholder="选择时间"></div>
+            </div>
+            <input class="sosuokuang" type="text" placeholder="请输入会员姓名或ID"><span><a href=""><i
+                        class="glyphicon glyphicon-search"></i></a></span>
+        </div>
+        <table class="table container">
+            <thead>
+                <tr>
+                    <th>会员号</th>
+                    <th>姓名</th>
+                    <th>联系电话</th>
+                    <th>拼音码</th>
+                    <!--<th>推拿种类</th>-->
+                    <!--<th>医师</th>-->
+                    <!--<th>时间</th>-->
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="member:${members}">
+                    <td th:text="${member.membersId}">64763113</td>
+                    <td th:text="${member.membersName}">姓名</td>
+                    <td th:text="${member.membersPhone}">12345678912</td>
+                    <td th:text="${member.pinyinCode}"></td>
+                    <!--<td>近视治疗</td>-->
+                    <!--<td>李医师</td>-->
+                    <!--<td>2018.08.03 18:34:59</td>-->
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="foot">
+        Copyright © 2018 未来工作室. All rights reserved.
+    </div>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+
+</html>
