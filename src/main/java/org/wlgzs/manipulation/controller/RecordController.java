@@ -49,6 +49,9 @@ public class RecordController extends BaseController {
         model.addAttribute("Number", page);//查询的当前第几页
         List<Record> recordList = ipage.getRecords();
         model.addAttribute("recordList", recordList);
+        model.addAttribute("size",recordList.size());
+        System.out.println("recordList"+recordList);
+        System.out.println("size"+recordList.size());
         return new ModelAndView("recordList");
     }
 
@@ -61,7 +64,7 @@ public class RecordController extends BaseController {
     }
 
     //去修改记录
-    @RequestMapping(value = "toModify/{recordId}")
+    @RequestMapping(value = "/toModify/{recordId}")
     public ModelAndView toModify(Model model, @PathVariable("recordId") int recordId) {
         Record record = iRecordService.getById(recordId);
         model.addAttribute("record", record);

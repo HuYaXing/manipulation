@@ -43,20 +43,13 @@ public class StaffController extends BaseController {
     @RequestMapping(value = "/staffList")
     public ModelAndView staffList(Model model){
         List<Staff> staffList = iStaffService.selectAllStaff();
+        System.out.println(staffList);
         model.addAttribute("staffList",staffList);
         return new ModelAndView("staffList");
     }
 
-    //修改医师
-    @RequestMapping(value = "Modify",method = RequestMethod.PUT)
-    public ModelAndView Modify(Staff staff, Model model){
-        Result result = iStaffService.Modify(staff);
-        model.addAttribute("msg", result.getMsg());
-        return new ModelAndView("redirect:/staff/staffList");
-    }
-
     //删除医师
-    @RequestMapping(value = "delete/{staffId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{staffId}",method = RequestMethod.DELETE)
     public ModelAndView delete(@PathVariable("staffId")int staffId, Model model){
         Result result = iStaffService.delete(staffId);
         model.addAttribute("msg", result.getMsg());

@@ -62,7 +62,7 @@ public class StorageServiceImpl extends ServiceImpl<StorageMapper, Storage> impl
     @Override
     public Storage selectStorage(int membersId, String tuinaType) {
         QueryWrapper<Storage> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("members_id",membersId).eq("tuina_type",tuinaType);
+        queryWrapper.eq("members_id",membersId).eq("tuina_name",tuinaType);
         Storage storage = baseMapper.selectOne(queryWrapper);
         return storage;
     }

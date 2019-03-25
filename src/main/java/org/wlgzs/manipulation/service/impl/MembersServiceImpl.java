@@ -61,7 +61,7 @@ public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> impl
             Page page1 = new Page(page,10);
             QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
             IPage<Members> iPage = baseMapper.selectPage(page1,queryWrapper);
-            return new Result(ResultCode.SUCCESS,iPage.getRecords());
+            return new Result(ResultCode.SUCCESS,iPage);
         }//按条件查询
         QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("members_phone","%%"+findName).like("pinyin_code",findName);
