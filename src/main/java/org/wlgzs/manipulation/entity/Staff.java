@@ -40,13 +40,4 @@ public class Staff implements Serializable {
      */
     private String staffPhone;
 
-    /**
-     * 员工密码
-     */
-    private String staffPassword;
-
-    /**
-     * 员工等级（0是老板，1是员工）
-     */
-    private Integer staffLevel;
 }

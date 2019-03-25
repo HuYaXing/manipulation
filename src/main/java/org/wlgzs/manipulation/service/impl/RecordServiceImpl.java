@@ -15,6 +15,8 @@ import org.wlgzs.manipulation.service.IStorageService;
 import org.wlgzs.manipulation.util.Result;
 import org.wlgzs.manipulation.util.ResultCode;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -47,6 +49,11 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
                     storageMapper.deleteById(storage);
                 }
             }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime time = LocalDateTime.now();
+            String localTime = formatter.format(time);
+            LocalDateTime ldt = LocalDateTime.parse(localTime, formatter);
+            record.setRecordTime(ldt);
             //生成记录
             baseMapper.insert(record);
             return new Result(ResultCode.SUCCESS);

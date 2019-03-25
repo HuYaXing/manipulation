@@ -2,7 +2,6 @@ package org.wlgzs.manipulation.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +31,7 @@ public class MembersController extends BaseController {
     public ModelAndView addMembers(Members members, Model model) {
         Result result = iMembersService.addMembers(members);
         model.addAttribute("msg", result.getMsg());
-        return new ModelAndView("vip");
+        return new ModelAndView("redirect:/members/membersList/1");
     }
 
     //判断是否有这个用户
@@ -67,9 +66,6 @@ public class MembersController extends BaseController {
             //查询用户是不是有余额
             List<Storage> storageList = iStorageService.selectStorage(membersId);
             model.addAttribute("storageList", storageList);
-            System.out.println("members"+members);
-            System.out.println("staffList"+staffList);
-            System.out.println("storageList"+storageList);
             return new ModelAndView("membersDetails");
         }
         model.addAttribute("msg", "不存在！");
@@ -93,17 +89,18 @@ public class MembersController extends BaseController {
         List<Staff> staffList = iStaffService.selectAllStaff();
         model.addAttribute("staffList",staffList);
         if (findName.equals("")) {
-//            IPage<Members> iPage = (IPage<Members>) result.getData();
+            IPage<Members> iPage = (IPage<Members>) result.getData();
             model.addAttribute("isSearch", 0);
-//            model.addAttribute("membersList", iPage.getRecords());
-//            model.addAttribute("TotalPages", iPage.getPages());//总页数
-//            model.addAttribute("Number", iPage.getCurrent());//当前页数
+            model.addAttribute("membersList", iPage.getRecords());
+            model.addAttribute("TotalPages", iPage.getPages());//总页数
+            model.addAttribute("Number", iPage.getCurrent());//当前页数
             return new ModelAndView("membersList");
         }
         List<Members> membersList = (List<Members>) result.getData();
         model.addAttribute("isSearch", 1);
+        model.addAttribute("findName", findName);
         model.addAttribute("membersList", membersList);
-        return new ModelAndView("vip");
+        return new ModelAndView("membersList");
     }
 
 }

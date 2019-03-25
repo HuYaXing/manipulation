@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.wlgzs.manipulation.base.BaseController;
@@ -31,7 +32,7 @@ public class TuinaTypeController extends BaseController {
     }
 
     //新增一个类型
-    @RequestMapping("")
+    @RequestMapping(value = "",method = RequestMethod.PUT)
     public ModelAndView addType(TuinaType tuinaType, Model model) {
         if (tuinaType != null) {
             iTuinaTypeService.save(tuinaType);
@@ -43,7 +44,7 @@ public class TuinaTypeController extends BaseController {
     }
 
     //删除一个类型
-    @RequestMapping("/delete/{tuinaId}")
+    @RequestMapping(value = "/delete/{tuinaId}",method = RequestMethod.DELETE)
     public ModelAndView delete(@PathVariable("tuinaId") int tuinaId, Model model) {
         TuinaType tuinaType = iTuinaTypeService.getById(tuinaId);
         if (tuinaType != null) {
