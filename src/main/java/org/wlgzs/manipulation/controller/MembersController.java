@@ -32,7 +32,7 @@ public class MembersController extends BaseController {
     public ModelAndView addMembers(Members members, Model model) {
         Result result = iMembersService.addMembers(members);
         model.addAttribute("msg", result.getMsg());
-        return new ModelAndView("index");
+        return new ModelAndView("vip");
     }
 
     //判断是否有这个用户
@@ -89,18 +89,21 @@ public class MembersController extends BaseController {
     public ModelAndView membersList(Model model, @PathVariable("page") int page,
                                     @RequestParam(value = "findName", defaultValue = "") String findName) {
         Result result = iMembersService.membersList(page, findName);
+        //需要所有的医师信息
+        List<Staff> staffList = iStaffService.selectAllStaff();
+        model.addAttribute("staffList",staffList);
         if (findName.equals("")) {
-            IPage<Members> iPage = (IPage<Members>) result.getData();
+//            IPage<Members> iPage = (IPage<Members>) result.getData();
             model.addAttribute("isSearch", 0);
-            model.addAttribute("membersList", iPage.getRecords());
-            model.addAttribute("TotalPages", iPage.getPages());//总页数
-            model.addAttribute("Number", iPage.getCurrent());//当前页数
+//            model.addAttribute("membersList", iPage.getRecords());
+//            model.addAttribute("TotalPages", iPage.getPages());//总页数
+//            model.addAttribute("Number", iPage.getCurrent());//当前页数
             return new ModelAndView("membersList");
         }
         List<Members> membersList = (List<Members>) result.getData();
         model.addAttribute("isSearch", 1);
         model.addAttribute("membersList", membersList);
-        return new ModelAndView("membersList");
+        return new ModelAndView("vip");
     }
 
 }
