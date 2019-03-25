@@ -50,6 +50,8 @@ public class RecordController extends BaseController {
         List<Record> recordList = ipage.getRecords();
         model.addAttribute("recordList", recordList);
         model.addAttribute("size",recordList.size());
+        System.out.println("recordList"+recordList);
+        System.out.println("size"+recordList.size());
         return new ModelAndView("recordList");
     }
 

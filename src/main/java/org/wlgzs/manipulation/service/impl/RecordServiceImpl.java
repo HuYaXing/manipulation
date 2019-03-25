@@ -104,9 +104,9 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         } else if (tuinaType.equals("all") && !startTime.equals("")) {
             queryWrapper.eq("staff_name", staffName).between("record_time", startTime, endTime);
         } else if (startTime.equals("")) {
-            queryWrapper.eq("staff_name", staffName).eq("tuina_type", tuinaType);
+            queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType);
         } else {
-            queryWrapper.eq("staff_name", staffName).eq("tuina_type", tuinaType).between("record_time", startTime, endTime);
+            queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType).between("record_time", startTime, endTime);
         }
         IPage<Record> iPage = baseMapper.selectPage(page1, queryWrapper);
         return iPage;
