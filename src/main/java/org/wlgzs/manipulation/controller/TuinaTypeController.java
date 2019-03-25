@@ -1,10 +1,10 @@
 package org.wlgzs.manipulation.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.wlgzs.manipulation.base.BaseController;
 import org.wlgzs.manipulation.entity.TuinaType;
@@ -16,7 +16,7 @@ import java.util.List;
  * @createTime 2019-03-21 17:41
  * @description:
  **/
-@RestController
+@Controller
 @RequestMapping("/tuinaType")
 public class TuinaTypeController extends BaseController {
 

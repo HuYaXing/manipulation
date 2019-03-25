@@ -1,5 +1,6 @@
 package org.wlgzs.manipulation.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -20,7 +21,6 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tuina_type")
 public class TuinaType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,13 +28,12 @@ public class TuinaType implements Serializable {
     /**
      * 推拿种类id
      */
-    @TableId("tuina_id")
+    @TableId(value = "tuina_id",type = IdType.AUTO)
     private Integer tuinaId;
 
     /**
      * 推拿种类
      */
-    @TableField("tuina_name")
     private String tuinaName;
 
 }

@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author 胡亚星
  * @since 2019-03-19
  */
+@org.apache.ibatis.annotations.Mapper
 public interface StorageMapper extends BaseMapper<Storage> {
 
 }

@@ -25,6 +25,4 @@ public class BaseController {
     @Autowired
     protected ITuinaTypeService iTuinaTypeService;
 
-    @Autowired
-    protected LoginService loginService;
 }

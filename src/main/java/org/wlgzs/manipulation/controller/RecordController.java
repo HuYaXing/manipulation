@@ -2,6 +2,7 @@ package org.wlgzs.manipulation.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * @author 胡亚星
  * @since 2019-03-19
  */
-@RestController
+@Controller
 @RequestMapping("/record")
 public class RecordController extends BaseController {
 

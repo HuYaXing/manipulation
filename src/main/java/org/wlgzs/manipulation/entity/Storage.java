@@ -1,5 +1,6 @@
 package org.wlgzs.manipulation.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
@@ -26,25 +27,22 @@ public class Storage implements Serializable {
     /**
      * 存储id
      */
-    @TableId("storage_id")
+    @TableId(value = "storage_id",type = IdType.AUTO)
     private Integer storageId;
 
     /**
      * 会员id
      */
-    @TableField("members_id")
     private Integer membersId;
 
     /**
      * 推拿种类
      */
-    @TableField("tuina_name")
     private String tuinaName;
 
     /**
      * 剩余次数
      */
-    @TableField("surplus_number")
     private Integer surplusNumber;
 
 }

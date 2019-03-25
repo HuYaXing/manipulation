@@ -1,5 +1,6 @@
 package org.wlgzs.manipulation.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
@@ -26,25 +27,22 @@ public class Members implements Serializable {
     /**
      * 会员id 
      */
-    @TableId("members_id")
+    @TableId(value = "members_id",type = IdType.AUTO)
     private Integer membersId;
 
     /**
      * 会员姓名
      */
-    @TableField("members_name")
     private String membersName;
 
     /**
      * 拼音码
      */
-    @TableField("pinyin_code")
     private String pinyinCode;
 
     /**
      * 手机号
      */
-    @TableField("members_phone")
     private String membersPhone;
 
 }
