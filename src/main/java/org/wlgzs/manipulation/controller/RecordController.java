@@ -21,7 +21,7 @@ import java.util.List;
  * @author 胡亚星
  * @since 2019-03-19
  */
-@Controller
+@RestController
 @RequestMapping("/record")
 public class RecordController extends BaseController {
 

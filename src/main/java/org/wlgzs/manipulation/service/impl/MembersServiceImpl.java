@@ -39,9 +39,9 @@ public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> impl
         queryWrapper.eq("members_name", membersName);
         Members members = baseMapper.selectOne(queryWrapper);
         if (members != null) {
-            return new Result(ResultCode.SUCCESS);
+            return new Result(ResultCode.FAIL);
         }
-        return new Result(ResultCode.FAIL);
+        return new Result(ResultCode.SUCCESS);
     }
 
     @Override
@@ -50,9 +50,9 @@ public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> impl
         queryWrapper.eq("members_phone", membersPhone);
         Members members = baseMapper.selectOne(queryWrapper);
         if (members != null) {
-            return new Result(ResultCode.SUCCESS);
+            return new Result(ResultCode.FAIL);
         }
-        return new Result(ResultCode.FAIL);
+        return new Result(ResultCode.SUCCESS);
     }
 
     @Override

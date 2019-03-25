@@ -23,7 +23,7 @@ import java.util.List;
  * @author 胡亚星
  * @since 2019-03-19
  */
-@Controller
+@RestController
 @RequestMapping("/members")
 public class MembersController extends BaseController {
 
@@ -36,13 +36,13 @@ public class MembersController extends BaseController {
     }
 
     //判断是否有这个用户
-    @RequestMapping(value = "/checkName")
+    @RequestMapping(value = "/checkName",method = RequestMethod.GET)
     public Result checkName(String membersName) {
         return iMembersService.checkName(membersName);
     }
 
     //判断是否有这个手机号
-    @RequestMapping(value = "/checkPhone")
+    @RequestMapping(value = "/checkPhone",method = RequestMethod.GET)
     public Result checkPhone(String membersPhone) {
         return iMembersService.checkPhone(membersPhone);
     }
@@ -67,6 +67,9 @@ public class MembersController extends BaseController {
             //查询用户是不是有余额
             List<Storage> storageList = iStorageService.selectStorage(membersId);
             model.addAttribute("storageList", storageList);
+            System.out.println("members"+members);
+            System.out.println("staffList"+staffList);
+            System.out.println("storageList"+storageList);
             return new ModelAndView("membersDetails");
         }
         model.addAttribute("msg", "不存在！");

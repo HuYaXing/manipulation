@@ -1,5 +1,5 @@
 server:
-  port: 10517
+  port: 10621
 spring:
   datasource:
     name: mysql
