@@ -100,6 +100,7 @@ public class MembersController extends BaseController {
         model.addAttribute("isSearch", 1);
         model.addAttribute("findName", findName);
         model.addAttribute("membersList", membersList);
+        System.out.println(membersList);
         return new ModelAndView("membersList");
     }
 

@@ -87,24 +87,31 @@ li.active a{
 .sosuo{
     display: inline-block;
     margin: 50px 0 0;
-    width: 100%;
 }
-.sosuokuang{
-    height: 50px;
-    width: 300px;
-    display: inline-block;
-    vertical-align: top;
+.sosuo .search_key{
+    width: 200px;
+    height: 35px;
+    margin-top: 5px;
+    margin-left: 5px;
+    padding-left: 10px;
     outline: none;
-    padding: 0 10px;
+    border: 1px solid  #b60000;
 }
-.sosuo span,.sosuo span a{
-    display: inline-block;
-    height: 50px;
-    width: 70px;
+.sosuo .submit{
+    background:none;
     background-color: #b60000;
-    line-height: 55px;
-    color: #faf6d7;
-    font-size: 25px;
+    color: #fff;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: -4px;
+    width: 70px;
+    height: 35px;
+    border: none;
+    outline: none;
+    vertical-align: top;
+}
+.add{
+    margin-right: 150px;
 }
 span.chazhao{
     width: 120px;
@@ -130,6 +137,14 @@ span.chazhao{
     vertical-align: middle;
 }
 .btn-success{
+    border-radius: 5px;
+    text-align: center;
+    outline: none;
+    height: 35px;
+    padding: 0 6px;
+    line-height: 35px;
+}
+.btn-warning{
     border-radius: 5px;
     text-align: center;
     outline: none;

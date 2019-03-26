@@ -52,7 +52,7 @@ public class RecordController extends BaseController {
         model.addAttribute("size",recordList.size());
         System.out.println("recordList"+recordList);
         System.out.println("size"+recordList.size());
-        return new ModelAndView("recordList");
+        return new ModelAndView("membersDetails");
     }
 
     //删除记录
@@ -98,6 +98,7 @@ public class RecordController extends BaseController {
         model.addAttribute("size",recordList.size());
         model.addAttribute("TotalPages", iPage.getPages());//查询的总页数
         model.addAttribute("Number", page);//查询的当前第几页
+        model.addAttribute("isStaff", 1);
         return new ModelAndView("recordList");
     }
 

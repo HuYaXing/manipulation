@@ -10,15 +10,6 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/iconfont.css}">
     <style>
-        .table thead tr th {
-            width: 14.5%;
-        }
-
-        .table tbody tr td {
-            display: table-cell;
-            width: 14.5%;
-        }
-
         .look {
             color: #fff;
         }
@@ -56,54 +47,65 @@
     </div>
     <div class="MenuBox">
         <ul class="menu">
-            <li class="active title"><a href="vip.html">中医推拿</a></li>
-            <li class="active"><a href="vip.html"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
-            <li><a href="membersDetails.html"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
-            <li><a href="doctor.html"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
+            <li class="active title"><a th:href="@{/members/membersList/1}">中医推拿</a></li>
+            <li class="active"><a th:href="@{/members/membersList/1}"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
+            <li><a th:href="@{/record/recordList/1}"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
+            <li><a th:href="@{/staff/staffList}"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
         </ul>
     </div>
     <div class="contain">
         <div class="sosuo">
-            <span class="chazhao">按会员查找</span><input class="sosuokuang" type="text" placeholder="请输入会员姓名或ID"><span><a
-                    href=""><i class="glyphicon glyphicon-search"></i></a></span>
+            <form>
+                <button type="button" class="btn btn-danger add"><a href="" class="look">添加</a></button>
+                <input type="text" class="search_key" placeholder="请输入会员姓名或ID" autocomplete="on">
+                <input type="submit" class="submit" value="搜索">
+            </form>
         </div>
         <table class="table container">
             <thead>
-                <tr>
-                    <th>会员号</th>
-                    <th>姓名</th>
-                    <th>联系电话</th>
-                    <th>剩余次数</th>
-                    <th>推拿种类</th>
-                    <th>选择医师</th>
-                    <th>操作</th>
-                </tr>
+            <tr>
+                <th>会员号</th>
+                <th>拼音码</th>
+                <th>姓名</th>
+                <th>联系电话</th>
+                <th>剩余次数</th>
+                <th>推拿种类</th>
+                <th>选择医师</th>
+                <th>操作</th>
+            </tr>
             </thead>
             <tbody>
 
-                <tr >
-                    <td >64763113</td>
-                    <td >姓名</td>
-                    <td >12345678912</td>
-                    <td>
-                        <button onclick="overlay()" type="button" class="btn btn-danger">查看</button>
-                    </td>
-                    <td>
-                        <select class="btn-success">
-                            <option value="近视治疗">近视治疗</option>
-                            <option value="小儿推拿">小儿推拿</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class="btn-info ">
-                            <option value="李医师">李医师</option>
-                            <option value="王医师">王医师</option>
-                            <option value="张医师">张医师</option>
-                            <option value="刘医师">刘医师</option>
-                        </select>
-                    </td>
-                    <td><button type="button" class="btn btn-warning"><a href="" class="look">治疗</a></button></td>
-                </tr>
+            <tr th:each="member:${membersList}">
+                <td th:text="${member.membersId}">64763113</td>
+                <td th:text="${member.pinyinCode}">zs</td>
+                <td th:text="${member.membersName}">张三</td>
+                <td th:text="${member.membersPhone}">12345678912</td>
+                <td>
+                    <button onclick="overlay()" type="button" class="btn btn-danger">查看</button>
+                </td>
+                <td>
+                    <select class="btn-success">
+                        <option value="近视治疗">近视治疗</option>
+                        <option value="小儿推拿">小儿推拿</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="btn-info ">
+                        <option value="李医师">李医师</option>
+                        <option value="王医师">王医师</option>
+                        <option value="张医师">张医师</option>
+                        <option value="刘医师">刘医师</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="btn-warning ">
+                        <option value="治疗">治疗</option>
+                        <option value="查看"><a th:href="@{recordList/1(fimdName=${member.membersName})}">查看</a></option>
+                        <option value="删除">删除</option>
+                    </select>
+                </td>
+            </tr>
             </tbody>
         </table>
         <div id="modal-overlay">
