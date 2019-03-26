@@ -12,6 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.wlgzs.manipulation.base.BaseController;
 import org.wlgzs.manipulation.entity.Storage;
 import org.wlgzs.manipulation.util.Result;
+import org.wlgzs.manipulation.util.ResultCode;
+
+import javax.websocket.server.PathParam;
+import java.util.List;
 
 /**
  * <p>
@@ -50,5 +54,16 @@ public class StorageController extends BaseController {
         Storage storage = (Storage) result.getData();
         return new ModelAndView("redirect:/members/details/" + storage.getMembersId());
     }
+
+    //按会员查询
+    @RequestMapping(value = "/StorageById/{membersId}")
+    public Result StorageById(@PathVariable("membersId")int membersId){
+        List<Storage> storageList = iStorageService.selectStorage(membersId);
+        if(storageList != null){
+            return new Result(ResultCode.SUCCESS,storageList);
+        }
+        return new Result(ResultCode.FAIL);
+    }
+
 
 }
