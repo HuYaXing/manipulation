@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>中医推拿会员管理系统</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/iconfont.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/iconfont.css}">
     <style>
         .table thead tr th {
             width: 20%;
@@ -32,16 +32,39 @@
     </div>
     <div class="MenuBox">
         <ul class="menu">
-            <li class="active title"><a href="vip.html">中医推拿</a></li>
-            <li><a href="vip.html"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
-            <li><a href="membersDetails.html"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
-            <li class="active"> <a href="staffList.html"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
+            <li class="active title"><a th:href="@{/members/membersList/1}">中医推拿</a></li>
+            <li><a th:href="@{/members/membersList/1}"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
+            <li><a th:href="@{/record/recordList/1}"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
+            <li class="active"><a th:href="@{/staff/staffList}"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
         </ul>
     </div>
     <div class="contain">
         <div class="sosuo">
-            <span class="chazhao">按医师查找</span><input class="sosuokuang" type="text" placeholder="请输入医师姓名"><span><a
-                    href=""><i class="glyphicon glyphicon-search"></i></a></span>
+            <form>
+                <button onclick="add()" type="button" class="btn btn-danger add ">添加新医师</button>
+                <input th:name="" type="text" class="search_key" placeholder="请输入医师姓名" autocomplete="on">
+                <input type="submit" class="submit" value="搜索">
+            </form>
+        </div>
+        <div id="modaladd">
+            <div class="modalbox">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">医师姓名</label>
+                        <div class="col-sm-9">
+                            <input type="text" th:name="staffName" class="form-control" id="inputError">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">联系电话</label>
+                        <div class="col-sm-9">
+                            <input type="text" th:name="staffPhone" class="form-control" id="inputError">
+                        </div>
+                    </div>
+                    <button type="button" th:name="addstaff" class="btn btn-warning into">添加</button>
+                    <button type="button" class="btn btn-info into " onclick="add()">关闭</button>
+                </form>
+            </div>
         </div>
         <table class="table container">
             <thead>
@@ -50,61 +73,21 @@
                     <th>姓名</th>
                     <th>联系电话</th>
                     <th>工作量</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>I1515544D</td>
-                    <td>张三</td>
-                    <td>12365474522</td>
+                <tr th:each="staff:${staffList}">
+                    <td th:text="${staff.staffId}">I1515544D</td>
+                    <td th:text="${staff.staffName}">张三</td>
+                    <td th:text="${staff.staffPhone}">12365474522</td>
                     <td>
-                        <button type="button" class="btn btn-warning"><a href="recordList.html"
+                        <button type="button" class="btn btn-warning"><a th:href="@{/record//summary/1(staffName=${staff.staffName})}"
                                 class="look">查看</a></button>
                     </td>
-                </tr>
-                <tr>
-                    <td>I1515544D</td>
-                    <td>张三</td>
-                    <td>12365474522</td>
                     <td>
-                        <button type="button" class="btn btn-warning"><a href="recordList.html"
-                                class="look">查看</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>I1515544D</td>
-                    <td>张三</td>
-                    <td>12365474522</td>
-                    <td>
-                        <button type="button" class="btn btn-warning"><a href="recordList.html"
-                                class="look">查看</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>I1515544D</td>
-                    <td>张三</td>
-                    <td>12365474522</td>
-                    <td>
-                        <button type="button" class="btn btn-warning"><a href="recordList.html"
-                                class="look">查看</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>I1515544D</td>
-                    <td>张三</td>
-                    <td>12365474522</td>
-                    <td>
-                        <button type="button" class="btn btn-warning"><a href="recordList.html"
-                                class="look">查看</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>I1515544D</td>
-                    <td>张三</td>
-                    <td>12365474522</td>
-                    <td>
-                        <button type="button" class="btn btn-warning"><a href="recordList.html"
-                                class="look">查看</a></button>
+                        <button type="button" class="btn btn-info"><a th:href="@{/staff/delete/${staff.staffId}}"
+                                                                          class="look">删除</a></button>
                     </td>
                 </tr>
             </tbody>
@@ -113,8 +96,15 @@
     <div class="foot">
         Copyright © 2018 未来工作室. All rights reserved.
     </div>
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script th:src="@{/js/add.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script>
+        function add(){
+            var modaladd = document.getElementById('modaladd');
+            modaladd.style.visibility = (modaladd.style.visibility == "visible") ? "hidden" : "visible";
+        }
+    </script>
 
 </body>
 

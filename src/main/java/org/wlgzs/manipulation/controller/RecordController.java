@@ -50,9 +50,9 @@ public class RecordController extends BaseController {
         List<Record> recordList = ipage.getRecords();
         model.addAttribute("recordList", recordList);
         model.addAttribute("size",recordList.size());
+        model.addAttribute("findName",findName);
         System.out.println("recordList"+recordList);
-        System.out.println("size"+recordList.size());
-        return new ModelAndView("membersDetails");
+        return new ModelAndView("recordList");
     }
 
     //删除记录

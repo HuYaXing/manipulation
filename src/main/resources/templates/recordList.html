@@ -1,154 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>中医推拿会员管理系统</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/iconfont.css">
-    <link type="text/css" rel="stylesheet" href="css/jeDate-test.css">
-    <link type="text/css" rel="stylesheet" href="css/jedate.css">
-    <script type="text/javascript" src="js/jedate.js"></script>
-    <style>
-        .table thead tr th {
-            width: 16.5%;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/css/jeDate-test.css}">
+    <link rel="stylesheet" th:href="@{/css/jedate.css}">
+    <script type="text/javascript" th:src="@{/js/jedate.js}"></script>
 </head>
 
 <body>
-    <div class="top">
-        <div class="left">
-            <span class="type">管理系统</span>
-        </div>
+<div class="top">
+    <div class="left">
+        <span class="type">管理系统</span>
     </div>
-    <div class="MenuBox">
-        <ul class="menu">
-            <li class="active title"><a href="vip.html">中医推拿</a></li>
-            <li><a href="vip.html"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
-            <li class="active"><a href="membersDetails.html"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
-            <li><a href="staffList.html"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
-        </ul>
-    </div>
-    <div class="contain">
+</div>
+<div class="MenuBox">
+    <ul class="menu">
+        <li class="active title"><a th:href="@{/members/membersList/1}">中医推拿</a></li>
+        <li><a th:href="@{/members/membersList/1}"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
+        <li  class="active"><a th:href="@{/record/recordList/1}"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
+        <li><a th:href="@{/staff/staffList}"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
+    </ul>
+</div>
+<div class="contain">
 
-        <div class="sosuo">
+    <div class="sosuo">
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">推拿类型
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" style="min-width: 93px">
+                <li>
+                    <a href="#">近视治疗</a>
+                </li>
+                <li>
+                    <a href="#">小儿推拿</a>
+                </li>
+            </ul>
+        </div>
+        <form th:href="@{record/recordList/1}" th:type="post">
             <div class="jeitem">
                 <div class="jeinpbox"><input type="text" class="jeinput" id="testred" placeholder="选择时间"></div>
             </div>
-            <input class="sosuokuang" type="text" placeholder="请输入医师姓名"><span><a href=""><i
-                        class="glyphicon glyphicon-search"></i></a></span>
-        </div>
-        <table class="table container">
-            <thead>
-                <tr>
-                    <th>会员号</th>
-                    <th>姓名</th>
-                    <th>联系电话</th>
-                    <th>
-                        <select style="border-color: #fff;">
-                            <option value="近视治疗">近视治疗</option>
-                            <option value="小儿推拿">小儿推拿</option>
-                        </select>
-                    </th>
-                    <th>医师</th>
-                    <th>时间</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>64763113</td>
-                    <td>姓名</td>
-                    <td>12345678912</td>
-                    <td>近视治疗</td>
-                    <td>李医师</td>
-                    <td>2018.08.03 18:34:59</td>
-                </tr>
-                <tr>
-                    <td>64763113</td>
-                    <td>姓名</td>
-                    <td>12345678912</td>
-                    <td>近视治疗</td>
-                    <td>李医师</td>
-                    <td>2018.08.03 18:34:59</td>
-                </tr>
-                <tr>
-                    <td>64763113</td>
-                    <td>姓名</td>
-                    <td>12345678912</td>
-                    <td>近视治疗</td>
-                    <td>李医师</td>
-                    <td>2018.08.03 18:34:59</td>
-                </tr>
-                <tr>
-                    <td>64763113</td>
-                    <td>姓名</td>
-                    <td>12345678912</td>
-                    <td>近视治疗</td>
-                    <td>李医师</td>
-                    <td>2018.08.03 18:34:59</td>
-                </tr>
-                <tr>
-                    <td>64763113</td>
-                    <td>姓名</td>
-                    <td>12345678912</td>
-                    <td>近视治疗</td>
-                    <td>李医师</td>
-                    <td>2018.08.03 18:34:59</td>
-                </tr>
-                <tr>
-                    <td>64763113</td>
-                    <td>姓名</td>
-                    <td>12345678912</td>
-                    <td>近视治疗</td>
-                    <td>李医师</td>
-                    <td>2018.08.03 18:34:59</td>
-                </tr>
-                <tr>
-                    <td>64763113</td>
-                    <td>姓名</td>
-                    <td>12345678912</td>
-                    <td>近视治疗</td>
-                    <td>李医师</td>
-                    <td>2018.08.03 18:34:59</td>
-                </tr>
-                <tr>
-                    <td>64763113</td>
-                    <td>姓名</td>
-                    <td>12345678912</td>
-                    <td>近视治疗</td>
-                    <td>李医师</td>
-                    <td>2018.08.03 18:34:59</td>
-                </tr>
-                <tr>
-                    <td>64763113</td>
-                    <td>姓名</td>
-                    <td>12345678912</td>
-                    <td>近视治疗</td>
-                    <td>李医师</td>
-                    <td>2018.08.03 18:34:59</td>
-                </tr>
-                <tr>
-                    <td>64763113</td>
-                    <td>姓名</td>
-                    <td>12345678912</td>
-                    <td>近视治疗</td>
-                    <td>李医师</td>
-                    <td>2018.08.03 18:34:59</td>
-                </tr>
+            <input th:if="${findName} != null" th:text="${findName}" th:name="findName" type="text" class="search_key" placeholder="请输入姓名或ID" autocomplete="on">
+            <input th:if="${findName} == null" th:name="findName" type="text" class="search_key" placeholder="请输入姓名或ID" autocomplete="on">
+            <input type="submit" class="submit" value="搜索">
+        </form>
+    </div>
+    <table class="table container">
+        <thead>
+        <tr>
+            <th>会员号</th>
+            <!--<th>拼音码</th>-->
+            <th>姓名</th>
+            <!--<th>联系电话</th>-->
+            <th>推拿类型</th>
+            <th>医师</th>
+            <th>时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="record : ${recordList}">
+            <td th:text="${record.membersId}">64763113</td>
+            <!--<td th:text="${record.pinyinCode}">zs</td>-->
+            <td th:text="${record.membersName}">张三</td>
+            <!--<td th:text="${record.membersPhone}">12345678912</td>-->
+            <td th:text="${record.tuinaType}">近视治疗</td>
+            <td th:text="${record.staffName}">李医师</td>
+            <td th:text="${record.recordTime}">2018.08.03 18:34:59</td>
+        </tr>
 
-            </tbody>
-        </table>
-    </div>
-    <div class="foot">
-        Copyright © 2018 未来工作室. All rights reserved.
-    </div>
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/demo.js"></script>
+        </tbody>
+    </table>
+</div>
+
+<div class="fenye" th:if="${TotalPages > 0 and #strings.isEmpty(findName)}">
+    <ul class="pagination" th:if="${Number == 1} and ${TotalPages> 1}">
+        <!--//如果当前页等于1，总页数大于1（不显示上一页）   Number&ndash;&gt;当前页-->
+        <li><a th:href="@{/record/recordList/1}">首页</a></li>
+        <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
+            <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
+            <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
+            <!--//限制显示页数的条数  4到6个页数   而且等于当前页，不能点击-->
+            <a th:if="${i > Number-3} and ${i < Number+3} and ${i != Number}"
+               th:href="@{'/record/recordList/'+${i}}" th:text="${i}"
+               style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
+        </li>
+        <li><a th:href="@{'/record/recordList/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
+    </ul>
+
+    <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
+        <li><a th:href="@{/record/recordList/1}">首页</a></li><!--//跳转至第一页-->
+        <li><a th:href="@{'/record/recordList/'+${Number-1}}">上一页</a></li><!--//请求页数-1-->
+        <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
+            <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
+            <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
+            <!--//限制显示页数的条数  4到6个页数   而且等于当前页，不能点击-->
+            <a th:if="${i > Number-3} and ${i < Number+3} and ${i != Number}"
+               th:href="@{'/record/recordList/'+${i}}" th:text="${i}"
+               style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
+        </li>
+        <li th:if="${Number != TotalPages}"><a
+                th:href="@{'/record/recordList/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
+        <li><a th:href="@{'/record/recordList/'+${TotalPages}}">尾页</a></li><!--//跳转至第Number页-->
+    </ul>
+</div>
+<!--搜索分页-->
+<div class="fenye" th:if="${TotalPages > 0 and !#strings.isEmpty(findName)}">
+    <ul class="pagination" th:if="${Number == 1} and ${TotalPages> 1}">
+        <!--//如果当前页等于1，总页数大于1（不显示上一页）   Number&ndash;&gt;当前页-->
+        <li><a th:href="@{/record/recordList/1(findName=${findName})}">首页</a></li>
+        <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
+            <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
+            <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
+            <!--//限制显示页数的条数  4到6个页数   而且等于当前页，不能点击-->
+            <a th:if="${i > Number-3} and ${i < Number+3} and ${i != Number}"
+               th:href="@{'/record/recordList/'+${i}(findName=${findName})}" th:text="${i}"
+               style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
+        </li>
+        <li><a th:href="@{'/record/recordList/'+${Number+1}(findName=${findName})}">下一页</a></li><!--//请求页数+1-->
+    </ul>
+
+    <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
+        <li><a th:href="@{'/record/recordList/'+1(findName=${findName})}">首页</a></li><!--//跳转至第一页-->
+        <li><a th:href="@{'/record/recordList/'+${Number-1}(findName=${findName})}">上一页</a></li><!--//请求页数-1-->
+        <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
+            <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
+            <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
+            <!--//限制显示页数的条数  4到6个页数   而且等于当前页，不能点击-->
+            <a th:if="${i > Number-3} and ${i < Number+3} and ${i != Number}"
+               th:href="@{'/record/recordList/'+${i}(findName=${findName})}" th:text="${i}"
+               style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
+        </li>
+        <li th:if="${Number != TotalPages}"><a
+                th:href="@{'/record/recordList/'+${Number+1}(findName=${findName})}">下一页</a></li><!--//请求页数+1-->
+        <li><a th:href="@{'/record/recordList/'+${TotalPages}(findName=${findName})}">尾页</a></li><!--//跳转至第Number页-->
+    </ul>
+
+</div>
+
+
+<div class="foot">
+    Copyright © 2018 未来工作室. All rights reserved.
+</div>
+<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
 </body>
 
 </html>

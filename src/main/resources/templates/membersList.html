@@ -48,7 +48,7 @@
     <div class="MenuBox">
         <ul class="menu">
             <li class="active title"><a th:href="@{/members/membersList/1}">中医推拿</a></li>
-            <li class="active"><a th:href="@{/members/membersList/1}"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
+            <li  class="active"><a th:href="@{/members/membersList/1}"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
             <li><a th:href="@{/record/recordList/1}"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
             <li><a th:href="@{/staff/staffList}"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
         </ul>
@@ -56,10 +56,36 @@
     <div class="contain">
         <div class="sosuo">
             <form>
-                <button type="button" class="btn btn-danger add"><a href="" class="look">添加</a></button>
+                <button onclick="add()" type="button" class="btn btn-danger add ">添加新会员</button>
                 <input type="text" class="search_key" placeholder="请输入会员姓名或ID" autocomplete="on">
                 <input type="submit" class="submit" value="搜索">
             </form>
+        </div>
+        <div id="modaladd">
+            <div class="modalbox">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">会员姓名</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="inputError">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">拼音码</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="inputError">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">联系电话</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" maxlength="11" id="inputError">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning into">添加</button>
+                    <button type="button" class="btn btn-info into " onclick="add()">关闭</button>
+                </form>
+            </div>
         </div>
         <table class="table container">
             <thead>
@@ -99,11 +125,11 @@
                     </select>
                 </td>
                 <td>
-                    <select class="btn-warning ">
-                        <option value="治疗">治疗</option>
-                        <option value="查看"><a th:href="@{recordList/1(fimdName=${member.membersName})}">查看</a></option>
-                        <option value="删除">删除</option>
-                    </select>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-warning">治疗</button>
+                        <button type="button" class="btn btn-default btn-warning">查看</button>
+                        <button type="button" class="btn btn-default btn-warning">删除</button>
+                    </div>
                 </td>
             </tr>
             </tbody>
@@ -116,16 +142,29 @@
                         <tr class="active">
                             <th>按摩种类</th>
                             <th>剩余次数</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="danger">
                             <td>近视治疗</td>
                             <td>5次</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-info">添加一次</button>
+                                    <button type="button" class="btn btn-default btn-success">减少一次</button>
+                                </div>
+                            </td>
                         </tr>
                         <tr class="success">
                             <td>小儿推拿</td>
                             <td>6次</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-info">添加一次</button>
+                                    <button type="button" class="btn btn-default btn-success">减少一次</button>
+                                </div>
+                            </td>
                         </tr>
                         <!-- <tr class="warning">
                                 <td>推拿种类3</td>
@@ -149,6 +188,25 @@
         function overlay() {
             var e1 = document.getElementById('modal-overlay');
             e1.style.visibility = (e1.style.visibility == "visible") ? "hidden" : "visible";
+        }
+        function add(){
+            var modaladd = document.getElementById('modaladd');
+            modaladd.style.visibility = (modaladd.style.visibility == "visible") ? "hidden" : "visible";
+        }
+        /*校验联系电话格式 */
+        function isTelCode(str) {
+            var reg= /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+            return reg.test(str);
+        }
+        function  fun1(){
+            if(!isTelCode(document.getElementById("tel").value)){
+                alert("联系电话不对");
+                document.getElementById("tel").focus();
+                return false;
+            }
+            /*运行到这里说明验证通过返回true    submit提交按钮起作用提交表单*/
+            alert("添加成功")
+            return false;   // 这边设置禁止提交，实际项目需要改为 true
         }
     </script>
 
