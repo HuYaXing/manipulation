@@ -33,8 +33,10 @@ public class StaffController extends BaseController {
         Result result = iStaffService.addStaff(staff);
         if(result.getCode() == 0){
             model.addAttribute("msg","成功！");
+            System.out.println("成功");
         }else{
             model.addAttribute("msg","失败！");
+            System.out.println("失败");
         }
         return new ModelAndView("redirect:/staff/staffList");
     }

@@ -26,8 +26,8 @@ a:hover{color:#777}
 .jewarp h3{position: relative;left: 0;height: 40px;line-height:40px;padding-left:10px;white-space: nowrap;border-radius: 4px 4px 0 0;font-size: 16px;color:#00A080;text-align: left;border: 1px solid #ededed;border-bottom: none;}
 .jewarp .content{border: 1px solid #ededed;border-radius:0 0 4px 4px;padding: 25px 10px 10px 10px;overflow: hidden;}
 .jelabel{width: 120px;float: left;display: block;padding: 9px 10px;font-weight: 400;text-align: right; color:#555;}
-.jeitem{margin-right: 10px; display: inline-block;vertical-align: top;}
-.jeinput{height: 50px;width: 300px;text-align: center;color:#b60000;;background-color: #faf6d7;border: none;}
+.jeitem{margin: 0px 30px; display: inline-block;}
+.jeinput{height: 35px;width: 300px;text-align: center;color:#b60000;;background-color: #faf6d7;border: none;}
 .jeindiv{display: block;width: 100%;padding-left: 10px; height: 36px;line-height: 36px;border-bottom: 1px solid #e6e6e6;background-color: #fff;background-color: #fcfcfc;}
 .jebtns{width: 35px;margin-left: 10px; height: 36px;line-height: 36px\9;border: 1px solid #e6e6e6;background-color: #fff;border-radius: 3px;background-position:right center;float: left;cursor: pointer;position: absolute;top:0;right:-12px;}
 .jefixeitem{width:25%;margin:0 0px 15px 0;position: relative;float: left; text-align: center;}
