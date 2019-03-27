@@ -43,6 +43,11 @@ public class RecordController extends BaseController {
                                    @RequestParam(value = "findName", defaultValue = "") String findName,
                                    @RequestParam(value = "start_time", defaultValue = "") String start_time,
                                    @RequestParam(value = "end_time", defaultValue = "") String end_time) {
+        if(findName.equals("")){
+            model.addAttribute("isSearch",0);
+        }else{
+            model.addAttribute("isSearch",1);
+        }
         Result result = iRecordService.recordList(page, findName, start_time, end_time);
         IPage<Record> ipage = (IPage<Record>) result.getData();
         model.addAttribute("TotalPages", ipage.getPages());//查询的总页数

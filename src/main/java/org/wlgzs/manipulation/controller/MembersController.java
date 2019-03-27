@@ -1,6 +1,7 @@
 package org.wlgzs.manipulation.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.wlgzs.manipulation.base.BaseController;
 import org.wlgzs.manipulation.entity.Members;
 import org.wlgzs.manipulation.entity.Staff;
 import org.wlgzs.manipulation.entity.Storage;
+import org.wlgzs.manipulation.entity.TuinaType;
 import org.wlgzs.manipulation.util.Result;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class MembersController extends BaseController {
 
     //添加一个新会员
     @RequestMapping(value = "", method = RequestMethod.PUT)
-    public ModelAndView addMembers(Members members, Model model) {
+    public ModelAndView addMembers(Members members,Model model) {
         Result result = iMembersService.addMembers(members);
         model.addAttribute("msg", result.getMsg());
         return new ModelAndView("redirect:/members/membersList/1");
@@ -84,7 +86,12 @@ public class MembersController extends BaseController {
     @RequestMapping(value = "/membersList/{page}")
     public ModelAndView membersList(Model model, @PathVariable("page") int page,
                                     @RequestParam(value = "findName", defaultValue = "") String findName) {
+        if(findName.equals(""))model.addAttribute("isSearch",0);
+        else model.addAttribute("isSearch",1);
         Result result = iMembersService.membersList(page, findName);
+        QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
+        List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
+        model.addAttribute("tuinaTypeList", tuinaTypeList);
         //需要所有的医师信息
         List<Staff> staffList = iStaffService.selectAllStaff();
         model.addAttribute("staffList",staffList);
