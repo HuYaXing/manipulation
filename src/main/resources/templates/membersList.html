@@ -36,6 +36,66 @@
             position: relative;
             float: none;
         }
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        .btn-numbox {
+            overflow: hidden;
+        }
+
+        .btn-numbox li {
+            float: left;
+        }
+
+        .btn-numbox li .number,
+        .kucun {
+            display: inline-block;
+            font-size: 12px;
+            color: #808080;
+            vertical-align: sub;
+        }
+
+        .btn-numbox .count {
+            overflow: hidden;
+        }
+
+        .btn-numbox .count .num-jian,.input-num,.num-jia {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            font-size: 18px;
+            color: #000;
+            cursor: pointer;
+            border: 1px solid #e6e6e6;
+        }
+        .btn-numbox .count .input-num {
+            width: 58px;
+            height: 26px;
+            color: #333;
+            border-left: 0;
+            border-right: 0;
+        }
     </style>
 </head>
 
@@ -55,10 +115,12 @@
     </div>
     <div class="contain">
         <div class="sosuo">
-            <form>
+            <form th:action="@{/members/membersList/1}" method="post">
                 <button onclick="add()" type="button" class="btn btn-danger add ">添加新会员</button>
-                <input type="text" class="search_key" placeholder="请输入会员姓名或ID" autocomplete="on">
+                <input type="text" class="search_key" name="findName"  placeholder="请输入会员姓名" autocomplete="on" required="required">
                 <input type="submit" class="submit" value="搜索">
+                <button type="button" class="btn btn-success" style="margin-left: 150px"><a th:href="@{/members/membersList/1}" style="color: #fff;">查看所有会员</a></button>
+
             </form>
         </div>
         <div id="modaladd">
@@ -67,22 +129,22 @@
                     <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">会员姓名</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="inputError">
+                            <input type="text" class="form-control membersName" id="inputError">
                         </div>
                     </div>
                     <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">拼音码</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="inputError">
+                            <input type="text" class="form-control pinyinCode" id="inputError">
                         </div>
                     </div>
                     <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">联系电话</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" maxlength="11" id="inputError">
+                            <input type="text" class="form-control membersPhone" maxlength="11" id="inputError">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-warning into">添加</button>
+                    <button type="button" class="membersAdd btn btn-warning into">添加</button>
                     <button type="button" class="btn btn-info into " onclick="add()">关闭</button>
                 </form>
             </div>
@@ -103,28 +165,30 @@
             <tbody>
 
             <tr th:each="member:${membersList}">
-                <td th:text="${member.membersId}">64763113</td>
-                <td th:text="${member.pinyinCode}">zs</td>
-                <td th:text="${member.membersName}">张三</td>
+                <td class="membersId" th:text="${member.membersId}">64763113</td>
+                <td class="pinyinCode" th:text="${member.pinyinCode}">zs</td>
+                <td class="membersName" th:text="${member.membersName}">张三</td>
                 <td th:text="${member.membersPhone}">12345678912</td>
                 <td>
                     <button onclick="overlay()" type="button" class="btn btn-danger">查看</button>
                 </td>
-                <td>
-                    <select class="btn-success">
+                <td class="selectTd">
+                    <select class="btn-success tuiNaTypes">
                         <option th:each="car,userStat:${tuinaTypeList}" th:value="${car.tuinaName}" th:text="${car.tuinaName}"></option>
                     </select>
                 </td>
-                <td>
-                    <select class="btn-info ">
-                        <option th:each="car,userStat:${staffList}" th:value="${car.staffName}" th:text="${car.staffName}"></option>
+                <td class="staffName">
+                    <select class="btn-info staffNames">
+                        <option th:each="car,userStat:${staffList}" th:data-id="${car.staffId}" th:value="${car.staffName}" th:text="${car.staffName}"></option>
                     </select>
                 </td>
                 <td>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-warning">治疗</button>
-                        <button type="button" class="btn btn-default btn-warning">查看</button>
-                        <button type="button" class="btn btn-default btn-warning">删除</button>
+                        <button type="button" class="zhiLiao btn btn-default btn-warning">治疗</button>
+                        <button type="button" class="btn btn-default btn-warning">
+                            <a style="color: #FFFFFF" th:href="@{/record/recordList/1/(findName=${member.membersName})}">查看</a>
+                        </button>
+                        <button type="button" class="deleteMember btn btn-default btn-warning">删除</button>
                     </div>
                 </td>
             </tr>
@@ -138,38 +202,23 @@
                         <tr class="active">
                             <th>按摩种类</th>
                             <th>剩余次数</th>
-                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="danger">
-                            <td>近视治疗</td>
-                            <td>5次</td>
+                        <tr class="danger" th:each="car,userStat:${tuinaTypeList}">
+                            <td th:text="${car.tuinaName}">近视治疗</td>
                             <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-info">添加一次</button>
-                                    <button type="button" class="btn btn-default btn-success">减少一次</button>
-                                </div>
+                                <ul class="btn-numbox">
+                                    <li>
+                                        <ul class="count">
+                                            <li><span id="num-jian" class="num-jian">-</span></li>
+                                            <li><input type="text" class="input-num " id="input-num" value="0" /></li>
+                                            <li><span id="num-jia" class="num-jia">+</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </td>
                         </tr>
-                        <tr class="success">
-                            <td>小儿推拿</td>
-                            <td>6次</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-info">添加一次</button>
-                                    <button type="button" class="btn btn-default btn-success">减少一次</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- <tr class="warning">
-                                <td>推拿种类3</td>
-                                <td>0次</td>
-                            </tr>
-                            <tr class="danger">
-                                <td>推拿种类4</td>
-                                <td>0次</td>
-                            </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -246,6 +295,7 @@
     </div>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/members.js}"></script>
     <script>
         function overlay() {
             var e1 = document.getElementById('modal-overlay');

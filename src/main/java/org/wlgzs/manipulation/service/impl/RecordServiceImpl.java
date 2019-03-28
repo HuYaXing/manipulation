@@ -63,14 +63,16 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
 
     @Override
     public Result recordList(int page, String findName, String start_time, String end_time) {
-        Page page1 = new Page(page, 10);
+        Page page1 = new Page(page, 6);
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
         IPage<Record> iPage = null;
         if (start_time.equals("")) {//查询所有
             queryWrapper.like("members_name", findName);
+            queryWrapper.orderBy(true,false,"record_time");
             iPage = baseMapper.selectPage(page1, queryWrapper);
         } else {//按条件查询
             queryWrapper.like("members_name", findName).between("record_time", start_time, end_time);
+            queryWrapper.orderBy(true,false,"record_time");
             iPage = baseMapper.selectPage(page1, queryWrapper);
         }
         return new Result(ResultCode.SUCCESS, iPage);
@@ -101,12 +103,16 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         Page page1 = new Page(page, 10);
         if (tuinaType.equals("all") && startTime.equals("")) {//默认所有种类
             queryWrapper.eq("staff_name", staffName);
+            queryWrapper.orderBy(true,false,"record_time");
         } else if (tuinaType.equals("all") && !startTime.equals("")) {
             queryWrapper.eq("staff_name", staffName).between("record_time", startTime, endTime);
+            queryWrapper.orderBy(true,false,"record_time");
         } else if (startTime.equals("")) {
             queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType);
+            queryWrapper.orderBy(true,false,"record_time");
         } else {
             queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType).between("record_time", startTime, endTime);
+            queryWrapper.orderBy(true,false,"record_time");
         }
         IPage<Record> iPage = baseMapper.selectPage(page1, queryWrapper);
         return iPage;

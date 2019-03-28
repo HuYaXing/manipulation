@@ -1,6 +1,7 @@
 package org.wlgzs.manipulation.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.wlgzs.manipulation.base.BaseController;
 import org.wlgzs.manipulation.entity.Record;
+import org.wlgzs.manipulation.entity.TuinaType;
 import org.wlgzs.manipulation.util.Result;
 
 import java.util.List;
@@ -34,6 +36,7 @@ public class RecordController extends BaseController {
         } else {
             model.addAttribute("msg", "失败！");
         }
+        System.out.println("12345467897587657");
         return new ModelAndView("redirect:/record/recordList/1");
     }
 
@@ -57,7 +60,7 @@ public class RecordController extends BaseController {
         model.addAttribute("size",recordList.size());
         model.addAttribute("findName",findName);
         System.out.println("recordList"+recordList);
-        return new ModelAndView("recordList");
+        return new ModelAndView("membersDetails");
     }
 
     //删除记录
@@ -93,6 +96,9 @@ public class RecordController extends BaseController {
                                 String staffName, @RequestParam(value = "tuinaType", defaultValue = "all") String tuinaType,
                                 @RequestParam(value = "startTime", defaultValue = "") String startTime,
                                 @RequestParam(value = "endTime", defaultValue = "") String endTime) {
+        QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
+        List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
+        model.addAttribute("tuinaTypeList", tuinaTypeList);
         IPage<Record> iPage = iRecordService.summary(page,staffName,tuinaType,startTime,endTime);
         System.out.println(iPage);
         List<Record> recordList = iPage.getRecords();
@@ -104,6 +110,7 @@ public class RecordController extends BaseController {
         model.addAttribute("TotalPages", iPage.getPages());//查询的总页数
         model.addAttribute("Number", page);//查询的当前第几页
         model.addAttribute("isStaff", 1);
+        model.addAttribute("staffName", staffName);
         return new ModelAndView("recordList");
     }
 

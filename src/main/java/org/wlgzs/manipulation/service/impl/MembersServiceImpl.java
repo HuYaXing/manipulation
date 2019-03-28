@@ -58,13 +58,13 @@ public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> impl
     @Override
     public Result membersList(int page, String findName) {
         if(findName.equals("")){//查询所有
-            Page page1 = new Page(page,10);
+            Page page1 = new Page(page,6);
             QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
             IPage<Members> iPage = baseMapper.selectPage(page1,queryWrapper);
             return new Result(ResultCode.SUCCESS,iPage);
         }//按条件查询
         QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("members_phone","%%"+findName).like("pinyin_code",findName);
+        queryWrapper.and(i -> i.like("members_name",findName).or().like("pinyin_code",findName));
         List<Members> membersList = baseMapper.selectList(queryWrapper);
         return new Result(ResultCode.SUCCESS,membersList);
     }
