@@ -41,9 +41,7 @@
     <div class="contain">
         <div class="sosuo">
             <form>
-                <button onclick="add()" type="button" class="btn btn-danger add ">添加新医师</button>
-                <input type="text" class="search_key" placeholder="请输入医师姓名" autocomplete="on">
-                <input type="submit" class="submit" value="搜索">
+                <button onclick="add()" type="button" class="btn btn-danger ">添加新医师</button>
             </form>
         </div>
         <div id="modaladd">
@@ -52,16 +50,16 @@
                     <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">医师姓名</label>
                         <div class="col-sm-9">
-                            <input type="text" th:name="staffName" class="form-control" id="inputError">
+                            <input type="text" th:name="staffName" class="form-control" id="inputError" th:class="staffName">
                         </div>
                     </div>
                     <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">联系电话</label>
                         <div class="col-sm-9">
-                            <input type="text" th:name="staffPhone" class="form-control" id="inputError">
+                            <input type="text" th:name="staffPhone" class="form-control" id="inputError" th:class="staffPhone">
                         </div>
                     </div>
-                    <button type="button" th:name="addstaff" class="btn btn-warning into">添加</button>
+                    <button type="button" th:name="addstaff" class="staffAdd btn btn-warning into staffAdd" >添加</button>
                     <button type="button" class="btn btn-info into " onclick="add()">关闭</button>
                 </form>
             </div>
@@ -78,7 +76,7 @@
             </thead>
             <tbody>
                 <tr th:each="staff:${staffList}">
-                    <td th:text="${staff.staffId}">I1515544D</td>
+                    <td th:text="${staff.staffId}" class="staffId">I1515544D</td>
                     <td th:text="${staff.staffName}">张三</td>
                     <td th:text="${staff.staffPhone}">12365474522</td>
                     <td>
@@ -86,8 +84,8 @@
                                 class="look">查看</a></button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-info"><a th:href="@{/staff/delete/${staff.staffId}}"
-                                                                          class="look">删除</a></button>
+                        <button type="button" class="deletestaff btn btn-info">
+                            <a class="look">删除</a></button>
                     </td>
                 </tr>
             </tbody>
@@ -96,8 +94,8 @@
     <div class="foot">
         Copyright © 2018 未来工作室. All rights reserved.
     </div>
-    <script th:src="@{/js/add.js}"></script>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/staff.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script>
         function add(){

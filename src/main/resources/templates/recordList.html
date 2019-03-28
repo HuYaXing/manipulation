@@ -37,19 +37,18 @@
             </button>
             <ul class="dropdown-menu" role="menu" style="min-width: 93px">
                 <li>
-                    <a href="#">近视治疗</a>
+                    <a href="#">所有种类</a>
                 </li>
-                <li>
-                    <a href="#">小儿推拿</a>
+                <li th:each="car,userStat:${tuinaTypeList}">
+                    <a href="#" th:text="${car.tuinaName}">近视治疗</a>
                 </li>
             </ul>
         </div>
-        <form th:href="@{record/recordList/1}" th:type="post">
+        <form th:href="@{record/summary/1}" th:type="post">
             <div class="jeitem">
                 <div class="jeinpbox"><input type="text" class="jeinput" id="testred" placeholder="选择时间"></div>
             </div>
-            <input th:if="${findName} != null" th:text="${findName}" th:name="findName" type="text" class="search_key" placeholder="请输入姓名或ID" autocomplete="on">
-            <input th:if="${findName} == null" th:name="findName" type="text" class="search_key" placeholder="请输入姓名或ID" autocomplete="on">
+            <input th:if="${staffName} != null" th:name="staffName"  type="text" class="search_key" placeholder="请输入姓名或ID" autocomplete="on" required="required">
             <input type="submit" class="submit" value="搜索">
         </form>
     </div>
@@ -67,80 +66,46 @@
         </thead>
         <tbody>
         <tr th:each="record : ${recordList}">
-            <td th:text="${record.membersId}">64763113</td>
-            <!--<td th:text="${record.pinyinCode}">zs</td>-->
-            <td th:text="${record.membersName}">张三</td>
-            <!--<td th:text="${record.membersPhone}">12345678912</td>-->
-            <td th:text="${record.tuinaType}">近视治疗</td>
-            <td th:text="${record.staffName}">李医师</td>
-            <td th:text="${record.recordTime}">2018.08.03 18:34:59</td>
+            <td th:text="${record.membersId}"></td>
+            <td th:text="${record.membersName}"></td>
+            <td th:text="${record.tuinaType}"></td>
+            <td th:text="${record.staffName}"></td>
+            <td  th:text="${#temporals.format(record.recordTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
 
         </tbody>
     </table>
 </div>
-
-<div class="fenye" th:if="${TotalPages > 0 and isSearch==0}">
-    <ul class="pagination" th:if="${Number == 1} and ${TotalPages> 1}">
-        <!--//如果当前页等于1，总页数大于1（不显示上一页）   Number&ndash;&gt;当前页-->
-        <li><a th:href="@{/record/recordList/1}">首页</a></li>
-        <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
-            <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
-            <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
-            <!--//限制显示页数的条数  4到6个页数   而且等于当前页，不能点击-->
-            <a th:if="${i > Number-3} and ${i < Number+3} and ${i != Number}"
-               th:href="@{'/record/recordList/'+${i}}" th:text="${i}"
-               style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
-        </li>
-        <li><a th:href="@{'/record/recordList/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
-    </ul>
-
-    <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
-        <li><a th:href="@{/record/recordList/1}">首页</a></li><!--//跳转至第一页-->
-        <li><a th:href="@{'/record/recordList/'+${Number-1}}">上一页</a></li><!--//请求页数-1-->
-        <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
-            <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
-            <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
-            <!--//限制显示页数的条数  4到6个页数   而且等于当前页，不能点击-->
-            <a th:if="${i > Number-3} and ${i < Number+3} and ${i != Number}"
-               th:href="@{'/record/recordList/'+${i}}" th:text="${i}"
-               style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
-        </li>
-        <li th:if="${Number != TotalPages}"><a
-                th:href="@{'/record/recordList/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
-        <li><a th:href="@{'/record/recordList/'+${TotalPages}}">尾页</a></li><!--//跳转至第Number页-->
-    </ul>
-</div>
 <!--搜索分页-->
-<div class="fenye" th:if="${TotalPages > 0 and isSearch==1}">
+<div class="fenye" th:if="${TotalPages > 0}">
     <ul class="pagination" th:if="${Number == 1} and ${TotalPages> 1}">
         <!--//如果当前页等于1，总页数大于1（不显示上一页）   Number&ndash;&gt;当前页-->
-        <li><a th:href="@{/record/recordList/1(findName=${findName})}">首页</a></li>
+        <li><a th:href="@{/record/summary/1(staffName=${staffName})}">首页</a></li>
         <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
             <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
             <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
             <!--//限制显示页数的条数  4到6个页数   而且等于当前页，不能点击-->
             <a th:if="${i > Number-3} and ${i < Number+3} and ${i != Number}"
-               th:href="@{'/record/recordList/'+${i}(findName=${findName})}" th:text="${i}"
+               th:href="@{'/record/summary/'+${i}(staffName=${staffName})}" th:text="${i}"
                style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
         </li>
-        <li><a th:href="@{'/record/recordList/'+${Number+1}(findName=${findName})}">下一页</a></li><!--//请求页数+1-->
+        <li><a th:href="@{'/record/summary/'+${Number+1}(staffName=${staffName})}">下一页</a></li><!--//请求页数+1-->
     </ul>
 
     <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
-        <li><a th:href="@{'/record/recordList/'+1(findName=${findName})}">首页</a></li><!--//跳转至第一页-->
-        <li><a th:href="@{'/record/recordList/'+${Number-1}(findName=${findName})}">上一页</a></li><!--//请求页数-1-->
+        <li><a th:href="@{'/record/summary/'+1(staffName=${staffName})}">首页</a></li><!--//跳转至第一页-->
+        <li><a th:href="@{'/record/summary/'+${Number-1}(staffName=${staffName})}">上一页</a></li><!--//请求页数-1-->
         <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
             <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
             <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
             <!--//限制显示页数的条数  4到6个页数   而且等于当前页，不能点击-->
             <a th:if="${i > Number-3} and ${i < Number+3} and ${i != Number}"
-               th:href="@{'/record/recordList/'+${i}(findName=${findName})}" th:text="${i}"
+               th:href="@{'/record/summary/'+${i}(staffName=${staffName})}" th:text="${i}"
                style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
         </li>
         <li th:if="${Number != TotalPages}"><a
-                th:href="@{'/record/recordList/'+${Number+1}(findName=${findName})}">下一页</a></li><!--//请求页数+1-->
-        <li><a th:href="@{'/record/recordList/'+${TotalPages}(findName=${findName})}">尾页</a></li><!--//跳转至第Number页-->
+                th:href="@{'/record/summary/'+${Number+1}(staffName=${staffName})}">下一页</a></li><!--//请求页数+1-->
+        <li><a th:href="@{'/record/summary/'+${TotalPages}(staffName=${staffName})}">尾页</a></li><!--//跳转至第Number页-->
     </ul>
 
 </div>

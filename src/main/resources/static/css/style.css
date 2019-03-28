@@ -29,7 +29,7 @@ a:hover{
 .top .left .type{
     font-size: 20px;
     font-family: "微软雅黑";
-    margin-left: 150px;
+    margin-left: 170px;
 }
 .top .right span{
     display: inline-block;
@@ -207,7 +207,7 @@ span.chazhao{
     background-color: #333333c2;
 }
 .modal-data {
-    width: 380px;
+    width: 260px;
     margin: 200px auto;
     text-align: center;
     position: relative;
@@ -222,6 +222,12 @@ span.chazhao{
 .modal-data table{
     margin-top: 50px;
     display: inline-block;
+}
+.fenye{
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 /* 底部版权 */
 .foot{
