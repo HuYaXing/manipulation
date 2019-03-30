@@ -4,20 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.wlgzs.manipulation.entity.Members;
 import org.wlgzs.manipulation.entity.Record;
-import org.wlgzs.manipulation.entity.Storage;
+import org.wlgzs.manipulation.mapper.MembersMapper;
 import org.wlgzs.manipulation.mapper.RecordMapper;
-import org.wlgzs.manipulation.mapper.StorageMapper;
 import org.wlgzs.manipulation.service.IRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import org.wlgzs.manipulation.service.IStorageService;
 import org.wlgzs.manipulation.util.Result;
 import org.wlgzs.manipulation.util.ResultCode;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 /**
  * <p>
@@ -31,23 +29,18 @@ import java.util.List;
 public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> implements IRecordService {
 
     @Autowired
-    protected IStorageService iStorageService;
-
-    @Autowired
-    protected StorageMapper storageMapper;
+    protected MembersMapper membersMapper;
 
     @Override
     public Result addRecord(Record record) {
         if (record != null) {
-            //查询会员是否有余额
-            Storage storage = iStorageService.selectStorage(record.getMembersId(), record.getTuinaType());
-            if (storage != null) {
-                //减去剩余次数
-                storage.setSurplusNumber(storage.getSurplusNumber() - 1);
-                storageMapper.updateById(storage);
-                if (storage.getSurplusNumber() <= 0) {
-                    storageMapper.deleteById(storage);
-                }
+            //扣除该会员对应的剩余次数
+            Members members = membersMapper.selectById(record.getMembersId());
+            if(members.getSurplusNumber() > 0){
+                members.setSurplusNumber(members.getSurplusNumber() - 1);
+                membersMapper.updateById(members);
+            }else{
+                return new Result(ResultCode.FAIL);
             }
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime time = LocalDateTime.now();
@@ -68,11 +61,11 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         IPage<Record> iPage = null;
         if (start_time.equals("")) {//查询所有
             queryWrapper.like("members_name", findName);
-            queryWrapper.orderBy(true,false,"record_time");
+            queryWrapper.orderBy(true, false, "record_time");
             iPage = baseMapper.selectPage(page1, queryWrapper);
         } else {//按条件查询
-            queryWrapper.like("members_name", findName).between("record_time", start_time, end_time);
-            queryWrapper.orderBy(true,false,"record_time");
+            queryWrapper.like("members_name", findName).or().like("pinyin_code",findName).between("record_time", start_time, end_time);
+            queryWrapper.orderBy(true, false, "record_time");
             iPage = baseMapper.selectPage(page1, queryWrapper);
         }
         return new Result(ResultCode.SUCCESS, iPage);
@@ -102,17 +95,17 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
         Page page1 = new Page(page, 10);
         if (tuinaType.equals("all") && startTime.equals("")) {//默认所有种类
-            queryWrapper.eq("staff_name", staffName);
-            queryWrapper.orderBy(true,false,"record_time");
+            queryWrapper.eq("staff_name", staffName).or().likeLeft("members_phone",staffName);
+            queryWrapper.orderBy(true, false, "record_time");
         } else if (tuinaType.equals("all") && !startTime.equals("")) {
-            queryWrapper.eq("staff_name", staffName).between("record_time", startTime, endTime);
-            queryWrapper.orderBy(true,false,"record_time");
+            queryWrapper.eq("staff_name", staffName).or().likeLeft("members_phone",staffName).between("record_time", startTime, endTime);
+            queryWrapper.orderBy(true, false, "record_time");
         } else if (startTime.equals("")) {
-            queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType);
-            queryWrapper.orderBy(true,false,"record_time");
+            queryWrapper.eq("staff_name", staffName).or().likeLeft("members_phone",staffName).eq("tuina_name", tuinaType);
+            queryWrapper.orderBy(true, false, "record_time");
         } else {
-            queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType).between("record_time", startTime, endTime);
-            queryWrapper.orderBy(true,false,"record_time");
+            queryWrapper.eq("staff_name", staffName).or().likeLeft("members_phone",staffName).eq("tuina_name", tuinaType).between("record_time", startTime, endTime);
+            queryWrapper.orderBy(true, false, "record_time");
         }
         IPage<Record> iPage = baseMapper.selectPage(page1, queryWrapper);
         return iPage;

@@ -45,4 +45,18 @@ public class Members implements Serializable {
      */
     private String membersPhone;
 
+    /**
+     * 推拿类型id
+     */
+    private Integer tuinaId;
+
+    /**
+     * 推拿类型
+     */
+    private String tuinaName;
+
+    /**
+     * 剩余次数
+     */
+    private Integer surplusNumber;
 }

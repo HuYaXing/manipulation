@@ -27,32 +27,16 @@ public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> impl
     @Override
     public Result addMembers(Members members) {
         if (members != null) {
-            baseMapper.insert(members);
-            return new Result(ResultCode.SUCCESS);
+            QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
+            queryWrapper.and(i -> i.eq("members_name",members.getMembersName()).eq("members_phone",members.getMembersPhone()).eq("tuina_name",members.getMembersName()));
+            Members members1 = baseMapper.selectOne(queryWrapper);
+            if(members1 == null){
+                baseMapper.insert(members);
+                return new Result(ResultCode.SUCCESS,"添加成功！");
+            }
+            return new Result(ResultCode.FAIL,"该会员信息已被使用！");
         }
-        return new Result(ResultCode.FAIL);
-    }
-
-    @Override
-    public Result checkName(String membersName) {
-        QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("members_name", membersName);
-        Members members = baseMapper.selectOne(queryWrapper);
-        if (members != null) {
-            return new Result(ResultCode.FAIL);
-        }
-        return new Result(ResultCode.SUCCESS);
-    }
-
-    @Override
-    public Result checkPhone(String membersPhone) {
-        QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("members_phone", membersPhone);
-        Members members = baseMapper.selectOne(queryWrapper);
-        if (members != null) {
-            return new Result(ResultCode.FAIL);
-        }
-        return new Result(ResultCode.SUCCESS);
+        return new Result(ResultCode.FAIL,"添加失败！");
     }
 
     @Override
@@ -64,7 +48,7 @@ public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> impl
             return new Result(ResultCode.SUCCESS,iPage);
         }//按条件查询
         QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
-        queryWrapper.and(i -> i.like("members_name",findName).or().like("pinyin_code",findName));
+        queryWrapper.and(i -> i.like("members_name",findName).or().like("pinyin_code",findName).or().likeLeft("members_phone",findName));
         List<Members> membersList = baseMapper.selectList(queryWrapper);
         return new Result(ResultCode.SUCCESS,membersList);
     }
@@ -93,4 +77,16 @@ public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> impl
         }
         return new Result(ResultCode.FAIL);
     }
+
+    @Override
+    public Result addNumber(int Number,int membersId) {
+        Members members = baseMapper.selectById(membersId);
+        if(members != null){
+            members.setSurplusNumber(members.getSurplusNumber() + Number);
+            baseMapper.updateById(members);
+            return new Result(ResultCode.SUCCESS,"添加成功!");
+        }
+        return new Result(ResultCode.FAIL,"不存在!");
+    }
+
 }

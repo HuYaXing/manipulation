@@ -20,9 +20,6 @@ public class BaseController {
     protected IStaffService iStaffService;
 
     @Autowired
-    protected IStorageService iStorageService;
-
-    @Autowired
     protected ITuinaTypeService iTuinaTypeService;
 
 }
