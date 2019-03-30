@@ -195,6 +195,40 @@ span.chazhao{
     padding: 0 6px;
     line-height: 35px;
 }
+/*选择推拿种类查看*/
+.select{
+    width: 100px;
+    background-color: #b60000;
+    line-height: 35px;
+    color: #000;
+    text-align: center;
+    cursor: pointer;
+    padding: 0 5px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 5px;
+}
+.select>input{
+    display: inline-block;
+    width: 100px;
+}
+.son{
+    display: none;
+    width: 100px;
+    margin-left: -5px;
+}
+.son>li{
+    line-height: 34px;
+    width: 100%;
+    border-bottom: 1px solid #fff;
+}
+.son>li>a{
+    text-decoration: none;
+    color: azure;
+}
+.select:hover .son{
+    display: block;
+}
 /* 次数查看模态框 */
 #modal-overlay {
     visibility: hidden;
