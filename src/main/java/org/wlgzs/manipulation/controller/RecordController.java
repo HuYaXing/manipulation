@@ -27,16 +27,12 @@ import java.util.List;
 @RequestMapping("/record")
 public class RecordController extends BaseController {
 
-    //新增一条记录
+    //新增一条记录(治疗)
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public ModelAndView addRecord(Model model, Record record) {
         Result result = iRecordService.addRecord(record);
-        if (result.getCode() == 0) {
-            model.addAttribute("msg", "成功！");
-        } else {
-            model.addAttribute("msg", "失败！");
-        }
-        System.out.println("12345467897587657");
+        if (result.getCode() == 0) model.addAttribute("msg", "成功！");
+        else model.addAttribute("msg", "失败！");
         return new ModelAndView("redirect:/record/recordList/1");
     }
 
@@ -46,21 +42,19 @@ public class RecordController extends BaseController {
                                    @RequestParam(value = "findName", defaultValue = "") String findName,
                                    @RequestParam(value = "start_time", defaultValue = "") String start_time,
                                    @RequestParam(value = "end_time", defaultValue = "") String end_time) {
-        if(findName.equals("")){
-            model.addAttribute("isSearch",0);
-        }else{
-            model.addAttribute("isSearch",1);
-        }
+        if (findName.equals("")) model.addAttribute("isSearch", 0);
+        else model.addAttribute("isSearch", 1);
+
         Result result = iRecordService.recordList(page, findName, start_time, end_time);
         IPage<Record> ipage = (IPage<Record>) result.getData();
         model.addAttribute("TotalPages", ipage.getPages());//查询的总页数
         model.addAttribute("Number", page);//查询的当前第几页
         List<Record> recordList = ipage.getRecords();
         model.addAttribute("recordList", recordList);
-        model.addAttribute("size",recordList.size());
-        model.addAttribute("findName",findName);
-        System.out.println("recordList"+recordList);
-        return new ModelAndView("membersDetails");
+        model.addAttribute("size", recordList.size());
+        model.addAttribute("findName", findName);
+        System.out.println("recordList" + recordList);
+        return new ModelAndView("membersRecord");
     }
 
     //删除记录
@@ -92,27 +86,26 @@ public class RecordController extends BaseController {
 
     //按员工，时间，推拿种类，并返回总数量(必须要员工名字)
     @RequestMapping(value = "/summary/{page}")
-    public ModelAndView summary(@PathVariable("page") int page,Model model,
+    public ModelAndView summary(@PathVariable("page") int page, Model model,
                                 String staffName, @RequestParam(value = "tuinaType", defaultValue = "all") String tuinaType,
                                 @RequestParam(value = "startTime", defaultValue = "") String startTime,
                                 @RequestParam(value = "endTime", defaultValue = "") String endTime) {
         QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
         model.addAttribute("tuinaTypeList", tuinaTypeList);
-        IPage<Record> iPage = iRecordService.summary(page,staffName,tuinaType,startTime,endTime);
+        IPage<Record> iPage = iRecordService.summary(page, staffName, tuinaType, startTime, endTime);
         System.out.println(iPage);
         List<Record> recordList = iPage.getRecords();
-        model.addAttribute("recordList",recordList);
-        if(recordList.size() <= 0){
-            model.addAttribute("msg","没有数据！");
+        model.addAttribute("recordList", recordList);
+        if (recordList.size() <= 0) {
+            model.addAttribute("msg", "没有数据！");
         }
-        model.addAttribute("size",recordList.size());
+        model.addAttribute("size", recordList.size());
         model.addAttribute("TotalPages", iPage.getPages());//查询的总页数
         model.addAttribute("Number", page);//查询的当前第几页
         model.addAttribute("isStaff", 1);
         model.addAttribute("staffName", staffName);
-        return new ModelAndView("recordList");
+        return new ModelAndView("staffRecord");
     }
-
 
 }

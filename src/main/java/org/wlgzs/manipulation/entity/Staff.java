@@ -36,6 +36,11 @@ public class Staff implements Serializable {
     private String staffName;
 
     /**
+     * 拼音码
+     */
+    private String pinyinCode;
+
+    /**
      * 员工手机号
      */
     private String staffPhone;

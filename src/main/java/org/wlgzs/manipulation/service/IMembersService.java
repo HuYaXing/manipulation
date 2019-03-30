@@ -19,10 +19,6 @@ public interface IMembersService extends IService<Members> {
     //添加会员
     Result addMembers(Members members);
 
-    Result checkName(String membersName);
-
-    Result checkPhone(String membersPhone);
-
     //搜索会员
     Result membersList(int page, String findName);
 
@@ -33,4 +29,7 @@ public interface IMembersService extends IService<Members> {
 
     //修改会员信息
     Result Modify(Members members);
+
+    //会员添加剩余次数
+    Result addNumber(int Number,int membersId);
 }
