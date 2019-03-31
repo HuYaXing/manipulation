@@ -3,7 +3,6 @@ package org.wlgzs.manipulation.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -107,5 +106,20 @@ public class RecordController extends BaseController {
         model.addAttribute("staffName", staffName);
         return new ModelAndView("staffRecord");
     }
+
+    //按时间段查询某个医师的治疗记录次数
+    @RequestMapping(value = "/staffWorkload/{staffId}")
+    public ModelAndView staffWorkload(@PathVariable("staffId")int staffId,
+            String startTime,String endTime,Model model){
+        if(startTime != null && endTime != null){
+            startTime = startTime + " 00:00:00";
+            endTime = endTime + " 23:59:59";
+            model.addAttribute("startTime",startTime);
+            model.addAttribute("endTime",endTime);
+        }
+        iRecordService.staffWorkload(staffId,startTime,endTime,model);
+        return new ModelAndView("staffWorkload");
+    }
+
 
 }

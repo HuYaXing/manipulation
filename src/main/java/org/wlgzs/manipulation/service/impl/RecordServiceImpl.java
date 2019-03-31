@@ -4,10 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.wlgzs.manipulation.entity.Members;
 import org.wlgzs.manipulation.entity.Record;
+import org.wlgzs.manipulation.entity.Staff;
+import org.wlgzs.manipulation.entity.TuinaType;
 import org.wlgzs.manipulation.mapper.MembersMapper;
 import org.wlgzs.manipulation.mapper.RecordMapper;
+import org.wlgzs.manipulation.mapper.StaffMapper;
+import org.wlgzs.manipulation.mapper.TuinaTypeMapper;
 import org.wlgzs.manipulation.service.IRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -16,6 +21,8 @@ import org.wlgzs.manipulation.util.ResultCode;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -31,15 +38,21 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     @Autowired
     protected MembersMapper membersMapper;
 
+    @Autowired
+    protected StaffMapper staffMapper;
+
+    @Autowired
+    protected TuinaTypeMapper tuinaTypeMapper;
+
     @Override
     public Result addRecord(Record record) {
         if (record != null) {
             //扣除该会员对应的剩余次数
             Members members = membersMapper.selectById(record.getMembersId());
-            if(members.getSurplusNumber() > 0){
+            if (members.getSurplusNumber() > 0) {
                 members.setSurplusNumber(members.getSurplusNumber() - 1);
                 membersMapper.updateById(members);
-            }else{
+            } else {
                 return new Result(ResultCode.FAIL);
             }
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -64,7 +77,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
             queryWrapper.orderBy(true, false, "record_time");
             iPage = baseMapper.selectPage(page1, queryWrapper);
         } else {//按条件查询
-            queryWrapper.like("members_name", findName).or().like("pinyin_code",findName).between("record_time", start_time, end_time);
+            queryWrapper.like("members_name", findName).or().like("pinyin_code", findName).between("record_time", start_time, end_time);
             queryWrapper.orderBy(true, false, "record_time");
             iPage = baseMapper.selectPage(page1, queryWrapper);
         }
@@ -95,20 +108,52 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
         Page page1 = new Page(page, 10);
         if (tuinaType.equals("all") && startTime.equals("")) {//默认所有种类
-            queryWrapper.eq("staff_name", staffName).or().likeLeft("members_phone",staffName);
+            queryWrapper.eq("staff_name", staffName);
             queryWrapper.orderBy(true, false, "record_time");
         } else if (tuinaType.equals("all") && !startTime.equals("")) {
-            queryWrapper.eq("staff_name", staffName).or().likeLeft("members_phone",staffName).between("record_time", startTime, endTime);
+            queryWrapper.eq("staff_name", staffName).between("record_time", startTime, endTime);
             queryWrapper.orderBy(true, false, "record_time");
         } else if (startTime.equals("")) {
-            queryWrapper.eq("staff_name", staffName).or().likeLeft("members_phone",staffName).eq("tuina_name", tuinaType);
+            queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType);
             queryWrapper.orderBy(true, false, "record_time");
         } else {
-            queryWrapper.eq("staff_name", staffName).or().likeLeft("members_phone",staffName).eq("tuina_name", tuinaType).between("record_time", startTime, endTime);
+            queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType).between("record_time", startTime, endTime);
             queryWrapper.orderBy(true, false, "record_time");
         }
         IPage<Record> iPage = baseMapper.selectPage(page1, queryWrapper);
         return iPage;
+    }
+
+    @Override
+    public void staffWorkload(int staffId,String startTime, String endTime, Model model) {
+        QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
+        //存放结果信息
+        HashMap<String,Integer> hashMap = new HashMap();
+
+        //返回医师的信息
+        Staff staff = staffMapper.selectById(staffId);
+        model.addAttribute("staff",staff);
+        //查询所有类型
+        QueryWrapper<TuinaType> tuinaTypeQueryWrapper = new QueryWrapper<>();
+        List<TuinaType> tuinaTypeList = tuinaTypeMapper.selectList(tuinaTypeQueryWrapper);
+        model.addAttribute("tuinaTypeList",tuinaTypeList);
+        if (startTime != null && endTime != null) {//安时间查询
+            for (TuinaType tn : tuinaTypeList) {
+                queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("staff_id",staffId).eq("tuina_type",tn.getTuinaName()).between("record_time",startTime,endTime);
+                int map = baseMapper.selectCount(queryWrapper);
+                hashMap.put(tn.getTuinaName(),map);
+            }
+        }else{
+            for (TuinaType tn : tuinaTypeList) {
+                queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("staff_id",staffId).eq("tuina_type",tn.getTuinaName());
+                int map = baseMapper.selectCount(queryWrapper);
+                hashMap.put(tn.getTuinaName(),map);
+            }
+        }
+        model.addAttribute("hashMap",hashMap);
+        System.out.println(hashMap);
     }
 
 
