@@ -1,9 +1,15 @@
 // 添加医师
+function add(){
+    var modaladd = document.getElementById('modaladd');
+    modaladd.style.visibility = (modaladd.style.visibility == "visible") ? "hidden" : "visible";
+}
 $(".staffAdd").on('click', function () {
     var staffPhone = $('.staffPhone').val();
-    if ($(".staffName").val() == '') {
+    if ($(".staffName").val() == "") {
         alert("请填写医师姓名");
-        } else  if (staffPhone == "") {
+    } else  if ($(".pinyinCode").val() == "") {
+        alert("请填写拼音码");
+    } else  if ($(".staffPhone").val() == "") {
         alert("请填写手机号");
     }else{
             $.ajax({
@@ -11,7 +17,8 @@ $(".staffAdd").on('click', function () {
                 url: "/staff",
                 data: {
                     staffName: $(".staffName").val(),
-                    staffPhone: $(".staffPhone").val()
+                    staffPhone: $(".staffPhone").val(),
+                    pinyinCode: $(".pinyinCode").val()
                 },
                 dataType: "JSON",
                 success: function (data) {
@@ -33,7 +40,8 @@ $(".staffAdd").on('click', function () {
 $(".deletestaff").on('click', function () {
     var parent = $(this).parent().parent();
     var staffId = parent.children("td.staffId").text();
-    var inform = "您确定要删除" + staffId + " 的信息吗？";
+    var staffName = parent.children("td.staffName").text();
+    var inform = "您确定要删除" + staffName + " 医师的信息吗？";
     var r = confirm(inform);
     if (r == true) {
         $.ajax({

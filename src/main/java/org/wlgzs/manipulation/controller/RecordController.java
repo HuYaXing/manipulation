@@ -3,7 +3,6 @@ package org.wlgzs.manipulation.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -105,7 +104,7 @@ public class RecordController extends BaseController {
         model.addAttribute("Number", page);//查询的当前第几页
         model.addAttribute("isStaff", 1);
         model.addAttribute("staffName", staffName);
-        return new ModelAndView("staffRecord");
+        return new ModelAndView("staffWorkload");
     }
 
 }

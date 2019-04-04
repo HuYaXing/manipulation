@@ -10,24 +10,6 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/iconfont.css}">
     <style>
-        .look {
-            color: #fff;
-        }
-
-        .look:hover {
-            color: #fff;
-        }
-
-        .dropdown-menu {
-            min-width: 100px;
-            padding: 5px;
-            font-size: 16px;
-            text-align: center;
-            left: 50%;
-            top: 92px;
-            margin: -50px;
-        }
-
         td.btn-group {
             width: 100%;
         }
@@ -101,17 +83,31 @@
 
 <body>
     <div class="top">
-        <div class="left">
-            <span class="type">管理系统</span>
-        </div>
+    中医推拿管理系统
     </div>
     <div class="MenuBox">
-        <ul class="menu">
-            <li class="active title"><a th:href="@{/members/membersList/1}">中医推拿</a></li>
-            <li  class="active"><a th:href="@{/members/membersList/1}"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
-            <li><a th:href="@{/record/recordList/1}"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
-            <li><a th:href="@{/staff/staffList}"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
-        </ul>
+        <div class="leftsidebar_box">
+            <dl>
+                <a th:href="@{/members/MemberMassage/1}" class="menu">推拿治疗</a>
+            </dl>
+
+            <dl class="custom">
+                <a th:href="@{/members/membersList/1}" class="menuActive">会员管理</a>
+            </dl>
+
+            <dl class="channel">
+                <a th:href="@{/record/recordList/1}" class="menu">会员记录</a>
+            </dl>
+
+            <dl class="custom">
+                <a th:href="@{/staff/staffList}" class="menu" >医师管理</a>
+            </dl>
+
+            <dl class="app">
+                <a th:href="@{/record/summary/1}" class="menu">医师记录</a>
+            </dl>
+
+        </div>
     </div>
     <div class="contain">
         <div class="sosuo">
@@ -120,7 +116,6 @@
                 <input type="text" class="search_key" name="findName"  placeholder="请输入会员姓名" autocomplete="on" required="required">
                 <input type="submit" class="submit" value="搜索">
                 <button type="button" class="btn btn-success" style="margin-left: 150px"><a th:href="@{/members/membersList/1}" style="color: #fff;">查看所有会员</a></button>
-
             </form>
         </div>
         <div id="modaladd">
@@ -144,21 +139,58 @@
                             <input type="text" class="form-control membersPhone" maxlength="11" id="inputError">
                         </div>
                     </div>
-                    <button type="button" class="membersAdd btn btn-warning into">添加</button>
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">推拿种类</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control tuinaName" maxlength="11" id="inputError">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">剩余次数</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control surplusNumber" maxlength="11" id="inputError">
+                        </div>
+                    </div>
+                    <button type="submit" class="membersAdd btn btn-warning into">添加</button>
                     <button type="button" class="btn btn-info into " onclick="add()">关闭</button>
+                </form>
+            </div>
+        </div>
+        <div id="modalchange">
+            <div class="modalbox">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">会员姓名</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control TmembersName" name="membersName" id="inputError" required>
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError" >拼音码</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="pinyinCode" class="form-control TpinyinCode" id="inputError" required>
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">联系电话</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="membersPhone" class="form-control TmembersPhone" maxlength="11" id="inputError" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="memberschange btn btn-warning into Tmodify">修改</button>
+                    <button type="button" class="btn btn-info into closed">关闭</button>
                 </form>
             </div>
         </div>
         <table class="table container">
             <thead>
             <tr>
-                <th>会员号</th>
+                <th>会员ID</th>
+                <th>会员姓名</th>
                 <th>拼音码</th>
-                <th>姓名</th>
                 <th>联系电话</th>
                 <th>剩余次数</th>
-                <th>推拿种类</th>
-                <th>选择医师</th>
+                <th>治疗记录</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -166,65 +198,30 @@
 
             <tr th:each="member:${membersList}">
                 <td class="membersId" th:text="${member.membersId}">64763113</td>
-                <td class="pinyinCode" th:text="${member.pinyinCode}">zs</td>
                 <td class="membersName" th:text="${member.membersName}">张三</td>
-                <td th:text="${member.membersPhone}">12345678912</td>
+                <td class="pinyinCode" th:text="${member.pinyinCode}">zs</td>
+                <td class="membersPhone" th:text="${member.membersPhone}">12345678912</td>
                 <td>
-                    <button onclick="overlay()" type="button" class="btn btn-danger">查看</button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-danger" th:text="${member.tuinaName}"></button>
+                        <button type="button" class="btn btn-default btn-danger" th:text="${member.surplusNumber}"></button>
+                    </div>
                 </td>
-                <td class="selectTd">
-                    <select class="btn-success tuiNaTypes">
-                        <option th:each="car,userStat:${tuinaTypeList}" th:value="${car.tuinaName}" th:text="${car.tuinaName}"></option>
-                    </select>
-                </td>
-                <td class="staffName">
-                    <select class="btn-info staffNames">
-                        <option th:each="car,userStat:${staffList}" th:data-id="${car.staffId}" th:value="${car.staffName}" th:text="${car.staffName}"></option>
-                    </select>
+                <td>
+                    <button type="button" class="btn btn-default btn-info">
+                        <a style="color: #FFFFFF" th:href="@{/record/recordList/1/(findName=${member.membersName})}">查看</a>
+                    </button>
                 </td>
                 <td>
                     <div class="btn-group">
-                        <button type="button" class="zhiLiao btn btn-default btn-warning">治疗</button>
-                        <button type="button" class="btn btn-default btn-warning">
-                            <a style="color: #FFFFFF" th:href="@{/record/recordList/1/(findName=${member.membersName})}">查看</a>
-                        </button>
+                        <button  type="button" class="changeMember btn btn-default btn-warning modify">修改</button>
                         <button type="button" class="deleteMember btn btn-default btn-warning">删除</button>
                     </div>
                 </td>
             </tr>
             </tbody>
         </table>
-        <div id="modal-overlay">
-            <div class="modal-data">
-                <span class="close" onclick="overlay()">X</span>
-                <table class="table">
-                    <thead>
-                        <tr class="active">
-                            <th>按摩种类</th>
-                            <th>剩余次数</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="danger" th:each="car,userStat:${tuinaTypeList}">
-                            <td th:text="${car.tuinaName}">近视治疗</td>
-                            <td>
-                                <ul class="btn-numbox">
-                                    <li>
-                                        <ul class="count">
-                                            <li><span id="num-jian" class="num-jian">-</span></li>
-                                            <li><input type="text" class="input-num " id="input-num" value="0" /></li>
-                                            <li><span id="num-jia" class="num-jia">+</span></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
-
     <div class="fenye" th:if="${TotalPages > 0 and isSearch==0}">
         <ul class="pagination" th:if="${Number == 1} and ${TotalPages> 1}">
             <!--//如果当前页等于1，总页数大于1（不显示上一页）   Number&ndash;&gt;当前页-->
@@ -288,40 +285,13 @@
             <li><a th:href="@{'/members/membersList/'+${TotalPages}(findName=${findName})}">尾页</a></li><!--//跳转至第Number页-->
         </ul>
     </div>
-
-
     <div class="foot">
         Copyright © 2018 未来工作室. All rights reserved.
     </div>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/members.js}"></script>
-    <script>
-        function overlay() {
-            var e1 = document.getElementById('modal-overlay');
-            e1.style.visibility = (e1.style.visibility == "visible") ? "hidden" : "visible";
-        }
-        function add(){
-            var modaladd = document.getElementById('modaladd');
-            modaladd.style.visibility = (modaladd.style.visibility == "visible") ? "hidden" : "visible";
-        }
-        /*校验联系电话格式 */
-        function isTelCode(str) {
-            var reg= /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
-            return reg.test(str);
-        }
-        function  fun1(){
-            if(!isTelCode(document.getElementById("tel").value)){
-                alert("联系电话不对");
-                document.getElementById("tel").focus();
-                return false;
-            }
-            /*运行到这里说明验证通过返回true    submit提交按钮起作用提交表单*/
-            alert("添加成功")
-            return false;   // 这边设置禁止提交，实际项目需要改为 true
-        }
-    </script>
-
+    <script th:src="@{/js/menu.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 
 </html>

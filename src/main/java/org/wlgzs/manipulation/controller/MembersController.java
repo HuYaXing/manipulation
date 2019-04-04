@@ -58,15 +58,15 @@ public class MembersController extends BaseController {
     }
 
     //查看会员详情
-    @RequestMapping(value = "/details/{membersId}")
+        @RequestMapping(value = "/details/{membersId}")
     public ModelAndView details(Model model, @PathVariable("membersId") int membersId) {
         Members members = iMembersService.details(membersId);
-        model.addAttribute("members", members);
+            model.addAttribute("members", members);
         if (members != null) {
             //需要所有的医师信息
             List<Staff> staffList = iStaffService.selectAllStaff();
             model.addAttribute("staffList",staffList);
-            return new ModelAndView("membersDetails");
+            return new ModelAndView("MemberMassage");
         }
         model.addAttribute("msg", "不存在！");
         return new ModelAndView("redirect:/members/membersList/1");
@@ -81,7 +81,7 @@ public class MembersController extends BaseController {
     }
 
     //搜索会员
-    @RequestMapping(value = "/membersList/{page}")
+    @RequestMapping(value = "/MemberMassage/{page}")
     public ModelAndView membersList(Model model, @PathVariable("page") int page,
                                     @RequestParam(value = "findName", defaultValue = "") String findName) {
         if(findName.equals(""))model.addAttribute("isSearch",0);
@@ -95,16 +95,16 @@ public class MembersController extends BaseController {
             model.addAttribute("membersList", iPage.getRecords());
             model.addAttribute("TotalPages", iPage.getPages());//总页数
             model.addAttribute("Number", iPage.getCurrent());//当前页数
-            return new ModelAndView("membersList");
+            return new ModelAndView("MemberMassage");
         }
         List<Members> membersList = (List<Members>) result.getData();
         model.addAttribute("findName", findName);
         model.addAttribute("membersList", membersList);
-        return new ModelAndView("membersList");
+        return new ModelAndView("MemberMassage");
     }
 
     //搜索会员(删除。。等)
-    @RequestMapping(value = "/membersList1/{page}")
+    @RequestMapping(value = "/membersList/{page}")
     public ModelAndView membersList1(Model model, @PathVariable("page") int page,
                                     @RequestParam(value = "findName", defaultValue = "") String findName) {
         if(findName.equals(""))model.addAttribute("isSearch",0);
@@ -120,7 +120,7 @@ public class MembersController extends BaseController {
         List<Members> membersList = (List<Members>) result.getData();
         model.addAttribute("findName", findName);
         model.addAttribute("membersList", membersList);
-        return new ModelAndView("membersList1");
+        return new ModelAndView("membersList");
     }
 
 }

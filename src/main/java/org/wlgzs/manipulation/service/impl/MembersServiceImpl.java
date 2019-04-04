@@ -27,10 +27,12 @@ public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> impl
     @Override
     public Result addMembers(Members members) {
         if (members != null) {
+            System.out.println(members);
             QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
             queryWrapper.and(i -> i.eq("members_name",members.getMembersName()).eq("members_phone",members.getMembersPhone()).eq("tuina_name",members.getMembersName()));
             Members members1 = baseMapper.selectOne(queryWrapper);
             if(members1 == null){
+                System.out.println(members1);
                 baseMapper.insert(members);
                 return new Result(ResultCode.SUCCESS,"添加成功！");
             }
