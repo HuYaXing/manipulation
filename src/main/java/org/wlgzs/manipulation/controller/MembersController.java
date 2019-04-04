@@ -12,6 +12,7 @@ import org.wlgzs.manipulation.entity.Members;
 import org.wlgzs.manipulation.entity.Staff;
 import org.wlgzs.manipulation.entity.TuinaType;
 import org.wlgzs.manipulation.util.Result;
+import org.wlgzs.manipulation.util.ResultCode;
 
 import java.util.List;
 
@@ -46,6 +47,12 @@ public class MembersController extends BaseController {
     //添加一个新会员
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public Result addMembers(Members members) {
+        QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("pinyin_code",members.getPinyinCode());
+        int count = iMembersService.count(queryWrapper);
+        if(count > 0){
+            return new Result(ResultCode.FAIL);
+        }
         return iMembersService.addMembers(members);
     }
 

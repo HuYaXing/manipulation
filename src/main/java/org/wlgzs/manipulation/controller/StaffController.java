@@ -1,6 +1,7 @@
 package org.wlgzs.manipulation.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.wlgzs.manipulation.base.BaseController;
 import org.wlgzs.manipulation.entity.Staff;
 import org.wlgzs.manipulation.util.Result;
+import org.wlgzs.manipulation.util.ResultCode;
 
 import java.util.List;
 
@@ -30,6 +32,13 @@ public class StaffController extends BaseController {
     //新增医师
     @RequestMapping(value = "",method = RequestMethod.PUT)
     public ModelAndView addStaff(Staff staff,Model model){
+        QueryWrapper<Staff> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("pinyin_code",staff.getPinyinCode());
+        int count = iStaffService.count(queryWrapper);
+        if(count > 0){
+            model.addAttribute("msg","失败！");
+            return new ModelAndView("redirect:/staff/staffList");
+        }
         Result result = iStaffService.addStaff(staff);
         if(result.getCode() == 0){
             model.addAttribute("msg","成功！");

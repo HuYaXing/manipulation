@@ -35,7 +35,7 @@ public class RecordController extends BaseController {
         return new ModelAndView("redirect:/record/recordList/1");
     }
 
-    //查看所有记录(按会员搜索，前台汇总)
+    //查看所有记录(按会员搜索，前台汇总)（需要可以按拼音码搜索）
     @RequestMapping(value = "/recordList/{page}")
     public ModelAndView recordList(@PathVariable("page") int page, Model model,
                                    @RequestParam(value = "findName", defaultValue = "") String findName,
@@ -93,8 +93,8 @@ public class RecordController extends BaseController {
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
         model.addAttribute("tuinaTypeList", tuinaTypeList);
         IPage<Record> iPage = iRecordService.summary(page, staffName, tuinaType, startTime, endTime);
-        System.out.println(iPage);
         List<Record> recordList = iPage.getRecords();
+        System.out.println(recordList);
         model.addAttribute("recordList", recordList);
         if (recordList.size() <= 0) {
             model.addAttribute("msg", "没有数据！");

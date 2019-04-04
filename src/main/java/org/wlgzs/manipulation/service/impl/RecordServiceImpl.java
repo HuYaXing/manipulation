@@ -67,11 +67,28 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         return new Result(ResultCode.FAIL);
     }
 
+    //用户拼音码
     @Override
     public Result recordList(int page, String findName, String start_time, String end_time) {
+        //查询用户按拼音码
+        QueryWrapper<Members> membersQueryWrapper = new QueryWrapper<>();
+        membersQueryWrapper.eq("pinyin_code", findName);
+        Members members = membersMapper.selectOne(membersQueryWrapper);
         Page page1 = new Page(page, 6);
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
         IPage<Record> iPage = null;
+        if (members != null) {
+            if (start_time.equals("")) {//查询所有
+                queryWrapper.like("members_name", members.getMembersName());
+                queryWrapper.orderBy(true, false, "record_time");
+                iPage = baseMapper.selectPage(page1, queryWrapper);
+            } else {//按条件查询
+                queryWrapper.like("members_name", members.getMembersName()).between("record_time", start_time, end_time);
+                queryWrapper.orderBy(true, false, "record_time");
+                iPage = baseMapper.selectPage(page1, queryWrapper);
+            }
+            return new Result(ResultCode.SUCCESS, iPage);
+        }
         if (start_time.equals("")) {//查询所有
             queryWrapper.like("members_name", findName);
             queryWrapper.orderBy(true, false, "record_time");
@@ -105,8 +122,30 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
 
     @Override
     public IPage<Record> summary(int page, String staffName, String tuinaType, String startTime, String endTime) {
+        //查询用户按拼音码
+        QueryWrapper<Staff> membersQueryWrapper = new QueryWrapper<>();
+        membersQueryWrapper.eq("pinyin_code", staffName);
+        Staff staff = staffMapper.selectOne(membersQueryWrapper);
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
         Page page1 = new Page(page, 10);
+        if (staff != null) {
+            if (tuinaType.equals("all") && startTime.equals("")) {//默认所有种类
+                queryWrapper.eq("staff_name", staff.getStaffName());
+                queryWrapper.orderBy(true, false, "record_time");
+            } else if (tuinaType.equals("all") && !startTime.equals("")) {
+                queryWrapper.eq("staff_name", staff.getStaffName()).between("record_time", startTime, endTime);
+                queryWrapper.orderBy(true, false, "record_time");
+            } else if (startTime.equals("")) {
+                queryWrapper.eq("staff_name", staff.getStaffName()).eq("tuina_name", tuinaType);
+                queryWrapper.orderBy(true, false, "record_time");
+            } else {
+                queryWrapper.eq("staff_name", staff.getStaffName()).eq("tuina_name", tuinaType).between("record_time", startTime, endTime);
+                queryWrapper.orderBy(true, false, "record_time");
+            }
+            IPage<Record> iPage = baseMapper.selectPage(page1, queryWrapper);
+            return iPage;
+        }
+
         if (tuinaType.equals("all") && startTime.equals("")) {//默认所有种类
             queryWrapper.eq("staff_name", staffName);
             queryWrapper.orderBy(true, false, "record_time");
@@ -125,34 +164,34 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     }
 
     @Override
-    public void staffWorkload(int staffId,String startTime, String endTime, Model model) {
+    public void staffWorkload(int staffId, String startTime, String endTime, Model model) {
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
         //存放结果信息
-        HashMap<String,Integer> hashMap = new HashMap();
+        HashMap<String, Integer> hashMap = new HashMap();
 
         //返回医师的信息
         Staff staff = staffMapper.selectById(staffId);
-        model.addAttribute("staff",staff);
+        model.addAttribute("staff", staff);
         //查询所有类型
         QueryWrapper<TuinaType> tuinaTypeQueryWrapper = new QueryWrapper<>();
         List<TuinaType> tuinaTypeList = tuinaTypeMapper.selectList(tuinaTypeQueryWrapper);
-        model.addAttribute("tuinaTypeList",tuinaTypeList);
+        model.addAttribute("tuinaTypeList", tuinaTypeList);
         if (startTime != null && endTime != null) {//安时间查询
             for (TuinaType tn : tuinaTypeList) {
                 queryWrapper = new QueryWrapper<>();
-                queryWrapper.eq("staff_id",staffId).eq("tuina_type",tn.getTuinaName()).between("record_time",startTime,endTime);
+                queryWrapper.eq("staff_id", staffId).eq("tuina_type", tn.getTuinaName()).between("record_time", startTime, endTime);
                 int map = baseMapper.selectCount(queryWrapper);
-                hashMap.put(tn.getTuinaName(),map);
+                hashMap.put(tn.getTuinaName(), map);
             }
-        }else{
+        } else {
             for (TuinaType tn : tuinaTypeList) {
                 queryWrapper = new QueryWrapper<>();
-                queryWrapper.eq("staff_id",staffId).eq("tuina_type",tn.getTuinaName());
+                queryWrapper.eq("staff_id", staffId).eq("tuina_type", tn.getTuinaName());
                 int map = baseMapper.selectCount(queryWrapper);
-                hashMap.put(tn.getTuinaName(),map);
+                hashMap.put(tn.getTuinaName(), map);
             }
         }
-        model.addAttribute("hashMap",hashMap);
+        model.addAttribute("hashMap", hashMap);
         System.out.println(hashMap);
     }
 
