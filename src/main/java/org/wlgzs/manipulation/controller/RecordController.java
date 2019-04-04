@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.wlgzs.manipulation.base.BaseController;
 import org.wlgzs.manipulation.entity.Record;
+import org.wlgzs.manipulation.entity.Staff;
 import org.wlgzs.manipulation.entity.TuinaType;
 import org.wlgzs.manipulation.util.Result;
 
@@ -89,6 +90,9 @@ public class RecordController extends BaseController {
                                 String staffName, @RequestParam(value = "tuinaType", defaultValue = "all") String tuinaType,
                                 @RequestParam(value = "startTime", defaultValue = "") String startTime,
                                 @RequestParam(value = "endTime", defaultValue = "") String endTime) {
+        //查询所有员工
+        List<Staff> staffList = iStaffService.selectAllStaff();
+        staffName = (staffName == null) ? staffList.get(0).getStaffName() : staffName;
         QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
         model.addAttribute("tuinaTypeList", tuinaTypeList);
@@ -104,20 +108,21 @@ public class RecordController extends BaseController {
         model.addAttribute("Number", page);//查询的当前第几页
         model.addAttribute("isStaff", 1);
         model.addAttribute("staffName", staffName);
+        model.addAttribute("staffList", staffList);
         return new ModelAndView("staffRecord");
     }
 
     //按时间段查询某个医师的治疗记录次数
     @RequestMapping(value = "/staffWorkload/{staffId}")
-    public ModelAndView staffWorkload(@PathVariable("staffId")int staffId,
-            String startTime,String endTime,Model model){
-        if(startTime != null && endTime != null){
+    public ModelAndView staffWorkload(@PathVariable("staffId") int staffId,
+                                      String startTime, String endTime, Model model) {
+        if (startTime != null && endTime != null) {
             startTime = startTime + " 00:00:00";
             endTime = endTime + " 23:59:59";
-            model.addAttribute("startTime",startTime);
-            model.addAttribute("endTime",endTime);
+            model.addAttribute("startTime", startTime);
+            model.addAttribute("endTime", endTime);
         }
-        iRecordService.staffWorkload(staffId,startTime,endTime,model);
+        iRecordService.staffWorkload(staffId, startTime, endTime, model);
         return new ModelAndView("staffWorkload");
     }
 
