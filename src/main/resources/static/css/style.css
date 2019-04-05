@@ -54,19 +54,7 @@ a:hover{
 .membersList:hover{
   color: #f9f3d7;
 }
-/*.chakan{*/
-  /*width: 60px;*/
-  /*height: 35px;*/
-  /*background: #b60000;*/
-  /*display: inherit;*/
-  /*color: #f9f3d7;*/
-  /*text-align: center;*/
-  /*line-height: 35px;*/
-  /*border-radius: 5px;*/
-/*}*/
-/*.chakan:hover{*/
-  /*color: #f9f3d7;*/
-/*}*/
+
 .leftsidebar_box dl{margin: 0;}
 .leftsidebar_box{width:160px;height:auto !important;overflow:visible !important;position:fixed;font-size:16px;height:100% !important;margin-top: 75px;background-color: #f9f3d7;}
 .line{height:2px;width:100%;;background-repeat:repeat-x;}
@@ -117,6 +105,7 @@ a:hover{
   margin: 20px;
   margin-bottom: 0;
   width: 100px;
+  vertical-align: top;
 }
 /* 搜索框 */
 .sosuo form{
@@ -204,6 +193,50 @@ span.chazhao{
   bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
+}
+/*医师记录搜索*/
+ .select{
+   height: 39px;
+   cursor: pointer;
+   position: relative;
+   display: inline-block;
+   vertical-align: top;
+   width: 100px;
+ }
+
+.son{
+  display: none;
+  margin: 0;
+  padding: 0;
+  width: 100px;
+  list-style-type: none;
+  position: absolute;
+}
+.son>li{
+  line-height: 35px;
+  width: 100%;
+  background: #b60000;
+  color: #f9f3d7;
+}
+.son>li>a{
+  text-decoration: none;
+  color: azure;
+}
+.select:hover .son{
+  display: block;
+}
+/*医师记录工作量*/
+.jobNum{
+  margin-top: 50px;
+  background: #b60000;
+  width: 80%;
+  display: inline-block;
+  color: #f9f3d7;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 700;
 }
 /* 底部版权 */
 .foot{

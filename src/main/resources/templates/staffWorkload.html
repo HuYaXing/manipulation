@@ -12,40 +12,7 @@
     <link rel="stylesheet" th:href="@{/css/jeDate-test.css}">
     <link rel="stylesheet" th:href="@{/css/jedate.css}">
     <script type="text/javascript" th:src="@{/js/jedate.js}"></script>
-    <style>
-        .select{
-            /* padding: 10px;    */
-            width: 60px;
-            background: green;
-            line-height: 34px;
-            border-radius: 5px;
-            color: #000;
-            text-align: center;
-            cursor: pointer;
-            position: relative;
-        }
 
-        .son{
-            display: none;
-            margin: 0;
-            padding: 0;
-            width: 60px;
-            list-style-type: none;
-            position: absolute;
-        }
-        .son>li{
-            line-height: 34px;
-            width: 100%;
-            background: #ccc;
-        }
-        .son>li>a{
-            text-decoration: none;
-            color: azure;
-        }
-        .select:hover .son{
-            display: block;
-        }
-    </style>
 </head>
 
 <body>
@@ -79,7 +46,7 @@
 <div class="contain">
     <div class="sosuo">
 
-        <form th:href="@{record/summary/1}" th:type="post">
+        <form th:href="@{record/summary/1}" th:type="post" onautocomplete="off">
             <div class="jewarp">
                 <div class="content">
                     <div class="jeitem">
@@ -90,16 +57,15 @@
                     </div>
                 </div>
             </div>
-            <!--<input th:if="${!staffName.equals(null)}"th:name="staffName" type="text" class="search_key" placeholder="请输入医师信息" autocomplete="on">-->
 
             <div class="select">
-                <input type="text" name="staffName" class="display" style="width: 60px;" onautocomplete="off">
+                <input type="text" name="staffName" class="display" style="width: 100px;height: 35px;text-align: center" onautocomplete="off">
                 <ul class="son">
                     <li th:each="staffs : ${staffList}" th:text="${staffs.staffName}"></li>
                 </ul>
             </div>
             <input type="submit" class="submit" value="搜索" style="margin-top: 0px">
-            <button type="button" class="btn btn-success" style="margin-left: 30px">查询时间段为<span th:text="${start_time}"></span>---<span th:text="${end_time}"></span></button>
+            <button type="button" class="btn btn-success" style="margin-left: 30px;vertical-align: top;">查询时间段为<span th:text="${start_time}"></span>---<span th:text="${end_time}"></span></button>
         </form>
     </div>
     <table class="table container">

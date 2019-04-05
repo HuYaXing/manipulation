@@ -127,7 +127,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         membersQueryWrapper.eq("pinyin_code", staffName);
         Staff staff = staffMapper.selectOne(membersQueryWrapper);
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
-        Page page1 = new Page(page, 10);
+        Page page1 = new Page(page, 6);
         if (staff != null) {
             if (tuinaType.equals("all") && startTime.equals("")) {//默认所有种类
                 queryWrapper.eq("staff_name", staff.getStaffName());
