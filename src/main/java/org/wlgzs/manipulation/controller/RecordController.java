@@ -96,11 +96,18 @@ public class RecordController extends BaseController {
     @RequestMapping(value = "/summary/{page}")
     public ModelAndView summary(@PathVariable("page") int page, Model model,
                                 String staffName, @RequestParam(value = "tuinaType", defaultValue = "all") String tuinaType,
-                                @RequestParam(value = "start_time", defaultValue = "") String start_time,
-                                @RequestParam(value = "end_time", defaultValue = "") String end_time) {
+                                String start_time,String end_time) {
+        if (start_time != null && end_time != null) {
+            start_time = start_time + " 00:00:00";
+            end_time = end_time + " 23:59:59";
+            model.addAttribute("startTime", start_time);
+            model.addAttribute("endTime", end_time);
+        }
+
         //查询所有员工
         List<Staff> staffList = iStaffService.selectAllStaff();
-        staffName = (staffName == null) ? staffList.get(0).getStaffName() : staffName;
+        staffName = (staffName == null || staffName.equals("")) ? staffList.get(0).getStaffName() : staffName;
+//        System.out.println("staffName"+staffName);
         HashMap<String, Integer> hashMap = iRecordService.staffWorkload(staffName, start_time, end_time, model);
         //返回医师的信息
         QueryWrapper<Staff> staffQueryWrapper = new QueryWrapper<>();
@@ -118,12 +125,6 @@ public class RecordController extends BaseController {
         if (recordList.size() <= 0) {
             model.addAttribute("msg", "没有数据！");
         }
-        if(!start_time.equals("")){
-            System.out.println("start_time"+start_time);
-            System.out.println("end_time"+end_time);
-            model.addAttribute("start_time",start_time);
-            model.addAttribute("end_time",end_time);
-        }
         model.addAttribute("size", recordList.size());
         model.addAttribute("TotalPages", iPage.getPages());//查询的总页数
         model.addAttribute("Number", page);//查询的当前第几页
@@ -137,12 +138,7 @@ public class RecordController extends BaseController {
 //    @RequestMapping(value = "/staffWorkload")
 //    public ModelAndView staffWorkload(String staffName,
 //                                      String startTime, String endTime, Model model) {
-//        if (startTime != null && endTime != null) {
-//            startTime = startTime + " 00:00:00";
-//            endTime = endTime + " 23:59:59";
-//            model.addAttribute("startTime", startTime);
-//            model.addAttribute("endTime", endTime);
-//        }
+
 //
 //        return new ModelAndView("staffWorkload");
 //    }
