@@ -54,6 +54,19 @@ a:hover{
 .membersList:hover{
   color: #f9f3d7;
 }
+/*.chakan{*/
+  /*width: 60px;*/
+  /*height: 35px;*/
+  /*background: #b60000;*/
+  /*display: inherit;*/
+  /*color: #f9f3d7;*/
+  /*text-align: center;*/
+  /*line-height: 35px;*/
+  /*border-radius: 5px;*/
+/*}*/
+/*.chakan:hover{*/
+  /*color: #f9f3d7;*/
+/*}*/
 .leftsidebar_box dl{margin: 0;}
 .leftsidebar_box{width:160px;height:auto !important;overflow:visible !important;position:fixed;font-size:16px;height:100% !important;margin-top: 75px;background-color: #f9f3d7;}
 .line{height:2px;width:100%;;background-repeat:repeat-x;}

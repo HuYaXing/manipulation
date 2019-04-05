@@ -34,6 +34,6 @@ public interface IRecordService extends IService<Record> {
     IPage<Record> summary(int page,String staffName, String tuinaType, String startTime, String endTime);
 
     //按时间段查询所有医师的治疗记录次数
-    void staffWorkload(int staffId,String startTime,String endTime,Model model);
+    void staffWorkload(String staffName,String startTime,String endTime,Model model);
 
 }

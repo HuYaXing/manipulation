@@ -43,13 +43,12 @@
     </div>
     <div class="contain">
         <div class="sosuo">
-
             <form th:action="@{/record/recordList/1}" method="post">
                 <div class="jeitem">
-                    <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY年MM月DD日" name="start_time"></div>
+                    <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD" name="start_time"></div>
                 </div>
                 <div class="jeitem">
-                    <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY年MM月DD日" name="end_time"></div>
+                    <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD" name="end_time"></div>
                 </div>
                 <input th:if="${!findName.equals(null)}"th:name="findName" type="text" class="search_key" placeholder="请输入会员信息" autocomplete="on">
                 <input type="submit" class="submit" value="搜索">
@@ -64,22 +63,15 @@
                     <th>医师</th>
                     <th>推拿种类</th>
                     <th>时间</th>
-                    <th>操作</th>
-                    <th style="display: none">拼音码</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="record : ${recordList}">
-                    <td th:text="${record.membersId}"></td>
+                    <td th:text="${record.membersId}" class="membersId"></td>
                     <td th:text="${record.membersName}"></td>
                     <td th:text="${record.staffName}"></td>
                     <td th:text="${record.tuinaType}"></td>
                     <td th:text="${#temporals.format(record.recordTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td>
-                        <button type="button" class="deletejilu btn btn-info ">
-                            <a class="look" style="color: #FFFFFF">删除</a>
-                        </button>
-                    </td>
                 </tr>
             </tbody>
         </table>

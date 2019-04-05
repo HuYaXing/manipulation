@@ -97,6 +97,7 @@ public class RecordController extends BaseController {
                                 String staffName, @RequestParam(value = "tuinaType", defaultValue = "all") String tuinaType,
                                 @RequestParam(value = "start_time", defaultValue = "") String start_time,
                                 @RequestParam(value = "end_time", defaultValue = "") String end_time) {
+        iRecordService.staffWorkload(staffName, start_time, end_time, model);
         //查询所有员工
         List<Staff> staffList = iStaffService.selectAllStaff();
         staffName = (staffName == null) ? staffList.get(0).getStaffName() : staffName;
@@ -126,18 +127,18 @@ public class RecordController extends BaseController {
     }
 
     //按时间段查询某个医师的治疗记录次数
-    @RequestMapping(value = "/staffWorkload/{staffId}")
-    public ModelAndView staffWorkload(@PathVariable("staffId") int staffId,
-                                      String startTime, String endTime, Model model) {
-        if (startTime != null && endTime != null) {
-            startTime = startTime + " 00:00:00";
-            endTime = endTime + " 23:59:59";
-            model.addAttribute("startTime", startTime);
-            model.addAttribute("endTime", endTime);
-        }
-        iRecordService.staffWorkload(staffId, startTime, endTime, model);
-        return new ModelAndView("staffWorkload");
-    }
+//    @RequestMapping(value = "/staffWorkload")
+//    public ModelAndView staffWorkload(String staffName,
+//                                      String startTime, String endTime, Model model) {
+//        if (startTime != null && endTime != null) {
+//            startTime = startTime + " 00:00:00";
+//            endTime = endTime + " 23:59:59";
+//            model.addAttribute("startTime", startTime);
+//            model.addAttribute("endTime", endTime);
+//        }
+//
+//        return new ModelAndView("staffWorkload");
+//    }
 
 
 }
