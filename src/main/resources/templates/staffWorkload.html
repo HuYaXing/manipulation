@@ -46,19 +46,28 @@
     <div class="sosuo">
 
         <form th:href="@{record/summary/1}" th:type="post">
-            <div class="jeitem">
-                <div class="jeinpbox"><input type="text" class="jeinput" id="testred" placeholder="选择时间"></div>
+            <div class="jewarp">
+                <div class="content">
+                    <div class="jeitem">
+                        <label class="jelabel">开始时间</label>
+                        <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY年MM月DD日"></div>
+                    </div>
+                    <div class="jeitem">
+                        <label class="jelabel">结束时间</label>
+                        <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD"></div>
+                    </div>
+                </div>
             </div>
             <input type="submit" class="submit" value="搜索" style="margin-top: 0px">
         </form>
     </div>
     <table class="table container">
+        <span style=" padding-right: 0px;" th:each="blogId,key : ${hashMap}" th:if="${not #lists.isEmpty(hashMap)}"> <a th:href="@{'/blog/articles/'+${key.current.key} }"> <span style="font-size: 15px;right:0px;border:0px; font-family: ;font-style:normal" th:text="${key.current.value}"></span></a> </span>
         <thead>
         <tr>
             <th>医师ID</th>
             <th>医师姓名</th>
-            <th>推拿类型</th>
-            <th>推拿次数</th>
+            <th>工作量</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -68,11 +77,11 @@
                 <td th:text="${record.staffName}"></td>
                 <td th:text="${record.tuinaType}"></td>
                 <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-danger" th:text="${member.tuinaName}"></button>
-                        <button type="button" class="btn btn-default btn-danger" th:text="${member.surplusNumber}"></button>
-                    </div>
-                </td>
+                <!--<div class="btn-group">-->
+                    <!--<button type="button" class="btn btn-default btn-danger" th:text="${record.tuinaName}"></button>-->
+                    <!--<button type="button" class="btn btn-default btn-danger" th:text="${record.surplusNumber}"></button>-->
+                <!--</div>-->
+            </td>
                 <td>
                     <a href="#">查看</a>
                 </td>

@@ -85,36 +85,34 @@ $('.modify').on('click',function () {
     var TmembersName = $(".TmembersName");
     var TpinyinCode = $(".TpinyinCode");
     var TmembersPhone = $(".TmembersPhone");
+    var membersId = parent.children(".membersId").text();
 
     TmembersName.val(membersName);
     TpinyinCode.val(pinyinCode);
     TmembersPhone.val(membersPhone);
+
+    //修改会员信息
+    $('.Tmodify').on('click',function () {
+        $.ajax({
+            type: "PUT",
+            url: "/members/Modify",
+            data: {
+                membersName: TmembersName.val(),
+                pinyinCode : TpinyinCode.val(),
+                membersPhone : TmembersPhone.val(),
+                membersId: membersId
+            },
+            success: function (data) {
+                alert("修改成功");
+                location.reload(true);
+            },
+            error: function (msg) {
+                alert('修改失败');
+            }
+        })
+    });
 });
-//修改会员信息
-$('.Tmodify').on('click',function () {
-    var parent = $(this).parent().parent().parent();
-    var membersId = parent.children(".membersId").text();
-    var TmembersName = $(".TmembersName").val();
-    var TpinyinCode = $(".TpinyinCode").val();
-    var TmembersPhone = $(".TmembersPhone").val();
-    $.ajax({
-        type: "PUT",
-        url: "/members/Modify",
-        data: {
-            membersName: TmembersName,
-            pinyinCode : TpinyinCode,
-            membersPhone : TmembersPhone,
-            membersId: membersId
-        },
-        success: function (data) {
-            alert("修改成功");
-            location.reload(true);
-        },
-        error: function (msg) {
-            alert('修改失败');
-        }
-    })
-});
+
 
 
 
