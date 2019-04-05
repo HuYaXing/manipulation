@@ -94,7 +94,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
             queryWrapper.orderBy(true, false, "record_time");
             iPage = baseMapper.selectPage(page1, queryWrapper);
         } else {//按条件查询
-            queryWrapper.like("members_name", findName).or().like("pinyin_code", findName).between("record_time", start_time, end_time);
+            queryWrapper.like("members_name", findName).between("record_time", start_time, end_time);
             queryWrapper.orderBy(true, false, "record_time");
             iPage = baseMapper.selectPage(page1, queryWrapper);
         }
@@ -164,14 +164,12 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     }
 
     @Override
-    public void staffWorkload(int staffId, String startTime, String endTime, Model model) {
+    public HashMap<String, Integer> staffWorkload(String staffName, String startTime, String endTime, Model model) {
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
         //存放结果信息
         HashMap<String, Integer> hashMap = new HashMap();
 
-        //返回医师的信息
-        Staff staff = staffMapper.selectById(staffId);
-        model.addAttribute("staff", staff);
+
         //查询所有类型
         QueryWrapper<TuinaType> tuinaTypeQueryWrapper = new QueryWrapper<>();
         List<TuinaType> tuinaTypeList = tuinaTypeMapper.selectList(tuinaTypeQueryWrapper);
@@ -179,20 +177,20 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         if (startTime != null && endTime != null) {//安时间查询
             for (TuinaType tn : tuinaTypeList) {
                 queryWrapper = new QueryWrapper<>();
-                queryWrapper.eq("staff_id", staffId).eq("tuina_type", tn.getTuinaName()).between("record_time", startTime, endTime);
+                queryWrapper.eq("staff_name", staffName).eq("tuina_type", tn.getTuinaName()).between("record_time", startTime, endTime);
                 int map = baseMapper.selectCount(queryWrapper);
                 hashMap.put(tn.getTuinaName(), map);
             }
         } else {
             for (TuinaType tn : tuinaTypeList) {
                 queryWrapper = new QueryWrapper<>();
-                queryWrapper.eq("staff_id", staffId).eq("tuina_type", tn.getTuinaName());
+                queryWrapper.eq("staff_name", staffName).eq("tuina_type", tn.getTuinaName());
                 int map = baseMapper.selectCount(queryWrapper);
                 hashMap.put(tn.getTuinaName(), map);
             }
         }
         model.addAttribute("hashMap", hashMap);
-        System.out.println(hashMap);
+        return hashMap;
     }
 
 

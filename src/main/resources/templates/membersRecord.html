@@ -15,61 +15,69 @@
 </head>
 <body>
     <div class="top">
-        <div class="left">
-            <span class="type">管理系统</span>
-        </div>
+        中医推拿管理系统
     </div>
     <div class="MenuBox">
-        <ul class="menu">
-            <li class="active title"><a th:href="@{/members/membersList/1}">中医推拿</a></li>
-            <li><a th:href="@{/members/membersList/1}"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
-            <li class="active "><a th:href="@{/record/recordList/1}"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
-            <li><a th:href="@{/staff/staffList}"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
-        </ul>
+        <div class="leftsidebar_box">
+            <dl>
+                <a th:href="@{/members/MemberMassage/1}" class="menu">推拿治疗</a>
+            </dl>
+
+            <dl class="custom">
+                <a th:href="@{/members/membersList/1}" class="menu">会员管理</a>
+            </dl>
+
+            <dl class="channel">
+                <a th:href="@{/record/recordList/1}" class="menuActive">会员记录</a>
+            </dl>
+
+            <dl class="custom">
+                <a th:href="@{/staff/staffList}" class="menu">医师管理</a>
+            </dl>
+
+            <dl class="app">
+                <a th:href="@{/record/summary/1}" class="menu">医师记录</a>
+            </dl>
+
+        </div>
     </div>
     <div class="contain">
         <div class="sosuo">
-            <div class="jeitem">
-                <div class="jeinpbox"><input type="text" class="jeinput" id="testred" placeholder="选择时间"></div>
-            </div>
-            <form>
-                <input th:if="${!findName.equals(null)}"th:name="findName" type="text" class="search_key" placeholder="请输入姓名" autocomplete="on">
+            <form th:action="@{/record/recordList/1}" method="post">
+                <div class="jeitem">
+                    <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD" name="start_time"></div>
+                </div>
+                <div class="jeitem">
+                    <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD" name="end_time"></div>
+                </div>
+                <input th:if="${!findName.equals(null)}"th:name="findName" type="text" class="search_key" placeholder="请输入会员信息" autocomplete="on">
                 <input type="submit" class="submit" value="搜索">
-                <button type="button" class="btn btn-success" style="margin-left: 30px"><a th:href="@{/record/recordList/1}" style="color: #fff;">查看所有记录</a></button>
-
+                <button type="button" class="btn btn-success" style="margin-left: 30px">查询时间段为<span th:text="${start_time}"></span>---<span th:text="${end_time}"></span></button>
             </form>
         </div>
         <table class="table container">
             <thead>
                 <tr>
-                    <th>会员号</th>
-                    <th>姓名</th>
-                    <th>推拿类型</th>
+                    <th>会员ID</th>
+                    <th>会员姓名</th>
                     <th>医师</th>
+                    <th>推拿种类</th>
                     <th>时间</th>
-                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="record : ${recordList}">
-                    <td style="display: none" th:text="${record.recordId}" class="recordId"></td>
-                    <td th:text="${record.membersId}"></td>
+                    <td th:text="${record.membersId}" class="membersId"></td>
                     <td th:text="${record.membersName}"></td>
-                    <td th:text="${record.tuinaType}"></td>
                     <td th:text="${record.staffName}"></td>
+                    <td th:text="${record.tuinaType}"></td>
                     <td th:text="${#temporals.format(record.recordTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td>
-                        <button type="button" class="deletejilu btn btn-info ">
-                            <a class="look" style="color: #FFFFFF">删除</a>
-                        </button>
-                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
-
-    <div class="fenye" th:if="${TotalPages >0 and isSearch==0}">
-        <ul class="pagination" th:if="${Number == 1} and ${TotalPages > 1}">
+    <div class="fenye" th:if="${TotalPages > 0 and isSearch==0}">
+        <ul class="pagination" th:if="${Number == 1} and ${TotalPages> 1}">
             <!--//如果当前页等于1，总页数大于1（不显示上一页）   Number&ndash;&gt;当前页-->
             <li><a th:href="@{/record/recordList/1}">首页</a></li>
             <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
@@ -98,14 +106,12 @@
                     th:href="@{'/record/recordList/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
             <li><a th:href="@{'/record/recordList/'+${TotalPages}}">尾页</a></li><!--//跳转至第Number页-->
         </ul>
-
     </div>
     <!--搜索分页-->
-    <!--<h1 th:text="${isSearch}">tuhu</h1>-->
     <div class="fenye" th:if="${TotalPages > 0 and isSearch==1}">
         <ul class="pagination" th:if="${Number == 1} and ${TotalPages> 1}">
             <!--//如果当前页等于1，总页数大于1（不显示上一页）   Number&ndash;&gt;当前页-->
-            <li><a th:href="@{/record/recordList/1}">首页</a></li>
+            <li><a th:href="@{/record/recordList/1(findName=${findName})}">首页</a></li>
             <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
                 <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
                 <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
@@ -132,15 +138,31 @@
                     th:href="@{'/record/recordList/'+${Number+1}(findName=${findName})}">下一页</a></li><!--//请求页数+1-->
             <li><a th:href="@{'/record/recordList/'+${TotalPages}(findName=${findName})}">尾页</a></li><!--//跳转至第Number页-->
         </ul>
-
     </div>
 
     <div class="foot">
-        Copyright © 2018 未来工作室 默认治疗页. All rights reserved.
+        Copyright © 2018 未来工作室 All rights reserved.
     </div>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <script th:src="@{/js/jilu.js}"></script>
+    <script th:src="@{/js/record.js}"></script>
     <script type="text/javascript" th:src="@{/js/demo.js}"></script>
+    <script type="text/javascript">
+        $(".leftsidebar_box dt").css({"background-color":"#b60000"});
+        $(".leftsidebar_box dt img").attr("src","images/select_xl01.png");
+        $(function(){
+            $(".leftsidebar_box dd").hide();
+            $(".leftsidebar_box dt").click(function(){
+                $(".leftsidebar_box dt").css({"background-color":"#b60000"})
+                $(this).css({"background-color": "#b60000"});
+                $(this).parent().find('dd').removeClass("menu_chioce");
+                $(".leftsidebar_box dt img").attr("src","images/select_xl01.png");
+                $(this).parent().find('img').attr("src","images/select_xl.png");
+                $(".menu_chioce").slideUp();
+                $(this).parent().find('dd').slideToggle();
+                $(this).parent().find('dd').addClass("menu_chioce");
+            });
+        })
+    </script>
 </body>
 </html>

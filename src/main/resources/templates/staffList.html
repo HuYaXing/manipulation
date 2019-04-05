@@ -26,17 +26,31 @@
 
 <body>
     <div class="top">
-        <div class="left">
-            <span class="type">管理系统</span>
-        </div>
+        中医推拿管理系统
     </div>
     <div class="MenuBox">
-        <ul class="menu">
-            <li class="active title"><a th:href="@{/members/membersList/1}">中医推拿</a></li>
-            <li><a th:href="@{/members/membersList/1}"><i class="iconfont icon-icon-test"></i>会员管理</a></li>
-            <li><a th:href="@{/record/recordList/1}"><i class="iconfont icon-icon-test3"></i>治疗记录</a></li>
-            <li class="active"><a th:href="@{/staff/staffList}"><i class="iconfont icon-icon-test1"></i>医师管理</a></li>
-        </ul>
+        <div class="leftsidebar_box">
+            <dl>
+                <a th:href="@{/members/MemberMassage/1}" class="menu">推拿治疗</a>
+            </dl>
+
+            <dl class="custom">
+                <a th:href="@{/members/membersList/1}" class="menu">会员管理</a>
+            </dl>
+
+            <dl class="channel">
+                <a th:href="@{/record/recordList/1}" class="menu">会员记录</a>
+            </dl>
+
+            <dl class="custom">
+                <a th:href="@{/staff/staffList}" class="menuActive">医师管理</a>
+            </dl>
+
+            <dl class="app">
+                <a th:href="@{/record/summary/1}" class="menu">医师记录</a>
+            </dl>
+
+        </div>
     </div>
     <div class="contain">
         <div class="sosuo">
@@ -54,6 +68,12 @@
                         </div>
                     </div>
                     <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">拼音码</label>
+                        <div class="col-sm-9">
+                            <input type="text" th:name="pinyinCode" class="form-control" id="inputError" th:class="pinyinCode">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">联系电话</label>
                         <div class="col-sm-9">
                             <input type="text" th:name="staffPhone" class="form-control" id="inputError" th:class="staffPhone">
@@ -67,22 +87,19 @@
         <table class="table container">
             <thead>
                 <tr>
-                    <th>会员号</th>
-                    <th>姓名</th>
+                    <th>医师ID</th>
+                    <th>医师姓名</th>
+                    <th>拼音码</th>
                     <th>联系电话</th>
-                    <th>工作量</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="staff:${staffList}">
                     <td th:text="${staff.staffId}" class="staffId">I1515544D</td>
-                    <td th:text="${staff.staffName}">张三</td>
+                    <td th:text="${staff.staffName}" class="staffName">张三</td>
+                    <td th:text="${staff.pinyinCode}">zs</td>
                     <td th:text="${staff.staffPhone}">12365474522</td>
-                    <td>
-                        <button type="button" class="btn btn-warning"><a th:href="@{/record//summary/1(staffName=${staff.staffName})}"
-                                class="look">查看</a></button>
-                    </td>
                     <td>
                         <button type="button" class="deletestaff btn btn-info">
                             <a class="look">删除</a></button>
@@ -96,14 +113,8 @@
     </div>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/staff.js}"></script>
+    <script th:src="@{/js/menu.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <script>
-        function add(){
-            var modaladd = document.getElementById('modaladd');
-            modaladd.style.visibility = (modaladd.style.visibility == "visible") ? "hidden" : "visible";
-        }
-    </script>
-
 </body>
 
 </html>

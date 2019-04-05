@@ -13,6 +13,7 @@ import org.wlgzs.manipulation.entity.Staff;
 import org.wlgzs.manipulation.entity.TuinaType;
 import org.wlgzs.manipulation.util.Result;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -44,7 +45,14 @@ public class RecordController extends BaseController {
                                    @RequestParam(value = "end_time", defaultValue = "") String end_time) {
         if (findName.equals("")) model.addAttribute("isSearch", 0);
         else model.addAttribute("isSearch", 1);
-
+        System.out.println("start_time"+start_time);
+        System.out.println("end_time"+end_time);
+        if(!start_time.equals("")){
+            System.out.println("start_time"+start_time);
+            System.out.println("end_time"+end_time);
+            model.addAttribute("start_time",start_time);
+            model.addAttribute("end_time",end_time);
+        }
         Result result = iRecordService.recordList(page, findName, start_time, end_time);
         IPage<Record> ipage = (IPage<Record>) result.getData();
         model.addAttribute("TotalPages", ipage.getPages());//查询的总页数
@@ -88,20 +96,33 @@ public class RecordController extends BaseController {
     @RequestMapping(value = "/summary/{page}")
     public ModelAndView summary(@PathVariable("page") int page, Model model,
                                 String staffName, @RequestParam(value = "tuinaType", defaultValue = "all") String tuinaType,
-                                @RequestParam(value = "startTime", defaultValue = "") String startTime,
-                                @RequestParam(value = "endTime", defaultValue = "") String endTime) {
+                                @RequestParam(value = "start_time", defaultValue = "") String start_time,
+                                @RequestParam(value = "end_time", defaultValue = "") String end_time) {
         //查询所有员工
         List<Staff> staffList = iStaffService.selectAllStaff();
         staffName = (staffName == null) ? staffList.get(0).getStaffName() : staffName;
+        HashMap<String, Integer> hashMap = iRecordService.staffWorkload(staffName, start_time, end_time, model);
+        //返回医师的信息
+        QueryWrapper<Staff> staffQueryWrapper = new QueryWrapper<>();
+        staffQueryWrapper.eq("staff_name",staffName);
+        Staff staff = iStaffService.list(staffQueryWrapper).get(0);
+        model.addAttribute("staff", staff);
+        model.addAttribute("hashMap", hashMap);
         QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
         model.addAttribute("tuinaTypeList", tuinaTypeList);
-        IPage<Record> iPage = iRecordService.summary(page, staffName, tuinaType, startTime, endTime);
+        IPage<Record> iPage = iRecordService.summary(page, staffName, tuinaType, start_time, end_time);
         List<Record> recordList = iPage.getRecords();
         System.out.println(recordList);
         model.addAttribute("recordList", recordList);
         if (recordList.size() <= 0) {
             model.addAttribute("msg", "没有数据！");
+        }
+        if(!start_time.equals("")){
+            System.out.println("start_time"+start_time);
+            System.out.println("end_time"+end_time);
+            model.addAttribute("start_time",start_time);
+            model.addAttribute("end_time",end_time);
         }
         model.addAttribute("size", recordList.size());
         model.addAttribute("TotalPages", iPage.getPages());//查询的总页数
@@ -109,22 +130,22 @@ public class RecordController extends BaseController {
         model.addAttribute("isStaff", 1);
         model.addAttribute("staffName", staffName);
         model.addAttribute("staffList", staffList);
-        return new ModelAndView("staffRecord");
+        return new ModelAndView("staffWorkload");
     }
 
     //按时间段查询某个医师的治疗记录次数
-    @RequestMapping(value = "/staffWorkload/{staffId}")
-    public ModelAndView staffWorkload(@PathVariable("staffId") int staffId,
-                                      String startTime, String endTime, Model model) {
-        if (startTime != null && endTime != null) {
-            startTime = startTime + " 00:00:00";
-            endTime = endTime + " 23:59:59";
-            model.addAttribute("startTime", startTime);
-            model.addAttribute("endTime", endTime);
-        }
-        iRecordService.staffWorkload(staffId, startTime, endTime, model);
-        return new ModelAndView("staffWorkload");
-    }
+//    @RequestMapping(value = "/staffWorkload")
+//    public ModelAndView staffWorkload(String staffName,
+//                                      String startTime, String endTime, Model model) {
+//        if (startTime != null && endTime != null) {
+//            startTime = startTime + " 00:00:00";
+//            endTime = endTime + " 23:59:59";
+//            model.addAttribute("startTime", startTime);
+//            model.addAttribute("endTime", endTime);
+//        }
+//
+//        return new ModelAndView("staffWorkload");
+//    }
 
 
 }

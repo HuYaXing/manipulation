@@ -6,6 +6,7 @@ import org.wlgzs.manipulation.entity.Record;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.wlgzs.manipulation.util.Result;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,6 +35,6 @@ public interface IRecordService extends IService<Record> {
     IPage<Record> summary(int page,String staffName, String tuinaType, String startTime, String endTime);
 
     //按时间段查询所有医师的治疗记录次数
-    void staffWorkload(int staffId,String startTime,String endTime,Model model);
+    HashMap<String, Integer> staffWorkload(String staffName, String startTime, String endTime, Model model);
 
 }
