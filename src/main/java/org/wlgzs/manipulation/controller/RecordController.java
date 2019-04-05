@@ -13,6 +13,7 @@ import org.wlgzs.manipulation.entity.Staff;
 import org.wlgzs.manipulation.entity.TuinaType;
 import org.wlgzs.manipulation.util.Result;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -97,10 +98,16 @@ public class RecordController extends BaseController {
                                 String staffName, @RequestParam(value = "tuinaType", defaultValue = "all") String tuinaType,
                                 @RequestParam(value = "start_time", defaultValue = "") String start_time,
                                 @RequestParam(value = "end_time", defaultValue = "") String end_time) {
-        iRecordService.staffWorkload(staffName, start_time, end_time, model);
         //查询所有员工
         List<Staff> staffList = iStaffService.selectAllStaff();
         staffName = (staffName == null) ? staffList.get(0).getStaffName() : staffName;
+        HashMap<String, Integer> hashMap = iRecordService.staffWorkload(staffName, start_time, end_time, model);
+        //返回医师的信息
+        QueryWrapper<Staff> staffQueryWrapper = new QueryWrapper<>();
+        staffQueryWrapper.eq("staff_name",staffName);
+        Staff staff = iStaffService.list(staffQueryWrapper).get(0);
+        model.addAttribute("staff", staff);
+        model.addAttribute("hashMap", hashMap);
         QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
         model.addAttribute("tuinaTypeList", tuinaTypeList);

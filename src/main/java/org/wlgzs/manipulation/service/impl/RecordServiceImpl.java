@@ -164,16 +164,12 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     }
 
     @Override
-    public void staffWorkload(String staffName, String startTime, String endTime, Model model) {
+    public HashMap<String, Integer> staffWorkload(String staffName, String startTime, String endTime, Model model) {
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
         //存放结果信息
         HashMap<String, Integer> hashMap = new HashMap();
 
-        //返回医师的信息
-        QueryWrapper<Staff> staffQueryWrapper = new QueryWrapper<>();
-        staffQueryWrapper.eq("staff_name",staffName);
-        Staff staff = staffMapper.selectOne(staffQueryWrapper);
-        model.addAttribute("staff", staff);
+
         //查询所有类型
         QueryWrapper<TuinaType> tuinaTypeQueryWrapper = new QueryWrapper<>();
         List<TuinaType> tuinaTypeList = tuinaTypeMapper.selectList(tuinaTypeQueryWrapper);
@@ -194,7 +190,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
             }
         }
         model.addAttribute("hashMap", hashMap);
-        System.out.println(hashMap);
+        return hashMap;
     }
 
 
