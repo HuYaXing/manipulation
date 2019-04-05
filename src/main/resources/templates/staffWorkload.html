@@ -50,10 +50,10 @@
             <div class="jewarp">
                 <div class="content">
                     <div class="jeitem">
-                        <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD"></div>
+                        <div class="jeinpbox"><input name="start_time" type="text" class="jeinput moredate" placeholder="YYYY-MM-DD"></div>
                     </div>
                     <div class="jeitem">
-                        <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD"></div>
+                        <div class="jeinpbox"><input name="end_time" type="text" class="jeinput moredate" placeholder="YYYY-MM-DD"></div>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                 <td th:text="${record.membersId}"></td>
                 <td th:text="${record.membersName}"></td>
                 <td th:text="${record.tuinaType}"></td>
-                <td th:text="${record.recordTime}"></td>
+                <td th:text="${#temporals.format(record.recordTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <!--<div class="btn-group">-->
                     <!--<button type="button" class="btn btn-default btn-danger" th:text="${record.tuinaName}"></button>-->
                     <!--<button type="button" class="btn btn-default btn-danger" th:text="${record.surplusNumber}"></button>-->

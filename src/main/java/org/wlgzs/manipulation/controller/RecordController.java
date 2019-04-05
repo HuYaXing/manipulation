@@ -100,8 +100,8 @@ public class RecordController extends BaseController {
         if (start_time != null && end_time != null) {
             start_time = start_time + " 00:00:00";
             end_time = end_time + " 23:59:59";
-            model.addAttribute("startTime", start_time);
-            model.addAttribute("endTime", end_time);
+            model.addAttribute("start_time", start_time);
+            model.addAttribute("end_time", end_time);
         }
 
         //查询所有员工
