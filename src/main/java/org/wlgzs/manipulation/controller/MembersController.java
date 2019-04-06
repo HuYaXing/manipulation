@@ -91,6 +91,10 @@ public class MembersController extends BaseController {
     @RequestMapping(value = "/MemberMassage/{page}")
     public ModelAndView membersList(Model model, @PathVariable("page") int page,
                                     @RequestParam(value = "findName", defaultValue = "") String findName) {
+        //查询所有类型
+        QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
+        List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
+        model.addAttribute("tuinaTypeList", tuinaTypeList);
         if(findName.equals(""))model.addAttribute("isSearch",0);
         else model.addAttribute("isSearch",1);
         Result result = iMembersService.membersList(page, findName);
@@ -114,6 +118,11 @@ public class MembersController extends BaseController {
     @RequestMapping(value = "/membersList/{page}")
     public ModelAndView membersList1(Model model, @PathVariable("page") int page,
                                     @RequestParam(value = "findName", defaultValue = "") String findName) {
+        //查询所有类型
+        QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
+        List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
+        System.out.println(tuinaTypeList);
+        model.addAttribute("tuinaTypeList", tuinaTypeList);
         if(findName.equals(""))model.addAttribute("isSearch",0);
         else model.addAttribute("isSearch",1);
         Result result = iMembersService.membersList(page, findName);

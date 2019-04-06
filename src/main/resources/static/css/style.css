@@ -108,6 +108,19 @@ a:hover{
   vertical-align: top;
 }
 /* 搜索框 */
+.time{
+  display: inline-block;
+  background-color: #b60000;
+  color: #f9f3d7;
+  height: 35px;
+  line-height: 35px;
+  padding: 0 10px;
+  margin-right: -4px;
+}
+.jeinpbox{
+  display: inline-block;
+}
+
 .sosuo form{
   display: inline-block;
 }

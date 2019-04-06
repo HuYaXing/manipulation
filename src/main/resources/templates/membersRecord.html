@@ -44,10 +44,12 @@
     <div class="contain">
         <div class="sosuo">
             <form th:action="@{/record/recordList/1}" method="post">
-                <div class="jeitem">
+                <div class="jeitem" >
+                    <span class="time">开始时间</span>
                     <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD" name="start_time"></div>
                 </div>
                 <div class="jeitem">
+                    <span class="time">结束时间</span>
                     <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD" name="end_time"></div>
                 </div>
                 <input th:if="${!findName.equals(null)}"th:name="findName" type="text" class="search_key" placeholder="请输入会员信息" autocomplete="on">

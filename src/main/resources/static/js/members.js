@@ -32,12 +32,15 @@ $(".membersAdd").on('click', function () {
                 dataType: "JSON",
                 success: function (data) {
                     if (data.code == 0) {
+                        alert("添加成功")
                         location.reload(true);
-                    } else {
-
+                    }
+                    else {
+                        alert("不能重复添加！")
                     }
                 },
                 error: function (msg) {
+                    alert("添加失败")
                     location.reload(true);
                 }
             })
@@ -50,7 +53,8 @@ $(".membersAdd").on('click', function () {
 $(".deleteMember").on('click', function () {
     var parent = $(this).parent().parent().parent();
     var membersId = parent.children("td.membersId").text();
-    var inform = "您确定要删除会员号为 " + membersId + " 的会员信息吗？";
+    var membersName = parent.children("td.membersName").text();
+    var inform = "您确定要删除会员号为 " + membersName + " 的会员信息吗？";
     var r = confirm(inform);
     if (r == true) {
         $.ajax({
@@ -82,14 +86,17 @@ $('.modify').on('click',function () {
     var membersName = parent.children(".membersName").text();
     var pinyinCode = parent.children(".pinyinCode").text();
     var membersPhone = parent.children(".membersPhone").text();
+    var surplusNumber = parent.children("td.surplusNumber").children("div.btn-group").children(".surplusNumber").text();
     var TmembersName = $(".TmembersName");
     var TpinyinCode = $(".TpinyinCode");
     var TmembersPhone = $(".TmembersPhone");
+    var TsurplusNumber = $(".TsurplusNumber");
     var membersId = parent.children(".membersId").text();
-
+    // 回显
     TmembersName.val(membersName);
     TpinyinCode.val(pinyinCode);
     TmembersPhone.val(membersPhone);
+    TsurplusNumber.val(surplusNumber);
 
     //修改会员信息
     $('.Tmodify').on('click',function () {
@@ -100,6 +107,7 @@ $('.modify').on('click',function () {
                 membersName: TmembersName.val(),
                 pinyinCode : TpinyinCode.val(),
                 membersPhone : TmembersPhone.val(),
+                surplusNumber : TsurplusNumber.val(),
                 membersId: membersId
             },
             success: function (data) {

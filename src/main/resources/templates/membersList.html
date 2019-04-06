@@ -124,25 +124,28 @@
                     <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">会员姓名</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control membersName" id="inputError">
+                            <input autocomplete="off" type="text" class="form-control membersName" id="inputError">
                         </div>
                     </div>
                     <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">拼音码</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control pinyinCode" id="inputError">
+                            <input autocomplete="off" type="text" class="form-control pinyinCode" id="inputError">
                         </div>
                     </div>
                     <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">联系电话</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control membersPhone" maxlength="11" id="inputError">
+                            <input autocomplete="off" type="text" class="form-control membersPhone" maxlength="11" id="inputError">
                         </div>
                     </div>
                     <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">推拿种类</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control tuinaName" maxlength="11" id="inputError">
+                            <input autocomplete="off" type="text" class="form-control tuinaName" maxlength="11" id="inputError" list="typelist">
+                            <datalist id="typelist" >
+                                <option th:each="tuinaType:${tuinaTypeList}" th:text="${tuinaType.tuinaName}"></option>
+                            </datalist>
                         </div>
                     </div>
                     <div class="form-group has-error">
@@ -177,6 +180,12 @@
                             <input type="text" name="membersPhone" class="form-control TmembersPhone" maxlength="11" id="inputError" required>
                         </div>
                     </div>
+                    <div class="form-group has-error">
+                        <label class="col-sm-3 control-label" for="inputError">剩余次数</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="TsurplusNumber" class="form-control TsurplusNumber" maxlength="11" id="inputError" required>
+                        </div>
+                    </div>
                     <button type="submit" class="memberschange btn btn-warning into Tmodify">修改</button>
                     <button type="button" class="btn btn-info into closed">关闭</button>
                 </form>
@@ -201,10 +210,10 @@
                 <td class="membersName" th:text="${member.membersName}">张三</td>
                 <td class="pinyinCode" th:text="${member.pinyinCode}">zs</td>
                 <td class="membersPhone" th:text="${member.membersPhone}">12345678912</td>
-                <td>
+                <td class="surplusNumber">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default btn-danger" th:text="${member.tuinaName}"></button>
-                        <button type="button" class="btn btn-default btn-danger" th:text="${member.surplusNumber}"></button>
+                        <button type="button" class="btn btn-default btn-danger surplusNumber" th:text="${member.surplusNumber}"></button>
                     </div>
                 </td>
                 <td>
