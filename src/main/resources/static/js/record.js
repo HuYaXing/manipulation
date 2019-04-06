@@ -42,9 +42,11 @@ $(".monthNum").on('click', function () {
             staffName: staffName
         },
         success: function (msg) {
-            window.location.href = "/record/monthWork/1";
+            alert('成功');
+            window.location.href = "/record/monthWork/1?staffName="+staffName;
         },
         error: function (msg) {
+            alert('失败');
         }
     })
 })

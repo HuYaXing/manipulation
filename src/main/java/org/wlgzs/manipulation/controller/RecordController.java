@@ -48,8 +48,8 @@ public class RecordController extends BaseController {
         if (findName.equals("")) model.addAttribute("isSearch", 0);
         else model.addAttribute("isSearch", 1);
         if(!start_time.equals("")){
-            model.addAttribute("start_time",start_time);
-            model.addAttribute("end_time",end_time);
+            model.addAttribute("start_time", start_time.substring(0,10));
+            model.addAttribute("end_time", end_time.substring(0,10));
         }
         Result result = iRecordService.recordList(page, findName, start_time, end_time);
         IPage<Record> ipage = (IPage<Record>) result.getData();
@@ -97,12 +97,8 @@ public class RecordController extends BaseController {
                                 @RequestParam(value = "end_time", defaultValue = "") String end_time) {
         System.out.println("staffName1"+staffName);
         if (!"".equals(start_time) && !"".equals(end_time)) {
-            System.out.println("start_time"+start_time);
-            System.out.println("start_time"+end_time);
             start_time = start_time + " 00:00:00";
             end_time = end_time + " 23:59:59";
-            model.addAttribute("start_time", start_time);
-            model.addAttribute("end_time", end_time);
         }
 
         //查询所有员工
@@ -130,13 +126,15 @@ public class RecordController extends BaseController {
         model.addAttribute("isStaff", 1);
         model.addAttribute("staffName", staffName);
         model.addAttribute("staffList", staffList);
+        model.addAttribute("start_time", start_time.substring(0,10));
+        model.addAttribute("end_time", end_time.substring(0,10));
         return new ModelAndView("staffWorkload");
     }
 
     //查询某个医师的每月工作量
     @RequestMapping(value = "/monthWork/{page}")
     public ModelAndView monthWork(String staffName,@PathVariable("page") int page,Model model){
-        System.out.println("staffName1"+staffName);
+        System.out.println("staffName1-----"+staffName);
 
         //查询所有员工
         List<Staff> staffList = iStaffService.selectAllStaff();
@@ -157,8 +155,6 @@ public class RecordController extends BaseController {
 
         HashMap<String, Integer> hashMap = iRecordService.staffWorkload(staffName, start_time, end_time, model);
         System.out.println("hashMap"+hashMap);
-        model.addAttribute("start_time", start_time);
-        model.addAttribute("end_time", end_time);
         //返回医师的信息
         QueryWrapper<Staff> staffQueryWrapper = new QueryWrapper<>();
         staffQueryWrapper.eq("staff_name",staffName);
@@ -180,6 +176,8 @@ public class RecordController extends BaseController {
         model.addAttribute("isStaff", 1);
         model.addAttribute("staffName", staffName);
         model.addAttribute("staffList", staffList);
+        model.addAttribute("start_time", start_time.substring(0,10));
+        model.addAttribute("end_time", end_time.substring(0,10));
         return new ModelAndView("monthWork");
     }
 

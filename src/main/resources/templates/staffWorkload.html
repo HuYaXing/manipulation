@@ -46,22 +46,23 @@
 <div class="contain">
     <div class="sosuo">
 
-        <form th:href="@{record/summary/1}" th:type="post" onautocomplete="off">
+        <form th:action="@{/record/summary/1}" th:type="post" onautocomplete="off">
             <div class="jewarp">
                 <div class="content">
                     <div class="jeitem">
                         <span class="time">开始时间</span>
-                        <div class="jeinpbox"><input autocomplete="off" name="start_time" type="text" class="jeinput moredate" placeholder="YYYY-MM-DD"></div>
+                        <div class="jeinpbox"><input autocomplete="off" th:value="${start_time}" name="start_time" type="text" class="jeinput moredate" placeholder="YYYY-MM-DD"></div>
                     </div>
                     <div class="jeitem">
                         <span class="time">结束时间</span>
-                        <div class="jeinpbox"><input autocomplete="off" name="end_time" type="text" class="jeinput moredate" placeholder="YYYY-MM-DD"></div>
+                        <div class="jeinpbox"><input autocomplete="off" th:value="${end_time}" name="end_time" type="text" class="jeinput moredate" placeholder="YYYY-MM-DD"></div>
                     </div>
                 </div>
             </div>
 
             <div class="select">
-                <input autocomplete="off"  disabled="disabled" type="text" name="staffName" class="display" style="width: 100px;height: 35px;text-align: center" >
+                <input autocomplete="off" th:value="${staffName}" disabled="disabled" type="text"  class="displaynone" style="width: 100px;height: 35px;text-align: center" >
+                <input autocomplete="off"   type="hidden" name="staffName"  class="display" style="width: 100px;height: 35px;text-align: center" >
                 <!--<datalist id="stafflist" class="son">-->
                     <!--<option th:each="staffs : ${staffList}" th:text="${staffs.staffName}"></option>-->
                 <!--</datalist>-->
@@ -71,7 +72,7 @@
             </div>
             <input type="submit" class="submit" value="搜索" style="margin-top: 0px">
             <button type="button" class="btn btn-success" style="margin: 0px 30px;vertical-align: top;">查询时间段为<span th:text="${start_time}"></span>---<span th:text="${end_time}"></span></button>
-            <button type="button" class="btn btn-info " style="vertical-align: top;"><a th:href="@{/record/monthWork/1}" style="color: #FFFFFF;text-decoration: none" class="monthNum">本月工作量</a></span></button>
+            <button type="button" class="btn btn-info " style="vertical-align: top;"><a style="color: #FFFFFF;text-decoration: none" class="monthNum">本月工作量</a></span></button>
         </form>
     </div>
     <table class="table container">
@@ -181,8 +182,10 @@
 <script>
     var li= $('.son li');
     var display = $('.display');
+    var displaynone = $('.displaynone');
     li.on("click",function(){
         display.val($(this).text());
+        displaynone.val($(this).text());
     })
 
 

@@ -80,7 +80,7 @@
     <div class="contain">
         <div class="sosuo">
             <form action="/members/MemberMassage/1" method="post">
-                <input type="text" class="search_key" name="findName" placeholder="请输入会员信息" autocomplete="on" required="required">
+                <input type="text" class="search_key" name="findName" th:value="${findName}" placeholder="请输入会员信息" autocomplete="on" required="required">
                 <input type="submit" class="submit" value="搜索">
                 <button type="button" class="btn btn-success" style="margin-left: 150px"><a href="/members/MemberMassage/1" style="color: #fff;">查看所有会员</a></button>
             </form>

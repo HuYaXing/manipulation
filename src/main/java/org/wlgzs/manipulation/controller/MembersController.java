@@ -30,7 +30,7 @@ public class MembersController extends BaseController {
 
     //去添加会员
     @RequestMapping("/toAddMembers")
-    public ModelAndView toAddMembers(Model model){
+    public ModelAndView toAddMembers(Model model) {
         //查询所有类型
         QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
@@ -40,17 +40,17 @@ public class MembersController extends BaseController {
 
     //为会员添加剩余次数
     @RequestMapping("/addNumber/{membersId}")
-    public Result addNumber(int Number,@PathVariable("membersId")int membersId){
-        return iMembersService.addNumber(Number,membersId);
+    public Result addNumber(int Number, @PathVariable("membersId") int membersId) {
+        return iMembersService.addNumber(Number, membersId);
     }
 
     //添加一个新会员
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public Result addMembers(Members members) {
         QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("pinyin_code",members.getPinyinCode());
+        queryWrapper.eq("pinyin_code", members.getPinyinCode());
         int count = iMembersService.count(queryWrapper);
-        if(count > 0){
+        if (count > 0) {
             return new Result(ResultCode.FAIL);
         }
         return iMembersService.addMembers(members);
@@ -65,14 +65,14 @@ public class MembersController extends BaseController {
     }
 
     //查看会员详情
-        @RequestMapping(value = "/details/{membersId}")
+    @RequestMapping(value = "/details/{membersId}")
     public ModelAndView details(Model model, @PathVariable("membersId") int membersId) {
         Members members = iMembersService.details(membersId);
-            model.addAttribute("members", members);
+        model.addAttribute("members", members);
         if (members != null) {
             //需要所有的医师信息
             List<Staff> staffList = iStaffService.selectAllStaff();
-            model.addAttribute("staffList",staffList);
+            model.addAttribute("staffList", staffList);
             return new ModelAndView("MemberMassage");
         }
         model.addAttribute("msg", "不存在！");
@@ -80,11 +80,11 @@ public class MembersController extends BaseController {
     }
 
     //修改用户信息
-    @RequestMapping(value = "/Modify",method = RequestMethod.PUT)
-    public ModelAndView Modify(Members members, Model model){
+    @RequestMapping(value = "/Modify", method = RequestMethod.PUT)
+    public ModelAndView Modify(Members members, Model model) {
         Result result = iMembersService.Modify(members);
         model.addAttribute("msg", result.getMsg());
-        return new ModelAndView("redirect:/members/details/"+members.getMembersId());
+        return new ModelAndView("redirect:/members/details/" + members.getMembersId());
     }
 
     //搜索会员
@@ -95,12 +95,12 @@ public class MembersController extends BaseController {
         QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
         model.addAttribute("tuinaTypeList", tuinaTypeList);
-        if(findName.equals(""))model.addAttribute("isSearch",0);
-        else model.addAttribute("isSearch",1);
+        if (findName.equals("")) model.addAttribute("isSearch", 0);
+        else model.addAttribute("isSearch", 1);
         Result result = iMembersService.membersList(page, findName);
         //需要所有的医师信息
         List<Staff> staffList = iStaffService.selectAllStaff();
-        model.addAttribute("staffList",staffList);
+        model.addAttribute("staffList", staffList);
         if (findName.equals("")) {
             IPage<Members> iPage = (IPage<Members>) result.getData();
             model.addAttribute("membersList", iPage.getRecords());
@@ -117,14 +117,14 @@ public class MembersController extends BaseController {
     //搜索会员(删除。。等)
     @RequestMapping(value = "/membersList/{page}")
     public ModelAndView membersList1(Model model, @PathVariable("page") int page,
-                                    @RequestParam(value = "findName", defaultValue = "") String findName) {
+                                     @RequestParam(value = "findName", defaultValue = "") String findName) {
         //查询所有类型
         QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
         System.out.println(tuinaTypeList);
         model.addAttribute("tuinaTypeList", tuinaTypeList);
-        if(findName.equals(""))model.addAttribute("isSearch",0);
-        else model.addAttribute("isSearch",1);
+        if (findName.equals("")) model.addAttribute("isSearch", 0);
+        else model.addAttribute("isSearch", 1);
         Result result = iMembersService.membersList(page, findName);
         if (findName.equals("")) {
             IPage<Members> iPage = (IPage<Members>) result.getData();
