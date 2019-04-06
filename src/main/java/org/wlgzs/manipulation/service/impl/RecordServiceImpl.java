@@ -121,42 +121,33 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     }
 
     @Override
-    public IPage<Record> summary(int page, String staffName, String tuinaType, String startTime, String endTime) {
+    public IPage<Record> summary(int page, String staffName, String startTime, String endTime) {
+
+        System.out.println("staffName"+staffName);
         //查询用户按拼音码
         QueryWrapper<Staff> membersQueryWrapper = new QueryWrapper<>();
         membersQueryWrapper.eq("pinyin_code", staffName);
         Staff staff = staffMapper.selectOne(membersQueryWrapper);
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
         Page page1 = new Page(page, 6);
-        if (staff != null) {
-            if (tuinaType.equals("all") && startTime == null) {//默认所有种类
+        if (staff != null) {//拼音码有医师（按照医师信息查询）
+            if (startTime.equals("")) {//没有设置时间，只要名字查询
                 queryWrapper.eq("staff_name", staff.getStaffName());
                 queryWrapper.orderBy(true, false, "record_time");
-            } else if (tuinaType.equals("all") && startTime != null) {
-                queryWrapper.eq("staff_name", staff.getStaffName()).between("record_time", startTime, endTime);
-                queryWrapper.orderBy(true, false, "record_time");
-            } else if (startTime == null) {
-                queryWrapper.eq("staff_name", staff.getStaffName()).eq("tuina_name", tuinaType);
-                queryWrapper.orderBy(true, false, "record_time");
             } else {
-                queryWrapper.eq("staff_name", staff.getStaffName()).eq("tuina_name", tuinaType).between("record_time", startTime, endTime);
+                queryWrapper.eq("staff_name", staff.getStaffName()).between("record_time", startTime, endTime);
                 queryWrapper.orderBy(true, false, "record_time");
             }
             IPage<Record> iPage = baseMapper.selectPage(page1, queryWrapper);
             return iPage;
         }
 
-        if (tuinaType.equals("all") && "".equals(startTime)) {//默认所有种类
+        //按staff_name查询
+        if (startTime.equals("")) {//没有设置时间，只要名字查询
             queryWrapper.eq("staff_name", staffName);
             queryWrapper.orderBy(true, false, "record_time");
-        } else if (tuinaType.equals("all") && !"".equals(startTime)) {
-            queryWrapper.eq("staff_name", staffName).between("record_time", startTime, endTime);
-            queryWrapper.orderBy(true, false, "record_time");
-        } else if ("".equals(startTime)) {
-            queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType);
-            queryWrapper.orderBy(true, false, "record_time");
         } else {
-            queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType).between("record_time", startTime, endTime);
+            queryWrapper.eq("staff_name", staffName).between("record_time", startTime, endTime);
             queryWrapper.orderBy(true, false, "record_time");
         }
         IPage<Record> iPage = baseMapper.selectPage(page1, queryWrapper);
@@ -173,7 +164,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         QueryWrapper<TuinaType> tuinaTypeQueryWrapper = new QueryWrapper<>();
         List<TuinaType> tuinaTypeList = tuinaTypeMapper.selectList(tuinaTypeQueryWrapper);
         model.addAttribute("tuinaTypeList", tuinaTypeList);
-        if (startTime != null && endTime != null) {//安时间查询
+        if (!startTime.equals("") && !endTime.equals("")) {//按照时间查询
             for (TuinaType tn : tuinaTypeList) {
                 queryWrapper = new QueryWrapper<>();
                 queryWrapper.eq("staff_name", staffName).eq("tuina_type", tn.getTuinaName()).between("record_time", startTime, endTime);

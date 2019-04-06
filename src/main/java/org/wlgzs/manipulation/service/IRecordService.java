@@ -32,7 +32,7 @@ public interface IRecordService extends IService<Record> {
     Result Modify(Record record);
 
     //按员工，时间，推拿种类，并返回总数量
-    IPage<Record> summary(int page,String staffName, String tuinaType, String startTime, String endTime);
+    IPage<Record> summary(int page,String staffName, String startTime, String endTime);
 
     //按时间段查询所有医师的治疗记录次数
     HashMap<String, Integer> staffWorkload(String staffName, String startTime, String endTime, Model model);
