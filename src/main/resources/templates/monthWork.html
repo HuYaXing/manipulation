@@ -63,7 +63,7 @@
             <div class="select">
                 <input autocomplete="off"  disabled="disabled" type="text" name="staffName" class="display" style="width: 100px;height: 35px;text-align: center" >
                 <!--<datalist id="stafflist" class="son">-->
-                    <!--<option th:each="staffs : ${staffList}" th:text="${staffs.staffName}"></option>-->
+                <!--<option th:each="staffs : ${staffList}" th:text="${staffs.staffName}"></option>-->
                 <!--</datalist>-->
                 <ul class="son">
                     <li th:each="staffs : ${staffList}" th:text="${staffs.staffName}"></li>
@@ -71,7 +71,7 @@
             </div>
             <input type="submit" class="submit" value="搜索" style="margin-top: 0px">
             <button type="button" class="btn btn-success" style="margin: 0px 30px;vertical-align: top;">查询时间段为<span th:text="${start_time}"></span>---<span th:text="${end_time}"></span></button>
-            <button type="button" class="btn btn-info " style="vertical-align: top;"><a th:href="@{/record/monthWork/1}" style="color: #FFFFFF;text-decoration: none" class="monthNum">本月工作量</a></span></button>
+            <!--<button type="button" class="btn btn-info" style="vertical-align: top;">本月工作量</span></button>-->
         </form>
     </div>
     <table class="table container">
@@ -93,45 +93,45 @@
         </tr>
         </thead>
         <tbody>
-            <tr th:each="record : ${recordList}">
-                <td th:text="${record.staffId}"></td>
-                <td th:text="${record.staffName}"></td>
-                <td th:text="${record.membersId}"></td>
-                <td th:text="${record.membersName}"></td>
-                <td th:text="${record.tuinaType}"></td>
-                <td th:text="${#temporals.format(record.recordTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <tr th:each="record : ${recordList}">
+            <td th:text="${record.staffId}"></td>
+            <td th:text="${record.staffName}"></td>
+            <td th:text="${record.membersId}"></td>
+            <td th:text="${record.membersName}"></td>
+            <td th:text="${record.tuinaType}"></td>
+            <td th:text="${#temporals.format(record.recordTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tbody>
     </table>
 </div>
 <div class="fenye" th:if="${TotalPages > 0 and isSearch==0}">
     <ul class="pagination" th:if="${Number == 1} and ${TotalPages> 1}">
         <!--//如果当前页等于1，总页数大于1（不显示上一页）   Number&ndash;&gt;当前页-->
-        <li><a th:href="@{/record/summary/1}">首页</a></li>
+        <li><a th:href="@{/record/monthWork/1}">首页</a></li>
         <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
             <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
             <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
             <!--//限制显示页数的条数  4到6个页数   而且等于当前页，不能点击-->
             <a th:if="${i > Number-3} and ${i < Number+3} and ${i != Number}"
-               th:href="@{'/record/recordList/'+${i}}" th:text="${i}"
+               th:href="@{'/record/monthWork/'+${i}}" th:text="${i}"
                style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
         </li>
-        <li><a th:href="@{'/record/summary/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
+        <li><a th:href="@{'/record/monthWork/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
     </ul>
 
     <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
-        <li><a th:href="@{/record/recordList/1}">首页</a></li><!--//跳转至第一页-->
-        <li><a th:href="@{'/record/summary/'+${Number-1}}">上一页</a></li><!--//请求页数-1-->
+        <li><a th:href="@{/record/monthWork/1}">首页</a></li><!--//跳转至第一页-->
+        <li><a th:href="@{'/record/monthWork/'+${Number-1}}">上一页</a></li><!--//请求页数-1-->
         <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
             <!--//从1到总页数遍历，并赋值给i    TotalPages&ndash;&gt;总页数-->
             <a th:if="${i > Number-3} and ${i < Number+3} and ${i == Number}" href="javascript:void(0);" th:text="${i}">#</a>
             <!--//限制显示页数的条数  4到6个页数   而且等于当前页，不能点击-->
             <a th:if="${i > Number-3} and ${i < Number+3} and ${i != Number}"
-               th:href="@{'/record/summary/'+${i}}" th:text="${i}"
+               th:href="@{'/record/monthWork/'+${i}}" th:text="${i}"
                style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
         </li>
         <li th:if="${Number != TotalPages}"><a
-                th:href="@{'/record/summary/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
-        <li><a th:href="@{'/record/summary/'+${TotalPages}}">尾页</a></li><!--//跳转至第Number页-->
+                th:href="@{'/record/monthWork/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
+        <li><a th:href="@{'/record/monthWork/'+${TotalPages}}">尾页</a></li><!--//跳转至第Number页-->
     </ul>
 </div>
 
@@ -175,7 +175,6 @@
 </div>
 <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/record.js}"></script>
 <script th:src="@{/js/demo.js}"></script>
 <script th:src="@{/js/menu.js}"></script>
 <script>
@@ -184,10 +183,6 @@
     li.on("click",function(){
         display.val($(this).text());
     })
-
-
-
-
 
 </script>
 </body>

@@ -32,3 +32,18 @@ $(".massage").on('click', function () {
         location.reload(true);
     }
 });
+//查询某个医师的每月工作量
+$(".monthNum").on('click', function () {
+    var staffName = $("input[name='staffName']").val()
+    $.ajax({
+        url: "/record/monthWork",
+        data: {
+            staffName: staffName
+        },
+        success: function (msg) {
+            window.location.href = "/record/monthWork/1";
+        },
+        error: function (msg) {
+        }
+    })
+})
