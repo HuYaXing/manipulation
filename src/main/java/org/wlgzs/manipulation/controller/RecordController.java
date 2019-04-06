@@ -47,11 +47,7 @@ public class RecordController extends BaseController {
                                    @RequestParam(value = "end_time", defaultValue = "") String end_time) {
         if (findName.equals("")) model.addAttribute("isSearch", 0);
         else model.addAttribute("isSearch", 1);
-        System.out.println("start_time"+start_time);
-        System.out.println("end_time"+end_time);
         if(!start_time.equals("")){
-            System.out.println("start_time"+start_time);
-            System.out.println("end_time"+end_time);
             model.addAttribute("start_time",start_time);
             model.addAttribute("end_time",end_time);
         }
@@ -97,10 +93,12 @@ public class RecordController extends BaseController {
     //按员工，时间，推拿种类，并返回总数量(必须要员工名字)
     @RequestMapping(value = "/summary/{page}")
     public ModelAndView summary(@PathVariable("page") int page, Model model,
-                                String staffName, @RequestParam(value = "tuinaType", defaultValue = "all") String tuinaType,
-                                String start_time,String end_time) {
-        if (start_time != null && end_time != null && !"".equals(start_time) && !"".equals(end_time)) {
-            System.out.println(start_time);
+                                String staffName, @RequestParam(value = "start_time", defaultValue = "") String start_time,
+                                @RequestParam(value = "end_time", defaultValue = "") String end_time) {
+        System.out.println("staffName1"+staffName);
+        if (!"".equals(start_time) && !"".equals(end_time)) {
+            System.out.println("start_time"+start_time);
+            System.out.println("start_time"+end_time);
             start_time = start_time + " 00:00:00";
             end_time = end_time + " 23:59:59";
             model.addAttribute("start_time", start_time);
@@ -120,7 +118,7 @@ public class RecordController extends BaseController {
         QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
         model.addAttribute("tuinaTypeList", tuinaTypeList);
-        IPage<Record> iPage = iRecordService.summary(page, staffName, tuinaType, start_time, end_time);
+        IPage<Record> iPage = iRecordService.summary(page, staffName, start_time, end_time);
         List<Record> recordList = iPage.getRecords();
         model.addAttribute("recordList", recordList);
         if (recordList.size() <= 0) {
@@ -138,6 +136,8 @@ public class RecordController extends BaseController {
     //查询某个医师的每月工作量
     @RequestMapping(value = "/monthWork/{page}")
     public ModelAndView monthWork(String staffName,@PathVariable("page") int page,Model model){
+        System.out.println("staffName1"+staffName);
+
         //查询所有员工
         List<Staff> staffList = iStaffService.selectAllStaff();
         staffName = (staffName == null || staffName.equals("")) ? staffList.get(0).getStaffName() : staffName;
@@ -156,6 +156,9 @@ public class RecordController extends BaseController {
         String end_time = format.format(ca.getTime());
 
         HashMap<String, Integer> hashMap = iRecordService.staffWorkload(staffName, start_time, end_time, model);
+        System.out.println("hashMap"+hashMap);
+        model.addAttribute("start_time", start_time);
+        model.addAttribute("end_time", end_time);
         //返回医师的信息
         QueryWrapper<Staff> staffQueryWrapper = new QueryWrapper<>();
         staffQueryWrapper.eq("staff_name",staffName);
@@ -165,7 +168,7 @@ public class RecordController extends BaseController {
         QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
         model.addAttribute("tuinaTypeList", tuinaTypeList);
-        IPage<Record> iPage = iRecordService.summary(page, staffName, "all", start_time, end_time);
+        IPage<Record> iPage = iRecordService.summary(page, staffName, start_time, end_time);
         List<Record> recordList = iPage.getRecords();
         model.addAttribute("recordList", recordList);
         if (recordList.size() <= 0) {
