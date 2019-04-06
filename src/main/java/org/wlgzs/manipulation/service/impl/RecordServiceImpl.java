@@ -146,13 +146,13 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
             return iPage;
         }
 
-        if (tuinaType.equals("all") && startTime == null) {//默认所有种类
+        if (tuinaType.equals("all") && "".equals(startTime)) {//默认所有种类
             queryWrapper.eq("staff_name", staffName);
             queryWrapper.orderBy(true, false, "record_time");
-        } else if (tuinaType.equals("all") && startTime != null) {
+        } else if (tuinaType.equals("all") && !"".equals(startTime)) {
             queryWrapper.eq("staff_name", staffName).between("record_time", startTime, endTime);
             queryWrapper.orderBy(true, false, "record_time");
-        } else if (startTime == null) {
+        } else if ("".equals(startTime)) {
             queryWrapper.eq("staff_name", staffName).eq("tuina_name", tuinaType);
             queryWrapper.orderBy(true, false, "record_time");
         } else {
@@ -184,16 +184,11 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
             for (TuinaType tn : tuinaTypeList) {
                 queryWrapper = new QueryWrapper<>();
                 queryWrapper.eq("staff_name", staffName).eq("tuina_type", tn.getTuinaName());
-//                List<Record> list = baseMapper.selectList(queryWrapper);
-//                System.out.println("list"+list);
                 int map = baseMapper.selectCount(queryWrapper);
-//                System.out.println("staffName"+staffName);
-//                System.out.println(tn.getTuinaName()+"数量==="+map);
                 hashMap.put(tn.getTuinaName(), map);
             }
         }
         model.addAttribute("hashMap", hashMap);
-        System.out.println(hashMap);
         return hashMap;
     }
 

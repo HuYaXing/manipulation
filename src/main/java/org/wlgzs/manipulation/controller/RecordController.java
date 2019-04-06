@@ -13,6 +13,8 @@ import org.wlgzs.manipulation.entity.Staff;
 import org.wlgzs.manipulation.entity.TuinaType;
 import org.wlgzs.manipulation.util.Result;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -97,7 +99,8 @@ public class RecordController extends BaseController {
     public ModelAndView summary(@PathVariable("page") int page, Model model,
                                 String staffName, @RequestParam(value = "tuinaType", defaultValue = "all") String tuinaType,
                                 String start_time,String end_time) {
-        if (start_time != null && end_time != null) {
+        if (start_time != null && end_time != null && !"".equals(start_time) && !"".equals(end_time)) {
+            System.out.println(start_time);
             start_time = start_time + " 00:00:00";
             end_time = end_time + " 23:59:59";
             model.addAttribute("start_time", start_time);
@@ -107,7 +110,6 @@ public class RecordController extends BaseController {
         //查询所有员工
         List<Staff> staffList = iStaffService.selectAllStaff();
         staffName = (staffName == null || staffName.equals("")) ? staffList.get(0).getStaffName() : staffName;
-//        System.out.println("staffName"+staffName);
         HashMap<String, Integer> hashMap = iRecordService.staffWorkload(staffName, start_time, end_time, model);
         //返回医师的信息
         QueryWrapper<Staff> staffQueryWrapper = new QueryWrapper<>();
@@ -120,7 +122,6 @@ public class RecordController extends BaseController {
         model.addAttribute("tuinaTypeList", tuinaTypeList);
         IPage<Record> iPage = iRecordService.summary(page, staffName, tuinaType, start_time, end_time);
         List<Record> recordList = iPage.getRecords();
-        System.out.println(recordList);
         model.addAttribute("recordList", recordList);
         if (recordList.size() <= 0) {
             model.addAttribute("msg", "没有数据！");
@@ -134,14 +135,49 @@ public class RecordController extends BaseController {
         return new ModelAndView("staffWorkload");
     }
 
-    //按时间段查询某个医师的治疗记录次数
-//    @RequestMapping(value = "/staffWorkload")
-//    public ModelAndView staffWorkload(String staffName,
-//                                      String startTime, String endTime, Model model) {
+    //查询某个医师的每月工作量
+    @RequestMapping(value = "/monthWork/{page}")
+    public ModelAndView monthWork(String staffName,@PathVariable("page") int page,Model model){
+        //查询所有员工
+        List<Staff> staffList = iStaffService.selectAllStaff();
+        staffName = (staffName == null || staffName.equals("")) ? staffList.get(0).getStaffName() : staffName;
 
-//
-//        return new ModelAndView("staffWorkload");
-//    }
+        //获取本月时间
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //获取当前月第一天：
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, 0);
+        c.set(Calendar.DAY_OF_MONTH, 1);//设置为1号,当前日期既为本月第一天
+        String start_time = format.format(c.getTime());
 
+        //获取当前月最后一天
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+        String end_time = format.format(ca.getTime());
+
+        HashMap<String, Integer> hashMap = iRecordService.staffWorkload(staffName, start_time, end_time, model);
+        //返回医师的信息
+        QueryWrapper<Staff> staffQueryWrapper = new QueryWrapper<>();
+        staffQueryWrapper.eq("staff_name",staffName);
+        Staff staff = iStaffService.list(staffQueryWrapper).get(0);
+        model.addAttribute("staff", staff);
+        model.addAttribute("hashMap", hashMap);
+        QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
+        List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
+        model.addAttribute("tuinaTypeList", tuinaTypeList);
+        IPage<Record> iPage = iRecordService.summary(page, staffName, "all", start_time, end_time);
+        List<Record> recordList = iPage.getRecords();
+        model.addAttribute("recordList", recordList);
+        if (recordList.size() <= 0) {
+            model.addAttribute("msg", "没有数据！");
+        }
+        model.addAttribute("size", recordList.size());
+        model.addAttribute("TotalPages", iPage.getPages());//查询的总页数
+        model.addAttribute("Number", page);//查询的当前第几页
+        model.addAttribute("isStaff", 1);
+        model.addAttribute("staffName", staffName);
+        model.addAttribute("staffList", staffList);
+        return new ModelAndView("staffWorkload");
+    }
 
 }
