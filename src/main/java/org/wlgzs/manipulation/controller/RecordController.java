@@ -177,7 +177,7 @@ public class RecordController extends BaseController {
         model.addAttribute("isStaff", 1);
         model.addAttribute("staffName", staffName);
         model.addAttribute("staffList", staffList);
-        return new ModelAndView("staffWorkload");
+        return new ModelAndView("monthWork");
     }
 
 }

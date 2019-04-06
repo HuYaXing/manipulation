@@ -34,9 +34,10 @@ $(".massage").on('click', function () {
 });
 //查询某个医师的每月工作量
 $(".monthNum").on('click', function () {
-    var staffName = $("input[name='staffName']").val()
+    var staffName = $("input[name='staffName']").val();
+    console.log(staffName);
     $.ajax({
-        url: "/record/monthWork",
+        url: "/record/monthWork/1",
         data: {
             staffName: staffName
         },
