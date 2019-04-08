@@ -99,6 +99,8 @@ public class RecordController extends BaseController {
         if (!"".equals(start_time) && !"".equals(end_time)) {
             start_time = start_time + " 00:00:00";
             end_time = end_time + " 23:59:59";
+            model.addAttribute("start_time", start_time.substring(0,10));
+            model.addAttribute("end_time", end_time.substring(0,10));
         }
 
         //查询所有员工
@@ -126,8 +128,6 @@ public class RecordController extends BaseController {
         model.addAttribute("isStaff", 1);
         model.addAttribute("staffName", staffName);
         model.addAttribute("staffList", staffList);
-        model.addAttribute("start_time", start_time.substring(0,10));
-        model.addAttribute("end_time", end_time.substring(0,10));
         return new ModelAndView("staffWorkload");
     }
 
