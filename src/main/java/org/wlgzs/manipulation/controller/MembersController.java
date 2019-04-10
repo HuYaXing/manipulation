@@ -121,7 +121,6 @@ public class MembersController extends BaseController {
         //查询所有类型
         QueryWrapper<TuinaType> queryWrapper = new QueryWrapper<TuinaType>();
         List<TuinaType> tuinaTypeList = iTuinaTypeService.list(queryWrapper);
-        System.out.println(tuinaTypeList);
         model.addAttribute("tuinaTypeList", tuinaTypeList);
         if (findName.equals("")) model.addAttribute("isSearch", 0);
         else model.addAttribute("isSearch", 1);

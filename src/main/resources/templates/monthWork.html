@@ -117,6 +117,7 @@
                style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
         </li>
         <li><a th:href="@{'/record/monthWork/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
+        <li><a th:href="@{'/record/monthWork/'+${TotalPages}}">尾页</a></li><!--//跳转至第Number页-->
         <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
     </ul>
 
@@ -152,6 +153,7 @@
                style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
         </li>
         <li><a th:href="@{'/record/summary/'+${Number+1}(staffName=${staffName})}">下一页</a></li><!--//请求页数+1-->
+        <li><a th:href="@{'/record/summary/'+${TotalPages}(staffName=${staffName})}">尾页</a></li><!--//跳转至第Number页-->
         <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
     </ul>
 

@@ -123,7 +123,6 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     @Override
     public IPage<Record> summary(int page, String staffName, String startTime, String endTime) {
 
-        System.out.println("staffName"+staffName);
         //查询用户按拼音码
         QueryWrapper<Staff> membersQueryWrapper = new QueryWrapper<>();
         membersQueryWrapper.eq("pinyin_code", staffName);

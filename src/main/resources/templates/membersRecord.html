@@ -96,6 +96,7 @@
                    style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
             </li>
             <li><a th:href="@{'/record/recordList/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
+            <li><a th:href="@{'/record/recordList/'+${TotalPages}}">尾页</a></li><!--//跳转至第Number页-->
             <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
         </ul>
 
@@ -129,6 +130,7 @@
                    style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
             </li>
             <li><a th:href="@{'/record/recordList/'+${Number+1}(findName=${findName})}">下一页</a></li><!--//请求页数+1-->
+            <li><a th:href="@{'/record/recordList/'+${TotalPages}(findName=${findName})}">尾页</a></li><!--//跳转至第Number页-->
             <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
         </ul>
 

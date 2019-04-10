@@ -59,7 +59,6 @@ public class RecordController extends BaseController {
         model.addAttribute("recordList", recordList);
         model.addAttribute("size", recordList.size());
         model.addAttribute("findName", findName);
-        System.out.println("recordList" + recordList);
         return new ModelAndView("membersRecord");
     }
 
@@ -95,7 +94,6 @@ public class RecordController extends BaseController {
     public ModelAndView summary(@PathVariable("page") int page, Model model,
                                 String staffName, @RequestParam(value = "start_time", defaultValue = "") String start_time,
                                 @RequestParam(value = "end_time", defaultValue = "") String end_time) {
-        System.out.println("staffName1"+staffName);
         if (!"".equals(start_time) && !"".equals(end_time)) {
             start_time = start_time + " 00:00:00";
             end_time = end_time + " 23:59:59";
@@ -134,8 +132,6 @@ public class RecordController extends BaseController {
     //查询某个医师的每月工作量
     @RequestMapping(value = "/monthWork/{page}")
     public ModelAndView monthWork(String staffName,@PathVariable("page") int page,Model model){
-        System.out.println("staffName1-----"+staffName);
-
         //查询所有员工
         List<Staff> staffList = iStaffService.selectAllStaff();
         staffName = (staffName == null || staffName.equals("")) ? staffList.get(0).getStaffName() : staffName;
@@ -154,7 +150,6 @@ public class RecordController extends BaseController {
         String end_time = format.format(ca.getTime());
 
         HashMap<String, Integer> hashMap = iRecordService.staffWorkload(staffName, start_time, end_time, model);
-        System.out.println("hashMap"+hashMap);
         //返回医师的信息
         QueryWrapper<Staff> staffQueryWrapper = new QueryWrapper<>();
         staffQueryWrapper.eq("staff_name",staffName);

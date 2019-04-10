@@ -27,12 +27,10 @@ public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> impl
     @Override
     public Result addMembers(Members members) {
         if (members != null) {
-            System.out.println(members);
             QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
             queryWrapper.and(i -> i.eq("members_name",members.getMembersName()).eq("members_phone",members.getMembersPhone()).eq("tuina_name",members.getMembersName()));
             Members members1 = baseMapper.selectOne(queryWrapper);
             if(members1 == null){
-                System.out.println(members1);
                 baseMapper.insert(members);
                 return new Result(ResultCode.SUCCESS,"添加成功！");
             }
@@ -46,6 +44,7 @@ public class MembersServiceImpl extends ServiceImpl<MembersMapper, Members> impl
         if(findName.equals("")){//查询所有
             Page page1 = new Page(page,6);
             QueryWrapper<Members> queryWrapper = new QueryWrapper<>();
+            queryWrapper.orderBy(true,false,"members_id");
             IPage<Members> iPage = baseMapper.selectPage(page1,queryWrapper);
             return new Result(ResultCode.SUCCESS,iPage);
         }//按条件查询
