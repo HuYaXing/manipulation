@@ -61,11 +61,12 @@
             </div>
 
             <div class="select">
-                <input autocomplete="off"  disabled="disabled" type="text" name="staffName" class="display" style="width: 100px;height: 35px;text-align: center" >
+                <input autocomplete="off" th:value="${staffName}" name="staffName" disabled="disabled" type="hidden"  class="displaynone" style="width: 100px;height: 35px;text-align: center" >
+                <input autocomplete="off" type="hidden" name="staffName"  class="display" th:value="${staffName}" style="width: 100px;height: 35px;text-align: center" >
                 <!--<datalist id="stafflist" class="son">-->
                 <!--<option th:each="staffs : ${staffList}" th:text="${staffs.staffName}"></option>-->
                 <!--</datalist>-->
-                <ul class="son">
+                <ul class="son" style="display: none">
                     <li th:each="staffs : ${staffList}" th:text="${staffs.staffName}"></li>
                 </ul>
             </div>
