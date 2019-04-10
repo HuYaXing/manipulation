@@ -4,14 +4,13 @@ function add(){
     modaladd.style.visibility = (modaladd.style.visibility == "visible") ? "hidden" : "visible";
 }
 $(".membersAdd").on('click', function () {
+    var tuinaName=$("#XtuinaType option:selected");
     if ($(".membersName").val() == '') {
         alert("请填写会员姓名");
     } else if ($(".pinyinCode").val() == '') {
         alert("请填写会员拼音码");
     } else if ($(".membersPhone").val() == '') {
         alert("请填写会员联系电话");
-    } else if ($(".tuinaName").val() == '') {
-        alert("请填写会员推拿种类");
     } else if ($(".surplusNumber").val() == '') {
         alert("请填写会员剩余次数");
     } else {
@@ -25,7 +24,7 @@ $(".membersAdd").on('click', function () {
                     membersName: $(".membersName").val(),
                     pinyinCode: $(".pinyinCode").val(),
                     membersPhone: $(".membersPhone").val(),
-                    tuinaName: $(".tuinaName").val(),
+                    tuinaName: tuinaName.val(),
                     surplusNumber: $(".surplusNumber").val(),
                     staffId: $(".staffNames").val(),
                 },

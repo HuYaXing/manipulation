@@ -96,7 +96,7 @@
             </dl>
 
             <dl class="channel">
-                <a th:href="@{/record/recordList/1}" class="menu">会员记录</a>
+                <a th:href="@{/record/recordList/1}" class="menu" style="display: none">会员记录</a>
             </dl>
 
             <dl class="custom">
@@ -104,7 +104,7 @@
             </dl>
 
             <dl class="app">
-                <a th:href="@{/record/summary/1}" class="menu">医师记录</a>
+                <a th:href="@{/record/summary/1}" class="menu" style="display: none">医师记录</a>
             </dl>
 
         </div>
@@ -142,10 +142,9 @@
                     <div class="form-group has-error">
                         <label class="col-sm-3 control-label" for="inputError">推拿种类</label>
                         <div class="col-sm-9">
-                            <input autocomplete="off" type="text" class="form-control tuinaName" maxlength="11" id="inputError" list="typelist">
-                            <datalist id="typelist" >
-                                <option th:each="tuinaType:${tuinaTypeList}" th:text="${tuinaType.tuinaName}"></option>
-                            </datalist>
+                            <select id="XtuinaType" class="tuinaName" style="outline: none;display: inline-block;width: 100%;height: 35px;border-radius: 3px;border-color: #a94442;padding: 0px 5px;">
+                                <option th:each="tuinaType:${tuinaTypeList}" th:value="${tuinaType.tuinaName}" th:text="${tuinaType.tuinaName}"></option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group has-error">
@@ -154,7 +153,7 @@
                             <input type="text" class="form-control surplusNumber" maxlength="11" id="inputError">
                         </div>
                     </div>
-                    <button type="submit" class="membersAdd btn btn-warning into">添加</button>
+                    <button type="button" class="membersAdd btn btn-warning into">添加</button>
                     <button type="button" class="btn btn-info into " onclick="add()">关闭</button>
                 </form>
             </div>
@@ -186,7 +185,7 @@
                             <input type="text" name="TsurplusNumber" class="form-control TsurplusNumber" maxlength="11" id="inputError" required>
                         </div>
                     </div>
-                    <button type="submit" class="memberschange btn btn-warning into Tmodify">修改</button>
+                    <button type="button" class="memberschange btn btn-warning into Tmodify">修改</button>
                     <button type="button" class="btn btn-info into closed">关闭</button>
                 </form>
             </div>
@@ -244,6 +243,7 @@
                    style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
             </li>
             <li><a th:href="@{'/members/membersList/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
+            <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
         </ul>
 
         <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
@@ -260,6 +260,7 @@
             <li th:if="${Number != TotalPages}"><a
                     th:href="@{'/members/membersList/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
             <li><a th:href="@{'/members/membersList/'+${TotalPages}}">尾页</a></li><!--//跳转至第Number页-->
+            <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
         </ul>
     </div>
     <!--搜索分页-->
@@ -276,6 +277,7 @@
                    style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
             </li>
             <li><a th:href="@{'/members/membersList/'+${Number+1}(findName=${findName})}">下一页</a></li><!--//请求页数+1-->
+            <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
         </ul>
 
         <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
@@ -292,6 +294,7 @@
             <li th:if="${Number != TotalPages}"><a
                     th:href="@{'/members/membersList/'+${Number+1}(findName=${findName})}">下一页</a></li><!--//请求页数+1-->
             <li><a th:href="@{'/members/membersList/'+${TotalPages}(findName=${findName})}">尾页</a></li><!--//跳转至第Number页-->
+            <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
         </ul>
     </div>
     <div class="foot">

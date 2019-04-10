@@ -30,15 +30,15 @@
         </dl>
 
         <dl class="channel">
-            <a th:href="@{/record/recordList/1}" class="menu">会员记录</a>
+            <a th:href="@{/record/recordList/1}" class="menu" style="display: none">会员记录</a>
         </dl>
 
         <dl class="custom">
-            <a th:href="@{/staff/staffList}" class="menu">医师管理</a>
+            <a th:href="@{/staff/staffList}" class="menuActive">医师管理</a>
         </dl>
 
         <dl class="app">
-            <a th:href="@{/record/summary/1}" class="menuActive">医师记录</a>
+            <a th:href="@{/record/summary/1}" class="menuActive" style="display: none">医师记录</a>
         </dl>
 
     </div>
@@ -59,20 +59,24 @@
                     </div>
                 </div>
             </div>
-
+            <div class="timeKuang" >
+                <span class="timeSlot">查询时间段</span>
+                <span th:text="${start_time}"></span>
+                ---
+                <span  th:text="${end_time}"></span>
+            </div>
             <div class="select">
-                <input autocomplete="off" th:value="${staffName}" disabled="disabled" type="text"  class="displaynone" style="width: 100px;height: 35px;text-align: center" >
-                <input autocomplete="off"   type="hidden" name="staffName"  class="display" style="width: 100px;height: 35px;text-align: center" >
+                <input autocomplete="off" th:value="${staffName}" name="staffName" disabled="disabled" type="hidden"  class="displaynone" style="width: 100px;height: 35px;text-align: center" >
+                <input autocomplete="off" type="hidden" name="staffName"  class="display" th:value="${staffName}" style="width: 100px;height: 35px;text-align: center" >
                 <!--<datalist id="stafflist" class="son">-->
                     <!--<option th:each="staffs : ${staffList}" th:text="${staffs.staffName}"></option>-->
                 <!--</datalist>-->
-                <ul class="son">
+                <ul class="son" style="display: none">
                     <li th:each="staffs : ${staffList}" th:text="${staffs.staffName}"></li>
                 </ul>
             </div>
             <input type="submit" class="submit" value="搜索" style="margin-top: 0px">
-            <button type="button" class="btn btn-success" style="margin: 0px 30px;vertical-align: top;">查询时间段为<span th:text="${start_time}"></span>---<span th:text="${end_time}"></span></button>
-            <button type="button" class="btn btn-info " style="vertical-align: top;"><a style="color: #FFFFFF;text-decoration: none" class="monthNum">本月工作量</a></span></button>
+            <button type="button" class="btn btn-info" style="vertical-align: top;"><a style="color: #FFFFFF;text-decoration: none" class="monthNum">本月工作量</a></span></button>
         </form>
     </div>
     <table class="table container">
@@ -117,9 +121,10 @@
                style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
         </li>
         <li><a th:href="@{'/record/summary/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
+        <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
     </ul>
 
-    <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
+        <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
         <li><a th:href="@{/record/recordList/1}">首页</a></li><!--//跳转至第一页-->
         <li><a th:href="@{'/record/summary/'+${Number-1}}">上一页</a></li><!--//请求页数-1-->
         <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
@@ -133,6 +138,7 @@
         <li th:if="${Number != TotalPages}"><a
                 th:href="@{'/record/summary/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
         <li><a th:href="@{'/record/summary/'+${TotalPages}}">尾页</a></li><!--//跳转至第Number页-->
+        <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
     </ul>
 </div>
 
@@ -150,9 +156,10 @@
                style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
         </li>
         <li><a th:href="@{'/record/summary/'+${Number+1}(staffName=${staffName})}">下一页</a></li><!--//请求页数+1-->
+        <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
     </ul>
 
-    <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
+        <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
         <li><a th:href="@{'/record/summary/'+1(staffName=${staffName})}">首页</a></li><!--//跳转至第一页-->
         <li><a th:href="@{'/record/summary/'+${Number-1}(staffName=${staffName})}">上一页</a></li><!--//请求页数-1-->
         <li class="active" th:each="i:${#numbers.sequence(1,TotalPages)}">
@@ -166,6 +173,7 @@
         <li th:if="${Number != TotalPages}"><a
                 th:href="@{'/record/summary/'+${Number+1}(staffName=${staffName})}">下一页</a></li><!--//请求页数+1-->
         <li><a th:href="@{'/record/summary/'+${TotalPages}(staffName=${staffName})}">尾页</a></li><!--//跳转至第Number页-->
+        <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
     </ul>
 
 </div>
