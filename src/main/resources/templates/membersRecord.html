@@ -24,11 +24,11 @@
             </dl>
 
             <dl class="custom">
-                <a th:href="@{/members/membersList/1}" class="menu">会员管理</a>
-            </dl>
+            <a th:href="@{/members/membersList/1}" class="menuActive">会员管理</a>
+        </dl>
 
             <dl class="channel">
-                <a th:href="@{/record/recordList/1}" class="menuActive">会员记录</a>
+                <a th:href="@{/record/recordList/1}" class="menuActive" style="display: none">会员记录</a>
             </dl>
 
             <dl class="custom">
@@ -36,7 +36,7 @@
             </dl>
 
             <dl class="app">
-                <a th:href="@{/record/summary/1}" class="menu">医师记录</a>
+                <a th:href="@{/record/summary/1}" class="menu" style="display: none">医师记录</a>
             </dl>
 
         </div>
@@ -46,15 +46,20 @@
             <form th:action="@{/record/recordList/1}" method="post">
                 <div class="jeitem" >
                     <span class="time">开始时间</span>
-                    <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD" name="start_time"></div>
+                    <div class="jeinpbox"><input autocomplete="off" type="text" class="jeinput moredate" placeholder="YYYY-MM-DD" name="start_time"></div>
                 </div>
                 <div class="jeitem">
                     <span class="time">结束时间</span>
-                    <div class="jeinpbox"><input type="text" class="jeinput moredate" placeholder="YYYY-MM-DD" name="end_time"></div>
+                    <div class="jeinpbox"><input autocomplete="off" type="text" class="jeinput moredate" placeholder="YYYY-MM-DD" name="end_time"></div>
                 </div>
-                <input th:if="${!findName.equals(null)}"th:name="findName" type="text" class="search_key" placeholder="请输入会员信息" autocomplete="on">
+                <div class="timeKuang" >
+                    <span class="timeSlot">查询时间段</span>
+                    <span th:text="${start_time}"></span>
+                    ---
+                    <span  th:text="${end_time}"></span>
+                </div>
+                <input th:if="${!findName.equals(null)}"th:name="findName" th:value="${findName}" type="text" style="display: none" class="search_key" placeholder="请输入会员信息" autocomplete="on">
                 <input type="submit" class="submit" value="搜索">
-                <button type="button" class="btn btn-success" style="margin-left: 30px">查询时间段为<span th:text="${start_time}"></span>---<span th:text="${end_time}"></span></button>
             </form>
         </div>
         <table class="table container">
@@ -91,6 +96,7 @@
                    style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
             </li>
             <li><a th:href="@{'/record/recordList/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
+            <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
         </ul>
 
         <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
@@ -107,7 +113,7 @@
             <li th:if="${Number != TotalPages}"><a
                     th:href="@{'/record/recordList/'+${Number+1}}">下一页</a></li><!--//请求页数+1-->
             <li><a th:href="@{'/record/recordList/'+${TotalPages}}">尾页</a></li><!--//跳转至第Number页-->
-        </ul>
+            <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>        </ul>
     </div>
     <!--搜索分页-->
     <div class="fenye" th:if="${TotalPages > 0 and isSearch==1}">
@@ -123,6 +129,7 @@
                    style="color: #337ab7;background-color: #fff;border-color: #fff;">#</a><!--//限制显示页数的条数  4到6个页数-->
             </li>
             <li><a th:href="@{'/record/recordList/'+${Number+1}(findName=${findName})}">下一页</a></li><!--//请求页数+1-->
+            <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
         </ul>
 
         <ul class="pagination" th:if="${Number > 1} and ${TotalPages > 1}"><!--//显示上一页-->
@@ -139,11 +146,14 @@
             <li th:if="${Number != TotalPages}"><a
                     th:href="@{'/record/recordList/'+${Number+1}(findName=${findName})}">下一页</a></li><!--//请求页数+1-->
             <li><a th:href="@{'/record/recordList/'+${TotalPages}(findName=${findName})}">尾页</a></li><!--//跳转至第Number页-->
+            <li class="numpage" style="display: inline-block;" th:text="'共'+${TotalPages}+'页'"></li>
         </ul>
+
     </div>
 
+
     <div class="foot">
-        Copyright © 2018 未来工作室 All rights reserved.
+        Copyright © 2018 未来工作室. All rights reserved.
     </div>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>

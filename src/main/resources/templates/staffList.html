@@ -39,7 +39,7 @@
             </dl>
 
             <dl class="channel">
-                <a th:href="@{/record/recordList/1}" class="menu">会员记录</a>
+                <a th:href="@{/record/recordList/1}" class="menu" style="display: none">会员记录</a>
             </dl>
 
             <dl class="custom">
@@ -47,7 +47,7 @@
             </dl>
 
             <dl class="app">
-                <a th:href="@{/record/summary/1}" class="menu">医师记录</a>
+                <a th:href="@{/record/summary/1}" class="menu" style="display: none">医师记录</a>
             </dl>
 
         </div>
@@ -91,6 +91,7 @@
                     <th>医师姓名</th>
                     <th>拼音码</th>
                     <th>联系电话</th>
+                    <th>治疗记录</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -101,8 +102,14 @@
                     <td th:text="${staff.pinyinCode}">zs</td>
                     <td th:text="${staff.staffPhone}">12365474522</td>
                     <td>
+                        <button type="button" class="btn btn-success">
+                            <a style="color: #FFFFFF" th:href="@{/record/summary/1/(staffName=${staff.staffName})}">查看</a>
+                        </button>
+                    </td>
+                    <td>
                         <button type="button" class="deletestaff btn btn-info">
-                            <a class="look">删除</a></button>
+                            <a style="color: #FFFFFF">删除</a>
+                        </button>
                     </td>
                 </tr>
             </tbody>
