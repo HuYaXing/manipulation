@@ -15,6 +15,7 @@ import org.wlgzs.manipulation.util.Result;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +49,8 @@ public class RecordController extends BaseController {
         if (findName.equals("")) model.addAttribute("isSearch", 0);
         else model.addAttribute("isSearch", 1);
         if(!start_time.equals("")){
+            start_time = start_time + " 00:00:00";
+            end_time = end_time + " 23:59:59";
             model.addAttribute("start_time", start_time.substring(0,10));
             model.addAttribute("end_time", end_time.substring(0,10));
         }
@@ -144,10 +147,16 @@ public class RecordController extends BaseController {
         c.set(Calendar.DAY_OF_MONTH, 1);//设置为1号,当前日期既为本月第一天
         String start_time = format.format(c.getTime());
 
-        //获取当前月最后一天
+        //获取当前时间
         Calendar ca = Calendar.getInstance();
         ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
-        String end_time = format.format(ca.getTime());
+        String end_time = format.format(new Date());
+
+        start_time = start_time + " 00:00:00";
+        end_time = end_time + " 23:59:59";
+
+        System.out.println(start_time);
+        System.out.println(end_time);
 
         HashMap<String, Integer> hashMap = iRecordService.staffWorkload(staffName, start_time, end_time, model);
         //返回医师的信息
